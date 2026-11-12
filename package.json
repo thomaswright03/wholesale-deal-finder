@@ -1,0 +1,21 @@
+{
+  "name": "wholesale-deal-finder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.ts",
+    "start": "node src/run.ts",
+    "sample": "node src/run.ts --csv tests/sample.csv"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  }
+}

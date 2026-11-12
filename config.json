@@ -1,0 +1,33 @@
+{
+  "markets": [
+    { "city": "Cincinnati", "state": "OH" }
+  ],
+  "search": {
+    "minPrice": 50000,
+    "maxPrice": 300000,
+    "propertyTypes": ["Single Family", "Multi-Family"],
+    "excludeListingTypes": ["Foreclosure"],
+    "skipHoa": true
+  },
+  "buyer": {
+    "interestRate": 0.076,
+    "loanYears": 30,
+    "downPayment": 0.20,
+    "closingCosts": 0.03,
+    "managementAndUpkeep": 0.20,
+    "minCashOnCash": 0.20,
+    "insuranceMinAnnual": 1000,
+    "insurancePctOfPrice": 0.006,
+    "taxFallbackPctOfPrice": 0.015
+  },
+  "offer": {
+    "floorPctOfList": 0.70,
+    "minAssignmentFee": 8000,
+    "buffers": [
+      { "upTo": 100000, "discount": 12000 },
+      { "upTo": 200000, "discount": 20000 },
+      { "upTo": 250000, "discount": 25000 },
+      { "upTo": 999999999, "discount": 30000 }
+    ]
+  }
+}
