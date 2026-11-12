@@ -1,4 +1,5 @@
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
+import { stripTypeScriptTypes } from "node:module";
 import ExcelJS from "exceljs";
 import type { DealResult } from "./deal.ts";
 import type { Listing } from "./sources/types.ts";
@@ -105,14 +106,25 @@ export async function writeSpreadsheet(
   await wb.xlsx.writeFile(path);
 }
 
-export function writeCards(path: string, leads: Lead[], date: string) {
+// The card page reuses src/deal.ts (types stripped) so a rent you type in recalculates with the exact same math.
+function dealMathJs() {
+  const ts = readFileSync(new URL("./deal.ts", import.meta.url), "utf8");
+  return stripTypeScriptTypes(ts).replace(/^export /gm, "");
+}
+
+export function writeCards(path: string, leads: Lead[], date: string, cfg: any) {
   const data = leads.map((l) => ({
     id: l.id, tier: l.deal.tier, isNew: l.isNew, address: l.address, city: l.city, state: l.state, zip: l.zip,
     type: l.propertyType, beds: l.beds, baths: l.baths, sqft: l.sqft, dom: l.daysOnMarket,
     agent: l.agentName, phone: l.agentPhone, email: l.agentEmail, url: zillowUrl(l), taxEstimated: l.taxEstimated,
-    rentLow: l.rentLow, rentHigh: l.rentHigh, ...l.deal,
+    rentLow: l.rentLow, rentHigh: l.rentHigh, hoa: l.monthlyHoa ?? 0, ...l.deal,
   }));
-  writeFileSync(path, CARD_HTML.replace("__DATE__", date).replace("__DATA__", JSON.stringify(data).replace(/</g, "\\u003c")));
+  const json = (x: unknown) => JSON.stringify(x).replace(/</g, "\\u003c");
+  const html = CARD_HTML.replace("__DATE__", () => date)
+    .replace("__DEAL_MATH__", () => dealMathJs())
+    .replace("__CFG__", () => json({ buyer: cfg.buyer, offer: cfg.offer }))
+    .replace("__DATA__", () => json(data));
+  writeFileSync(path, html);
 }
 
 const CARD_HTML = `<!doctype html>
@@ -144,6 +156,9 @@ details td{padding:3px 0;border-bottom:1px solid var(--line)}details td:last-chi
 .actions a,.actions button{flex:1;min-width:90px;text-align:center;text-decoration:none;border-radius:10px;padding:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:14px;cursor:pointer}
 .actions .call{background:var(--accent);color:#fff;border-color:var(--accent)}
 .status{font-size:13px;color:var(--muted);margin-top:8px}
+.rentrow{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.rentrow input{flex:1;min-width:120px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:inherit}
+.rentrow button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:14px}
+.warn{margin-top:10px;padding:8px 10px;border-radius:8px;background:#fde8e4;color:#8a2c1c;font-size:13px}
 textarea{width:100%;margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg);color:var(--ink);font:inherit;font-size:13px}
 @media (max-width:520px){.grid{grid-template-columns:repeat(2,1fr)}}
 </style></head><body>
@@ -151,7 +166,10 @@ textarea{width:100%;margin-top:8px;border:1px solid var(--line);border-radius:8p
 <div class="bar" id="filters"></div></header>
 <main id="list"></main>
 <script>
+__DEAL_MATH__
+const CFG = __CFG__;
 const DATA = __DATA__;
+const ZILLOW_RENT = "https://www.zillow.com/rental-manager/price-my-rental/";
 const $ = (n)=>"$"+Math.round(n||0).toLocaleString();
 const KEY = "deal-status";
 let state = {}; try { state = JSON.parse(localStorage.getItem(KEY)||"{}") } catch {}
@@ -166,12 +184,16 @@ function render(){
   document.getElementById("count").textContent = DATA.length+" leads, "+DATA.filter(d=>!state[d.id]?.status).length+" not contacted";
   document.getElementById("filters").innerHTML = FILTERS.map(([k,l])=>'<button data-f="'+k+'" class="'+(k===filter?"on":"")+'">'+l+'</button>').join("");
   list.innerHTML = items.length ? "" : '<p class="sub">Nothing here.</p>';
-  for(const d of items){
-    const s=state[d.id]||{}; const el=document.createElement("div"); el.className="card"+(s.status?" done":"");
+  for(let d of items){
+    const s=state[d.id]||{};
+    const base=d; if(s.rent){ d={...base,...analyze({listPrice:base.listPrice,monthlyRent:s.rent,annualTax:base.annualTax,annualInsurance:base.annualInsurance,monthlyHoa:base.hoa},CFG.buyer,CFG.offer)}; }
+    const el=document.createElement("div"); el.className="card"+(s.status?" done":"");
     const phone=(d.phone||"").replace(/[^0-9+]/g,"");
-    el.innerHTML = '<div class="top"><div><div class="addr"></div><div class="meta"></div></div><span class="tier t'+d.tier+'">'+d.tier+'</span></div>'+
+    el.innerHTML = '<div class="top"><div><div class="addr"></div><div class="meta"></div></div><span class="tier t'+(d.tier||"C")+'">'+(d.tier||"Out")+'</span></div>'+
       '<div class="grid"><div><span>List</span><b>'+$(d.listPrice)+'</b></div><div><span>Offer from</span><b>'+$(d.floorOffer)+'</b></div><div><span>Offer up to</span><b>'+$(d.ceilingOffer)+'</b></div>'+
-      '<div><span>Buyer pays up to</span><b>'+$(d.buyerMaxPrice)+'</b></div><div><span>Your fee at floor</span><b>'+$(d.feeAtFloor)+'</b></div><div><span>Median rent</span><b>'+$(d.monthlyRent)+'/mo</b></div></div>'+
+      '<div><span>Buyer pays up to</span><b>'+$(d.buyerMaxPrice)+'</b></div><div><span>Your fee at floor</span><b>'+$(d.feeAtFloor)+'</b></div><div><span>Median rent'+(s.rent?' (Zillow)':'')+'</span><b>'+$(d.monthlyRent)+'/mo</b></div></div>'+
+      (s.rent&&!d.qualifies?'<div class="warn">With this rent it no longer works: '+d.reason+'</div>':'')+
+      '<div class="rentrow"><button class="zr">Check rent on Zillow</button><input type="number" inputmode="numeric" placeholder="Zillow median rent" value="'+(s.rent||"")+'"><button class="clr">Reset</button></div>'+
       '<details><summary>Buyer numbers at '+$(d.buyerMaxPrice)+'</summary><table>'+
       '<tr><td>Mortgage (P&amp;I)</td><td>'+$(d.buyerMonthlyMortgage)+'/mo</td></tr>'+
       '<tr><td>Property tax'+(d.taxEstimated?" (estimated)":"")+'</td><td>'+$(d.annualTax)+'/yr</td></tr>'+
@@ -188,6 +210,9 @@ function render(){
     el.querySelector(".meta").append(d.city+", "+d.state+" "+(d.zip||"")+" · "+[d.type,d.beds&&d.beds+" bd",d.baths&&d.baths+" ba",d.sqft&&d.sqft.toLocaleString()+" sqft",d.dom!=null&&d.dom+" days listed"].filter(Boolean).join(" · ")+(d.agent?" · "+d.agent:""));
     if(d.isNew){const n=document.createElement("span");n.className="new";n.textContent="NEW";el.querySelector(".addr").append(n)}
     el.querySelector(".status").textContent = s.status ? (s.status==="skip"?"Skipped":"Contacted")+" "+s.at : "";
+    el.querySelector(".zr").onclick=()=>{ const a=d.address+", "+d.city+", "+d.state+" "+(d.zip||""); try{navigator.clipboard.writeText(a)}catch{} window.open(ZILLOW_RENT,"_blank","noopener"); el.querySelector(".zr").textContent="Address copied, paste it on Zillow"; };
+    const ri=el.querySelector(".rentrow input"); ri.onchange=()=>{ const v=Number(ri.value); state[d.id]={...state[d.id],rent:v>0?v:undefined}; save(); render(); };
+    el.querySelector(".clr").onclick=()=>{ state[d.id]={...state[d.id],rent:undefined}; save(); render(); };
     const ta=el.querySelector("textarea"); ta.value=s.notes||""; ta.oninput=()=>{state[d.id]={...state[d.id],notes:ta.value};save()};
     el.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{state[d.id]={...state[d.id],status:b.dataset.s,at:new Date().toLocaleDateString()};save();render()});
     list.append(el);

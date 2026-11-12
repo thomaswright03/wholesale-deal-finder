@@ -139,8 +139,8 @@ async function main() {
   const xlsx = join(ROOT, "out", `leads-${today}.xlsx`);
   const html = join(ROOT, "out", `cards-${today}.html`);
   await writeSpreadsheet(xlsx, leads, rejected, cfg);
-  writeCards(html, leads, today);
-  writeCards(join(ROOT, "out", "latest.html"), leads, today);
+  writeCards(html, leads, today, cfg);
+  writeCards(join(ROOT, "out", "latest.html"), leads, today, cfg);
 
   const t = (x: string) => leads.filter((l) => l.deal.tier === x).length;
   console.log(`\n${leads.length} leads qualify (A: ${t("A")}, B: ${t("B")}, C: ${t("C")}), ${rejected.length} skipped`);

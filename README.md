@@ -34,6 +34,8 @@ npm test
 
 Output goes to `out/`: `leads-YYYY-MM-DD.xlsx` (Leads, Skipped with the reason, Assumptions) and `cards-YYYY-MM-DD.html` / `latest.html` (open in a browser; Call, Text, Photos, mark Contacted/Skip, notes saved in the browser).
 
+**Checking rent on Zillow:** each card has a "Check rent on Zillow" button. It copies the address and opens Zillow's [Price My Rental](https://www.zillow.com/rental-manager/price-my-rental/) page. Type the median rent you see into the card and the offers recalculate with the same math (from `src/deal.ts`). If the rent kills the deal, the card says why. This is done by hand on purpose: scraping Zillow breaks their terms and gets blocked.
+
 ## Data source
 
 [RentCast](https://developers.rentcast.io) gives listings (with listing agent name and phone), rent estimates (median + range) and county tax records with one key. Rent and tax are cached in `data/cache.json` for 30 days, so after the first run a market only costs calls for new listings: 1 call per 500 listings, plus 2 calls per new listing.
