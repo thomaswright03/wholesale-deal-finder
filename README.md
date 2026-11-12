@@ -42,6 +42,18 @@ Output goes to `out/`: `leads-YYYY-MM-DD.xlsx` (Leads, Skipped with the reason, 
 
 You can also run from any CSV (an MLS export works): `node src/run.ts --csv file.csv`. Needed columns: address, city, state, price. Optional: zip, propertyType, beds, baths, sqft, hoa, rent, tax, insurance, dom, agent, agentPhone, agentEmail, url.
 
+## Zillow rents (tools/zillow_rent.py)
+
+Your script that reads Zillow's Price My Rental tool. It fills in the rent column of a listings CSV, which the finder then reads:
+
+```
+cd data
+python3 ../tools/zillow_rent.py --csv listings.csv --out listings_with_rent.csv
+cd .. && node src/run.ts --csv data/listings_with_rent.csv
+```
+
+Changes from the pasted version: it uses your installed Google Chrome by default (`--channel chromium` for Playwright's), and it writes the looked-up address to `lookup_address` so the CSV's own `address` column stays clean. Zillow's terms forbid automated access and they block bots, so expect failures at volume; `--headed` lets you clear a check by hand.
+
 ## Not done yet
 
 - Not yet run against the live RentCast API (no key here). The endpoint shapes follow their docs.

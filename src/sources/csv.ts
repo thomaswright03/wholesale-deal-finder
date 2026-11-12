@@ -40,6 +40,8 @@ const ALIASES: Record<string, string[]> = {
   sqft: ["sqft", "squarefootage", "livingarea"],
   monthlyHoa: ["hoa", "monthlyhoa", "associationfee"],
   monthlyRent: ["rent", "monthlyrent", "rentestimate"],
+  rentLow: ["low", "rentlow"],
+  rentHigh: ["high", "renthigh"],
   annualTax: ["tax", "taxes", "annualtax", "propertytax", "taxannualamount"],
   annualInsurance: ["insurance", "annualinsurance"],
   daysOnMarket: ["dom", "daysonmarket"],
@@ -48,7 +50,7 @@ const ALIASES: Record<string, string[]> = {
   agentEmail: ["agentemail", "email", "listagentemail"],
   url: ["url", "link", "zillow"],
 };
-const NUMERIC = new Set(["price", "beds", "baths", "sqft", "monthlyHoa", "monthlyRent", "annualTax", "annualInsurance", "daysOnMarket"]);
+const NUMERIC = new Set(["price", "beds", "baths", "sqft", "monthlyHoa", "monthlyRent", "rentLow", "rentHigh", "annualTax", "annualInsurance", "daysOnMarket"]);
 
 export function loadCsv(path: string): Listing[] {
   const [header, ...rows] = parseCsv(readFileSync(path, "utf8"));
