@@ -42,6 +42,15 @@ def main():
 
         # 1. type the address
         box = page.get_by_placeholder(re.compile("address", re.I)).first
+        try:
+            box.wait_for(timeout=15000)
+        except Exception:
+            page.screenshot(path="rent_fail.png", full_page=True)
+            print("No address box on the page. Screenshot saved to rent_fail.png")
+            print("Page says:", page.inner_text("body")[:600].replace("\n", " | "))
+            input("\nEnter to close...")
+            browser.close()
+            return
         box.click()
         box.fill(address)
         page.wait_for_timeout(1500)  # autocomplete needs a beat
