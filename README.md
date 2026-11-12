@@ -42,17 +42,15 @@ Output goes to `out/`: `leads-YYYY-MM-DD.xlsx` (Leads, Skipped with the reason, 
 
 You can also run from any CSV (an MLS export works): `node src/run.ts --csv file.csv`. Needed columns: address, city, state, price. Optional: zip, propertyType, beds, baths, sqft, hoa, rent, tax, insurance, dom, agent, agentPhone, agentEmail, url.
 
-## Zillow rents (tools/zillow_rent.py)
+## Zillow rent lookup (tools/rent.py)
 
-Your script that reads Zillow's Price My Rental tool. It fills in the rent column of a listings CSV, which the finder then reads:
+Your script: opens Zillow's Price My Rental in a visible Chrome window, types the address, and prints the median rent. If a CAPTCHA appears you clear it by hand.
 
 ```
-cd data
-python3 ../tools/zillow_rent.py --csv listings.csv --out listings_with_rent.csv
-cd .. && node src/run.ts --csv data/listings_with_rent.csv
+python3 tools/rent.py "6823 Betts Ave, Cincinnati, OH 45239"
 ```
 
-Changes from the pasted version: it uses your installed Google Chrome by default (`--channel chromium` for Playwright's), and it writes the looked-up address to `lookup_address` so the CSV's own `address` column stays clean. Zillow's terms forbid automated access and they block bots, so expect failures at volume; `--headed` lets you clear a check by hand.
+Put the number in the card's Zillow rent box and the offers recalculate. Changes from the pasted version: uses installed Google Chrome (`channel="chrome"`), so no Chromium download, and the example zip is 45239.
 
 ## Not done yet
 
