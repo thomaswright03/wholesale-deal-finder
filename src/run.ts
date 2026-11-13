@@ -141,6 +141,9 @@ export async function main() {
     if (d.getUTCDate() < cfg.billingDay) d.setUTCMonth(d.getUTCMonth() - 1);
     const month = `${d.toISOString().slice(0, 7)}-${String(cfg.billingDay).padStart(2, "0")}`;
     const usage: Record<string, number> = existsSync(usagePath) ? JSON.parse(readFileSync(usagePath, "utf8")) : {};
+    // Older runs counted by calendar month ("2026-11"); fold that into the current period.
+    const old = today.slice(0, 7);
+    if (usage[old] != null && !usage[month]) { usage[month] = usage[old]; delete usage[old]; }
     const leftThisMonth = cfg.maxApiCallsPerMonth - (usage[month] ?? 0);
     const budget = Math.max(0, Math.min(cfg.maxApiCallsPerRun, leftThisMonth));
     if (budget === 0) console.log(`Monthly API budget (${cfg.maxApiCallsPerMonth}) used up for ${month}; using cached data only`);
