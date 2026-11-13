@@ -23,6 +23,7 @@ export interface Listing {
   monthlyRent?: number;
   rentLow?: number;
   rentHigh?: number;
+  rentSource?: string; // "Property Genie", "HUD FMR 2027", "RentCast", ...
   annualTax?: number;
   taxEstimated?: boolean;
   annualInsurance?: number;

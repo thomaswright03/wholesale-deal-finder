@@ -6,7 +6,7 @@
 //   node src/run.ts --csv listings.csv     use a CSV instead of RentCast
 //   node src/run.ts --limit 0              no RentCast calls: reuse the last scan's listings
 //                                          (e.g. to rate newly added photos)
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { analyze, dealType, flipProfit, type BuyerAssumptions, type DealResult, type FlipAssumptions, type OfferRules } from "./deal.ts";
@@ -39,18 +39,51 @@ function loadRentFile(): Record<string, RentEntry> {
   const out: Record<string, RentEntry> = {};
   for (const [k, v] of Object.entries<any>(raw)) {
     const rent = Number(typeof v === "number" ? v : v?.rent);
+    // Keep tax / value even when the script found no rent (HUD fills the rent).
     if (rent > 0) out[k] = typeof v === "number" ? { rent } : { ...v, rent };
+    else if (v && typeof v === "object" && (Number(v.tax ?? v.propertyTax) > 0 || Number(v.value) > 0)) out[k] = { ...v, rent: 0 };
   }
-  console.log(`Rents from your script (rents/rents.json): ${Object.keys(out).length}`);
+  console.log(`Rents from your script (rents/rents.json): ${Object.values(out).filter((r) => r.rent > 0).length} rents, ${Object.keys(out).length} houses`);
   return out;
+}
+
+// Backup rent: HUD Small Area Fair Market Rents by ZIP and bedrooms (reference/hud-safmr-*.json).
+// 40th percentile gross rent, so it runs conservative. Used only when your script has no rent.
+type Hud = { year: number; zips: Record<string, number[]> };
+let hudCache: Hud | null | undefined;
+function loadHud(): Hud | null {
+  if (hudCache !== undefined) return hudCache;
+  const dir = join(ROOT, "reference");
+  const files = existsSync(dir) ? readdirSync(dir).filter((f) => /^hud-safmr-\d{4}\.json$/.test(f)).sort() : [];
+  hudCache = files.length ? JSON.parse(readFileSync(join(dir, files[files.length - 1]), "utf8")) : null;
+  if (hudCache) console.log(`HUD backup rents: FY${hudCache.year}, ${Object.keys(hudCache.zips).length} ZIP codes`);
+  return hudCache;
+}
+
+function hudRent(l: Listing): number | undefined {
+  // HUD rents are per unit; a multi-family listing's bed count covers all units, so skip those.
+  if (/multi/i.test(l.propertyType ?? "")) return undefined;
+  const row = loadHud()?.zips[String(l.zip ?? "").slice(0, 5)];
+  if (!row) return undefined;
+  const beds = Math.max(0, Math.min(4, Math.round(l.beds ?? 3)));
+  return row[beds];
 }
 
 function applyFileRent(l: Listing, rents: Record<string, RentEntry>) {
   const r = rents[rentKey(l)];
+  if (r && r.rent > 0) {
+    l.monthlyRent = r.rent;
+    l.rentLow = r.low ?? r.rent;
+    l.rentHigh = r.high ?? r.rent;
+    l.rentSource = r.source ?? "Property Genie";
+  } else if (!l.monthlyRent) {
+    const hud = hudRent(l);
+    if (hud) {
+      l.monthlyRent = hud; l.rentLow = hud; l.rentHigh = hud;
+      l.rentSource = `HUD FMR ${loadHud()!.year}`;
+    }
+  }
   if (!r) return;
-  l.monthlyRent = r.rent;
-  l.rentLow = r.low ?? r.rent;
-  l.rentHigh = r.high ?? r.rent;
   // Optional as-is value / ARV from your script; used for flip profit (skips the RentCast value call).
   if (Number(r.value) > 0) l.value = Number(r.value);
   // Optional actual annual property tax (e.g. from the county auditor's bill) beats any estimate.
@@ -67,7 +100,7 @@ function writeRentsNeeded(listings: Listing[], rents: Record<string, RentEntry>,
       street: l.address, city: l.city, state: l.state, zip: l.zip,
       propertyType: l.propertyType, beds: l.beds ?? null, baths: l.baths ?? null, sqft: l.sqft ?? null,
       listPrice: l.price, daysOnMarket: l.daysOnMarket ?? null,
-      hasRent: !!rents[rentKey(l)],
+      hasRent: (rents[rentKey(l)]?.rent ?? 0) > 0,
     }));
   writeFileSync(join(ROOT, "out", "rents-needed.json"), JSON.stringify({ houses }, null, 2) + "\n");
 }

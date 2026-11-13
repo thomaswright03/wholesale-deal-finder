@@ -66,7 +66,7 @@ export async function writeSpreadsheet(
   ];
   for (const l of leads) {
     const d = l.deal;
-    const notes = [l.taxEstimated ? "Tax estimated (no county record)" : "", d.reason].filter(Boolean).join(". ");
+    const notes = [l.rentSource?.startsWith("HUD") ? `Rent is ${l.rentSource} for ${l.zip} (conservative; check comps)` : "", l.taxEstimated ? "Tax estimated (no county record)" : "", d.reason].filter(Boolean).join(". ");
     const row = ws.addRow({
       tier: d.tier, isNew: l.isNew ? "Yes" : "", address: l.address, city: l.city, state: l.state, zip: l.zip,
       propertyType: l.propertyType, beds: l.beds, baths: l.baths, sqft: l.sqft, dom: l.daysOnMarket,
@@ -139,7 +139,7 @@ export function writeCards(path: string, leads: Lead[], date: string, cfg: any) 
     id: l.id, tier: l.deal.tier, isNew: l.isNew, address: l.address, city: l.city, state: l.state, zip: l.zip,
     type: l.propertyType, beds: l.beds, baths: l.baths, sqft: l.sqft, dom: l.daysOnMarket,
     agent: l.agentName, phone: l.agentPhone, email: l.agentEmail, url: zillowUrl(l), taxEstimated: l.taxEstimated,
-    rentLow: l.rentLow, rentHigh: l.rentHigh, hoa: l.monthlyHoa ?? 0, dealType: l.dealType, flipProfit: l.flipProfit, flipRehab: l.flipRehab, arv: l.value, cond: l.condition ? conditionLabel(l.condition.condition) : null, condConf: l.condition?.confidence, condRehab: l.condition ? Math.round(l.condition.rehab_estimate) : null, condLines: l.condition?.rehab_lines?.map((x) => x.label + " $" + x.cost.toLocaleString("en-US")).join(" · ") ?? "", condNotes: l.condition?.notes, ...l.deal,
+    rentLow: l.rentLow, rentHigh: l.rentHigh, hoa: l.monthlyHoa ?? 0, dealType: l.dealType, flipProfit: l.flipProfit, flipRehab: l.flipRehab, arv: l.value, cond: l.condition ? conditionLabel(l.condition.condition) : null, condConf: l.condition?.confidence, condRehab: l.condition ? Math.round(l.condition.rehab_estimate) : null, rentSource: l.rentSource ?? "", condLines: l.condition?.rehab_lines?.map((x) => x.label + " $" + x.cost.toLocaleString("en-US")).join(" · ") ?? "", condNotes: l.condition?.notes, ...l.deal,
   }));
   const json = (x: unknown) => JSON.stringify(x).replace(/</g, "\\u003c");
   const html = CARD_HTML.replace("__DATE__", () => date)
@@ -214,7 +214,7 @@ function render(){
     const phone=(d.phone||"").replace(/[^0-9+]/g,"");
     el.innerHTML = '<div class="top"><div><div class="addr"></div><div class="meta"></div></div><span class="tier t'+(d.tier||"C")+'">'+(d.tier||"Out")+'</span></div>'+
       '<div class="grid"><div><span>List</span><b>'+$(d.listPrice)+'</b></div><div><span>Offer from</span><b>'+$(d.floorOffer)+'</b></div><div><span>Offer up to</span><b>'+$(d.ceilingOffer)+'</b></div>'+
-      '<div><span>Buyer pays up to</span><b>'+$(d.buyerMaxPrice)+'</b></div><div><span>Your fee at floor</span><b>'+$(d.feeAtFloor)+'</b></div><div><span>Median rent'+(s.rent?' (Zillow)':'')+'</span><b>'+$(d.monthlyRent)+'/mo</b></div>'+
+      '<div><span>Buyer pays up to</span><b>'+$(d.buyerMaxPrice)+'</b></div><div><span>Your fee at floor</span><b>'+$(d.feeAtFloor)+'</b></div><div><span>Rent'+(s.rent?' (yours)':(d.rentSource?' ('+d.rentSource+')':''))+'</span><b>'+$(d.monthlyRent)+'/mo</b></div>'+
       '<div><span>Deal type</span><b>'+(d.dealType||"Unknown")+'</b></div>'+
       (d.dealType==="Flip"?'<div><span>Flip: buyer profit</span><b>'+$(d.flipProfit)+'</b></div><div><span>Value / ARV</span><b>'+$(d.arv)+'</b></div>':'<div><span>Rental: cash-on-cash</span><b>'+(d.buyerCashOnCash*100).toFixed(1)+'%</b></div><div><span>Value / ARV</span><b>'+(d.arv?$(d.arv):"n/a")+'</b></div>')+'</div>'+
       (s.rent&&!d.qualifies?'<div class="warn">With this rent it no longer works: '+d.reason+'</div>':'')+
