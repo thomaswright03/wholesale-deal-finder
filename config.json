@@ -33,7 +33,7 @@
     "minCashOnCash": 0.2,
     "insuranceMinAnnual": 1000,
     "insurancePctOfPrice": 0.006,
-    "taxFallbackPctOfPrice": 0.015
+    "taxFallbackPctOfPrice": 0.023
   },
   "flip": {
     "flipIfListBelowValue": 0.8,

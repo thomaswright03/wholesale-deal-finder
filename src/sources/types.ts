@@ -26,6 +26,7 @@ export interface Listing {
   rentSource?: string; // "Property Genie", "HUD FMR 2027", "RentCast", ...
   annualTax?: number;
   taxEstimated?: boolean;
+  taxSource?: string; // e.g. "Hamilton County Auditor, 2025 Payable 2026"
   annualInsurance?: number;
   value?: number; // RentCast value estimate, used as after-repair value (ARV)
 }

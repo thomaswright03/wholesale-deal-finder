@@ -12,6 +12,7 @@ import { fileURLToPath } from "node:url";
 import { analyze, dealType, flipProfit, type BuyerAssumptions, type DealResult, type FlipAssumptions, type OfferRules } from "./deal.ts";
 import { loadCsv } from "./sources/csv.ts";
 import { fetchMortgageRate } from "./sources/rate.ts";
+import { fetchCountyTax, inHamiltonCounty, type CountyTax } from "./sources/auditor.ts";
 import { fetchListings, fetchRent, fetchTaxAndHoa, fetchValue } from "./sources/rentcast.ts";
 import type { Listing } from "./sources/types.ts";
 import { writeCards, writeSpreadsheet } from "./output.ts";
@@ -95,6 +96,43 @@ function applyFileRent(l: Listing, rents: Record<string, RentEntry>) {
   if (tax > 0) { l.annualTax = tax; l.taxEstimated = false; }
 }
 
+// Actual tax bills from the county auditor, saved in taxes/county.json (committed by the daily run)
+// so each house is looked up once. Houses not found are retried after 30 days.
+const COUNTY_FILE = join("taxes", "county.json");
+async function applyCountyTaxes(listings: Listing[], cfg: Config) {
+  const p = join(ROOT, COUNTY_FILE);
+  const saved: Record<string, CountyTax> = existsSync(p) ? JSON.parse(readFileSync(p, "utf8")) : {};
+  const retryBefore = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  const max = cfg.maxCountyLookupsPerRun ?? 600;
+  let looked = 0, found = 0, failed = 0;
+  for (const l of listings) {
+    if (passesSearch(l, cfg.search) || !inHamiltonCounty(l)) continue;
+    const key = rentKey(l);
+    let t = saved[key];
+    if ((!t || (!t.found && t.checked < retryBefore)) && looked < max && failed < 5) {
+      try {
+        t = await fetchCountyTax(l);
+        saved[key] = t; looked++; failed = 0;
+        if (t.found) found++;
+      } catch (e) {
+        failed++;
+        console.log(`County tax lookup failed for ${l.address}: ${(e as Error).message}`);
+      }
+    }
+    if (t?.found && t.tax) {
+      l.annualTax = t.tax;
+      l.taxEstimated = false;
+      l.taxSource = `Hamilton County Auditor${t.taxYear ? `, ${t.taxYear}` : ""}`
+        + (t.foreclosure ? "; county shows FORECLOSURE" : "")
+        + (t.delinquent && t.billed ? `; owner owes back taxes (bill $${t.billed.toLocaleString("en-US")})` : "");
+    }
+  }
+  mkdirSync(join(ROOT, "taxes"), { recursive: true });
+  writeFileSync(p, JSON.stringify(saved, null, 1) + "\n");
+  const have = Object.values(saved).filter((t) => t.found).length;
+  console.log(`County taxes: looked up ${looked} (${found} found), ${have} saved in ${COUNTY_FILE}${failed >= 5 ? " (stopped: site not answering)" : ""}`);
+}
+
 function writeRentsNeeded(listings: Listing[], rents: Record<string, RentEntry>, cfg: Config) {
   const houses = listings
     .filter((l) => !passesSearch(l, cfg.search))
@@ -137,6 +175,8 @@ interface Config {
   // true = RentCast is used only for the listing search: 1 call (up to 500 listings) per market per run,
   // no tax / value lookups (your scripts supply rent and tax).
   rentcastListingsOnly?: boolean;
+  // Max new county auditor tax lookups per run (default 600).
+  maxCountyLookupsPerRun?: number;
   // Known RentCast usage per billing period ("YYYY-MM-DD" start), from the RentCast dashboard.
   rentcastCallsUsed?: Record<string, number>;
   rateSource?: string;
@@ -411,6 +451,7 @@ export async function main() {
   }
 
   for (const l of listings) applyFileRent(l, rentFile);
+  await applyCountyTaxes(listings, cfg);
   writeRentsNeeded(listings, rentFile, cfg);
 
   const { leads, rejected } = evaluate(listings, cfg, today, (l) => cache[l.id]?.firstSeen ?? today, Number(arg("limit") ?? 0) > 0);
