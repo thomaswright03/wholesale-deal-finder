@@ -56,6 +56,17 @@
       "tier": "B"
     },
     {
+      "address": "835 Lexington Ave, Cincinnati, OH 45229",
+      "street": "835 Lexington Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45229",
+      "folder": "photos/835-Lexington-Ave-Cincinnati-OH-45229",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
       "address": "1637 Waverly Ave, Cincinnati, OH 45214",
       "street": "1637 Waverly Ave",
       "city": "Cincinnati",
@@ -87,17 +98,6 @@
       "hasPhotos": false,
       "rated": false,
       "tier": "B"
-    },
-    {
-      "address": "835 Lexington Ave, Cincinnati, OH 45229",
-      "street": "835 Lexington Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45229",
-      "folder": "photos/835-Lexington-Ave-Cincinnati-OH-45229",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "C"
     },
     {
       "address": "2923 Lehman Rd, Cincinnati, OH 45204",
