@@ -28,9 +28,10 @@ export async function fetchListings(
   search: { minPrice: number; maxPrice: number; propertyTypes: string[] },
   key: string,
   maxPages = 20,
+  pageSize = 500,
 ): Promise<Listing[]> {
   const out: Listing[] = [];
-  const limit = 500;
+  const limit = pageSize;
   for (let offset = 0; offset < limit * maxPages; offset += limit) {
     const page: any[] = await get(
       "/listings/sale",

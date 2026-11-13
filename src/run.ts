@@ -72,7 +72,7 @@ function looksPromising(l: Listing, cfg: Config): boolean {
   return d.ceilingOffer >= d.floorOffer - l.price * 0.05;
 }
 
-export function evaluate(listings: Listing[], cfg: Config, today: string, firstSeen: (l: Listing) => string) {
+export function evaluate(listings: Listing[], cfg: Config, today: string, firstSeen: (l: Listing) => string, showAll = false) {
   const leads: Lead[] = [];
   const rejected: { l: Listing; reason: string; deal?: DealResult }[] = [];
   for (const l of listings) {
@@ -88,11 +88,11 @@ export function evaluate(listings: Listing[], cfg: Config, today: string, firstS
       cfg.buyer,
       cfg.offer,
     );
-    if (deal.qualifies) leads.push({ ...l, deal, isNew: firstSeen(l) === today });
+    if (deal.qualifies || showAll) leads.push({ ...l, deal, isNew: firstSeen(l) === today });
     else rejected.push({ l, reason: deal.reason, deal });
   }
   const tierRank = { A: 0, B: 1, C: 2 } as const;
-  leads.sort((a, b) => tierRank[a.deal.tier!] - tierRank[b.deal.tier!] || b.deal.feeAtFloor - a.deal.feeAtFloor);
+  leads.sort((a, b) => (tierRank[a.deal.tier!] ?? 3) - (tierRank[b.deal.tier!] ?? 3) || b.deal.feeAtFloor - a.deal.feeAtFloor);
   return { leads, rejected };
 }
 
@@ -114,6 +114,9 @@ export async function main() {
   } else {
     const key = process.env.RENTCAST_API_KEY;
     if (!key) throw new Error("Set RENTCAST_API_KEY in .env (or use --csv file.csv)");
+    // --limit N: test mode. Pull only N listings, look up all of them, and show every one
+    // in the spreadsheet even if it isn't a deal (about 1 + 2N calls).
+    const testLimit = arg("limit") ? Number(arg("limit")) : 0;
     const only = arg("market");
     const markets = only
       ? [{ city: only.split(",")[0].trim(), state: only.split(",")[1].trim() }]
@@ -131,7 +134,9 @@ export async function main() {
     const canCall = () => calls < budget;
     for (const m of markets) {
       if (!canCall()) { console.log(`Call budget used up, skipping ${m.city}, ${m.state}`); continue; }
-      const found = await fetchListings(m, cfg.search, key, Math.max(1, Math.min(20, budget - calls)));
+      const found = testLimit
+        ? await fetchListings(m, cfg.search, key, 1, testLimit)
+        : await fetchListings(m, cfg.search, key, Math.max(1, Math.min(20, budget - calls)));
       calls += Math.max(1, Math.ceil(found.length / 500));
       console.log(`${m.city}, ${m.state}: ${found.length} active listings`);
       found.sort((a, b) => (b.daysOnMarket ?? 0) - (a.daysOnMarket ?? 0));
@@ -152,7 +157,7 @@ export async function main() {
         if (c.rent) { l.monthlyRent = c.rent.rent; l.rentLow = c.rent.low; l.rentHigh = c.rent.high; }
         // Second call (county tax record) only for homes that look like they could work
         // with an estimated tax bill. Saves roughly half the calls.
-        if (c.rent && !c.taxChecked && looksPromising(l, cfg)) {
+        if (c.rent && !c.taxChecked && (testLimit || looksPromising(l, cfg))) {
           if (!canCall()) { waiting++; listings.push(l); continue; }
           const t = await fetchTaxAndHoa(l, key);
           calls++;
@@ -172,7 +177,7 @@ export async function main() {
     console.log(`RentCast calls this run: ${calls} (month so far: ${usage[month]} of ${cfg.maxApiCallsPerMonth})`);
   }
 
-  const { leads, rejected } = evaluate(listings, cfg, today, (l) => cache[l.id]?.firstSeen ?? today);
+  const { leads, rejected } = evaluate(listings, cfg, today, (l) => cache[l.id]?.firstSeen ?? today, !!arg("limit"));
   writeFileSync(cachePath, JSON.stringify(cache, null, 1));
 
   const xlsx = join(ROOT, "out", `leads-${today}.xlsx`);

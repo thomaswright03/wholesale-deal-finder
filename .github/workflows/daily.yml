@@ -8,6 +8,9 @@ on:
       market:
         description: 'One market only, e.g. "Dayton, OH" (blank = all in config.json)'
         required: false
+      limit:
+        description: 'Test mode: only pull this many listings and show them all (1 = about 3 API calls). Blank = normal scan'
+        required: false
 
 permissions:
   contents: read
@@ -37,9 +40,13 @@ jobs:
         env:
           RENTCAST_API_KEY: ${{ secrets.RENTCAST_API_KEY }}
           MARKET: ${{ inputs.market }}
+          LIMIT: ${{ inputs.limit }}
         run: |
           if [ -z "$RENTCAST_API_KEY" ]; then echo "Add the RENTCAST_API_KEY repo secret first"; exit 1; fi
-          if [ -n "$MARKET" ]; then node src/run.ts --market "$MARKET"; else node src/run.ts; fi
+          ARGS=()
+          if [ -n "$MARKET" ]; then ARGS+=(--market "$MARKET"); fi
+          if [ -n "$LIMIT" ]; then ARGS+=(--limit "$LIMIT"); fi
+          node src/run.ts "${ARGS[@]}"
 
       - uses: actions/upload-artifact@v4
         with:
