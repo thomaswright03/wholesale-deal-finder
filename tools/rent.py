@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Fill rents/rents.json from Property Genie (Est. Rent LTR).
+Fill rents/rents.json from Property Genie.
 
-Reads rents/needed.json, looks up every house with hasRent=false,
-merges into rents/rents.json, optionally git push.
+Looks up Est. Rent (LTR) and last paid property tax (lastTaxPaid)
+for every house in rents/needed.json with hasRent=false.
 
   python rents/fetch_rents.py
   python rents/fetch_rents.py --push
@@ -20,13 +20,16 @@ import sys
 import time
 from pathlib import Path
 
-API_URL = (
+API_PUBLIC = (
     "https://propgen-prod-api-b48e01f8c03a.herokuapp.com"
     "/api/v1/public/getDefaultAddressInfo"
 )
+API_AUTHED = (
+    "https://propgen-prod-api-b48e01f8c03a.herokuapp.com"
+    "/api/v1/address/getPropertyDetailsByAddress"
+)
 PAGE_URL = "https://www.propertygenie.us/property-insight"
 LTR_RE = re.compile(r"Est\.?\s*Rent\s*\(LTR\)\s*\$?\s*([\d,]+)", re.I)
-MONEY_RE = re.compile(r"\$\s*([\d,]+)")
 
 
 def find_rents_dir() -> Path:
@@ -61,7 +64,7 @@ def git_push(rents_path: Path) -> None:
     rel = rents_path.relative_to(repo)
     subprocess.run(["git", "add", str(rel)], cwd=repo, check=True)
     r = subprocess.run(
-        ["git", "commit", "-m", "update rents from Property Genie"],
+        ["git", "commit", "-m", "update rents and taxes from Property Genie"],
         cwd=repo, capture_output=True, text=True,
     )
     out = (r.stdout + r.stderr).lower()
@@ -78,30 +81,57 @@ def git_push(rents_path: Path) -> None:
 def as_int(v) -> int | None:
     if v is None or v == "" or str(v).upper() == "N/A":
         return None
+    if isinstance(v, bool):
+        return None
     if isinstance(v, (int, float)):
         return int(round(v))
-    m = re.search(r"[\d,]+", str(v))
-    return int(m.group(0).replace(",", "")) if m else None
-
-
-def entry(rent: int) -> dict:
-    return {"rent": int(rent)}
-
-
-def pick_rent(obj: dict) -> int | None:
-    """Walk a Property Genie payload for rentZestimate / Est. Rent LTR."""
-    if not isinstance(obj, dict):
+    m = re.search(r"[\d,]+\.?\d*", str(v).replace(",", ""))
+    if not m:
         return None
-    for key in ("rentZestimate", "rent_zestimate", "ltrRent", "monthlyRent"):
-        n = as_int(obj.get(key))
-        if n:
-            return n
-    details = obj.get("propertyDetails") or obj.get("data") or obj.get("property")
-    if isinstance(details, dict):
-        n = pick_rent(details)
-        if n:
-            return n
-    return None
+    try:
+        return int(round(float(m.group(0))))
+    except ValueError:
+        return None
+
+
+def unwrap_details(payload) -> dict:
+    """Pull the propertyDetails / data object out of a Genie response."""
+    if not isinstance(payload, dict):
+        return {}
+    d = payload
+    for _ in range(5):
+        if any(k in d for k in ("rentZestimate", "lastTaxPaid", "zpid")):
+            return d
+        nxt = d.get("propertyDetails") or d.get("data") or d.get("property")
+        if isinstance(nxt, dict):
+            d = nxt
+            continue
+        break
+    return d if isinstance(d, dict) else {}
+
+
+def entry_from_details(details: dict, rent_override: int | None = None) -> dict | None:
+    rent = rent_override or as_int(
+        details.get("rentZestimate")
+        or details.get("rent_zestimate")
+        or details.get("ltrRent")
+        or details.get("monthlyRent")
+    )
+    if not rent:
+        return None
+    out = {"rent": int(rent)}
+    tax = as_int(details.get("lastTaxPaid"))
+    if tax is not None:
+        out["tax"] = tax  # last paid property tax, annual dollars
+    date = details.get("lastTaxPaidDate")
+    if date:
+        out["taxPaidDate"] = str(date)
+    return out
+
+
+def log_entry(got: dict) -> None:
+    extra = f"  tax ${got['tax']}" if "tax" in got else "  tax —"
+    print(f"  rent ${got['rent']}{extra}")
 
 
 # ---------------------------------------------------------------------------
@@ -118,17 +148,9 @@ def api_one(address: str) -> dict | None:
         "Referer": "https://www.propertygenie.us/property-insight",
         "User-Agent": "Mozilla/5.0",
     }
-    # Public endpoint first, then the authed-looking one (sometimes open)
-    for url, body in (
-        (API_URL, {"address": address}),
-        (
-            "https://propgen-prod-api-b48e01f8c03a.herokuapp.com"
-            "/api/v1/address/getPropertyDetailsByAddress",
-            {"address": address},
-        ),
-    ):
+    for url in (API_PUBLIC, API_AUTHED):
         try:
-            r = requests.post(url, json=body, headers=headers, timeout=25)
+            r = requests.post(url, json={"address": address}, headers=headers, timeout=25)
         except requests.RequestException as e:
             print(f"  ! {e}")
             continue
@@ -139,9 +161,9 @@ def api_one(address: str) -> dict | None:
         except ValueError:
             continue
         payload = data.get("data", data) if isinstance(data, dict) else data
-        rent = pick_rent(payload if isinstance(payload, dict) else {})
-        if rent:
-            return entry(rent)
+        got = entry_from_details(unwrap_details(payload if isinstance(payload, dict) else {}))
+        if got:
+            return got
     return None
 
 
@@ -152,7 +174,7 @@ def api_all(houses: list[dict]) -> dict:
         got = api_one(h["address"])
         if got:
             out[h["key"]] = got
-            print(f"  rent ${got['rent']}")
+            log_entry(got)
         else:
             print("  ! no LTR rent from API")
         time.sleep(0.4)
@@ -160,55 +182,77 @@ def api_all(houses: list[dict]) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Browser scrape of property-insight (Est. Rent LTR on the results card)
+# Browser scrape of property-insight
 # ---------------------------------------------------------------------------
 
 def scrape_one(page, address: str) -> dict | None:
     from playwright.sync_api import TimeoutError as PWTimeout
 
-    page.goto(PAGE_URL, wait_until="domcontentloaded")
-    box = page.locator("input[placeholder*='property address' i]").first
-    box.click()
-    box.fill("")
-    box.type(address, delay=35)
+    captured: dict = {}
 
-    # New Places API dropdown, or classic .pac-item
+    def on_response(resp):
+        url = resp.url
+        if "getDefaultAddressInfo" not in url and "getPropertyDetailsByAddress" not in url:
+            return
+        try:
+            captured["json"] = resp.json()
+        except Exception:
+            pass
+
+    page.on("response", on_response)
     try:
-        page.wait_for_selector(
-            ".pac-item, [role='option'], [class*='suggestion']",
-            timeout=7000,
-        )
-        page.locator(".pac-item, [role='option']").first.click()
-    except PWTimeout:
-        box.press("Enter")
+        page.goto(PAGE_URL, wait_until="domcontentloaded")
+        box = page.locator("input[placeholder*='property address' i]").first
+        box.click()
+        box.fill("")
+        box.type(address, delay=35)
 
-    page.get_by_role("button", name=re.compile(r"^search$", re.I)).click()
+        try:
+            page.wait_for_selector(
+                ".pac-item, [role='option'], [class*='suggestion']",
+                timeout=7000,
+            )
+            page.locator(".pac-item, [role='option']").first.click()
+        except PWTimeout:
+            box.press("Enter")
 
-    try:
-        page.wait_for_selector("text=/Est\\.?\\s*Rent\\s*\\(LTR\\)/i", timeout=30000)
-    except PWTimeout:
-        print("  ! results never showed Est. Rent (LTR)")
-        return None
+        page.get_by_role("button", name=re.compile(r"^search$", re.I)).click()
 
-    # Prefer the value sitting under the LTR label
-    label = page.get_by_text(re.compile(r"Est\.?\s*Rent\s*\(LTR\)", re.I)).first
-    sibling = label.locator("xpath=following-sibling::*[1]")
-    chunk = ""
-    try:
-        chunk = sibling.inner_text(timeout=3000)
-    except Exception:
-        pass
-    if not chunk:
-        chunk = label.locator("xpath=..").inner_text()
+        try:
+            page.wait_for_selector("text=/Est\\.?\\s*Rent\\s*\\(LTR\\)/i", timeout=30000)
+        except PWTimeout:
+            print("  ! results never showed Est. Rent (LTR)")
+            return None
 
-    n = as_int(chunk)
-    if not n:
-        m = LTR_RE.search(page.inner_text("body"))
-        n = as_int(m.group(1)) if m else None
-    if not n:
+        label = page.get_by_text(re.compile(r"Est\.?\s*Rent\s*\(LTR\)", re.I)).first
+        sibling = label.locator("xpath=following-sibling::*[1]")
+        chunk = ""
+        try:
+            chunk = sibling.inner_text(timeout=3000)
+        except Exception:
+            pass
+        if not chunk:
+            chunk = label.locator("xpath=..").inner_text()
+
+        rent = as_int(chunk)
+        if not rent:
+            m = LTR_RE.search(page.inner_text("body"))
+            rent = as_int(m.group(1)) if m else None
+
+        details = {}
+        raw = captured.get("json")
+        if isinstance(raw, dict):
+            details = unwrap_details(raw.get("data", raw))
+
+        got = entry_from_details(details, rent_override=rent)
+        if got:
+            return got
+        if rent:
+            return {"rent": int(rent)}
         print(f"  ! could not parse LTR rent from: {chunk!r}")
         return None
-    return entry(n)
+    finally:
+        page.remove_listener("response", on_response)
 
 
 def scrape_all(houses: list[dict]) -> dict:
@@ -227,10 +271,18 @@ def scrape_all(houses: list[dict]) -> dict:
                 got = None
             if got:
                 out[h["key"]] = got
-                print(f"  rent ${got['rent']}")
+                log_entry(got)
             time.sleep(1.2)
         browser.close()
     return out
+
+
+def needs_lookup(house: dict, existing: dict) -> bool:
+    prev = existing.get(house["key"])
+    if not prev:
+        return True
+    # Backfill last paid tax if an older row only has rent
+    return prev.get("tax") is None
 
 
 def main():
@@ -248,7 +300,7 @@ def main():
 
     todo = load_needed(needed_path)
     existing = load_rents(rents_path)
-    todo = [h for h in todo if h["key"] not in existing]
+    todo = [h for h in todo if needs_lookup(h, existing)]
     if args.limit:
         todo = todo[: args.limit]
     print(f"Already have {len(existing)} rents; looking up {len(todo)} new ones")
@@ -258,7 +310,6 @@ def main():
 
     new = scrape_all(todo) if args.browser else api_all(todo)
 
-    # If API missed some, retry those in the browser
     missed = [h for h in todo if h["key"] not in new]
     if missed and not args.browser:
         print(f"\nAPI missed {len(missed)}; retrying in browser…")

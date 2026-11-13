@@ -46,7 +46,11 @@ A typical day: 6 AM scan → `rents/needed.json` and `photos/needed.json` update
 
 `config.json` → `"rentSource": "file"` means RentCast is never asked for rent. Each run writes `rents/needed.json` (every listing that passes the filters, with a `key`, address, beds, baths, sqft and `hasRent`). Your script writes `rents/rents.json` as `{ "<key>": { "rent": 1450, "low": 1300, "high": 1600 } }` and pushes; the push reruns the workflow with 0 RentCast calls. See `rents/README.txt`. An entry can also carry `"value"` (as-is value / ARV, fills Flip profit) and `"tax"` (the actual annual property tax bill, replaces any estimate). Set `"rentSource": "rentcast"` to go back (rents.json still overrides RentCast where present). RentCast is still used for the listing search, tax record and value estimate.
 
-## Condition from photos (Claude)
+## Condition from photos (Claude) + Home Restoration AI pricing
+
+Claude rates each of 18 areas of the house (kitchen, bathrooms, flooring, roof, HVAC, ...) as none / light / medium / heavy work from the photos, inferring the ones photos don't show from age and overall condition. The rehab cost is then priced by Home Restoration AI's whole-home model (`vendor/home-restoration/`, copied from `~/repos/Home-Restoration-AI`): labor + materials, 2% permits, 10% contingency. The spreadsheet shows the total (Rehab estimate), a range, and the breakdown by area; the cards show the breakdown too. To change unit costs, edit `DEFAULT_HOME_PRICES` there and copy the three files over again.
+
+### Details
 
 Commit a house's listing photos to `photos/<folder>/` in this repo (jpg, png, webp or gif, under 5 MB each). The folder name is the address with dashes, e.g. `photos/238-Helen-St-Cincinnati-OH-45219/`. Every run writes `out/photo-folders.txt` with the exact folder name for each lead.
 

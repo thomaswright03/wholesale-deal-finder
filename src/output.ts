@@ -53,6 +53,8 @@ export async function writeSpreadsheet(
     { header: "Flip rehab (est.)", key: "rehab", width: 11, style: { numFmt: money } },
     { header: "Condition (from photos)", key: "cond", width: 14 },
     { header: "Rehab estimate (photos)", key: "rehab", width: 12, style: { numFmt: '"$"#,##0' } },
+    { header: "Rehab range", key: "rrange", width: 18 },
+    { header: "Rehab breakdown (Home Restoration AI)", key: "rlines", width: 60 },
     { header: "Photo confidence", key: "conf", width: 10 },
     { header: "Photo notes", key: "pnotes", width: 50 },
     { header: "Photo folder", key: "pfolder", width: 40 },
@@ -77,6 +79,8 @@ export async function writeSpreadsheet(
       arv: l.value, rehab: l.dealType === "Flip" ? l.flipRehab : null,
       cond: l.condition ? conditionLabel(l.condition.condition) : "Not rated",
       rehab: l.condition ? Math.round(l.condition.rehab_estimate) : undefined,
+      rrange: l.condition?.rehab_low ? `$${l.condition.rehab_low.toLocaleString("en-US")} - $${l.condition.rehab_high!.toLocaleString("en-US")}` : undefined,
+      rlines: l.condition?.rehab_lines?.map((x) => `${x.label} $${x.cost.toLocaleString("en-US")}`).join("; "),
       conf: l.condition?.confidence, pnotes: l.condition?.notes, pfolder: l.photoFolder ? `photos/${l.photoFolder}/` : "",
       agent: l.agentName, phone: l.agentPhone, email: l.agentEmail,
       link: { text: "Open", hyperlink: zillowUrl(l) }, notes,
@@ -135,7 +139,7 @@ export function writeCards(path: string, leads: Lead[], date: string, cfg: any) 
     id: l.id, tier: l.deal.tier, isNew: l.isNew, address: l.address, city: l.city, state: l.state, zip: l.zip,
     type: l.propertyType, beds: l.beds, baths: l.baths, sqft: l.sqft, dom: l.daysOnMarket,
     agent: l.agentName, phone: l.agentPhone, email: l.agentEmail, url: zillowUrl(l), taxEstimated: l.taxEstimated,
-    rentLow: l.rentLow, rentHigh: l.rentHigh, hoa: l.monthlyHoa ?? 0, dealType: l.dealType, flipProfit: l.flipProfit, flipRehab: l.flipRehab, arv: l.value, cond: l.condition ? conditionLabel(l.condition.condition) : null, condConf: l.condition?.confidence, condRehab: l.condition ? Math.round(l.condition.rehab_estimate) : null, condNotes: l.condition?.notes, ...l.deal,
+    rentLow: l.rentLow, rentHigh: l.rentHigh, hoa: l.monthlyHoa ?? 0, dealType: l.dealType, flipProfit: l.flipProfit, flipRehab: l.flipRehab, arv: l.value, cond: l.condition ? conditionLabel(l.condition.condition) : null, condConf: l.condition?.confidence, condRehab: l.condition ? Math.round(l.condition.rehab_estimate) : null, condLines: l.condition?.rehab_lines?.map((x) => x.label + " $" + x.cost.toLocaleString("en-US")).join(" · ") ?? "", condNotes: l.condition?.notes, ...l.deal,
   }));
   const json = (x: unknown) => JSON.stringify(x).replace(/</g, "\\u003c");
   const html = CARD_HTML.replace("__DATE__", () => date)
@@ -228,7 +232,7 @@ function render(){
       '<a href="'+d.url+'" target="_blank" rel="noopener">Photos</a><button data-s="contacted">Contacted</button><button data-s="skip">Skip</button></div>'+
       '<div class="status"></div><textarea rows="2" placeholder="Notes"></textarea>';
     el.querySelector(".addr").textContent = d.address;
-    if(d.cond) el.querySelector(".cn").textContent = d.condNotes||"";
+    if(d.cond) el.querySelector(".cn").textContent = (d.condLines ? d.condLines + ". " : "") + (d.condNotes||"");
     el.querySelector(".meta").innerHTML = '';
     el.querySelector(".meta").append(d.city+", "+d.state+" "+(d.zip||"")+" · "+[d.type,d.beds&&d.beds+" bd",d.baths&&d.baths+" ba",d.sqft&&d.sqft.toLocaleString()+" sqft",d.dom!=null&&d.dom+" days listed"].filter(Boolean).join(" · ")+(d.agent?" · "+d.agent:""));
     if(d.isNew){const n=document.createElement("span");n.className="new";n.textContent="NEW";el.querySelector(".addr").append(n)}

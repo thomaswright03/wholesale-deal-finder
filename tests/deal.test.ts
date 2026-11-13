@@ -55,27 +55,35 @@ test("rental vs flip and flip profit", () => {
 });
 
 test("photo rating: folder name, request shape, and how a rating changes the lead", async () => {
-  const { photoFolderName, listPhotos, rateHouse } = await import("../src/photos.ts");
+  const { photoFolderName, listPhotos, rateHouse, priceHome, AREA_KEYS } = await import("../src/photos.ts");
   const { applyRating } = await import("../src/run.ts");
   const listing: any = { id: "x", address: "6823 Betts Ave", city: "Cincinnati", state: "OH", zip: "45239", propertyType: "Single Family", price: 66900, beds: 3, baths: 1, sqft: 1100 };
   assert.equal(photoFolderName(listing), "6823-Betts-Ave-Cincinnati-OH-45239");
   const files = listPhotos(new URL("./photos/6823-Betts-Ave-Cincinnati-OH-45239", import.meta.url).pathname, 10);
   assert.equal(files.length, 3);
 
+  // Claude rates each area; Home Restoration AI prices the whole house from that.
+  const areas: any = Object.fromEntries(AREA_KEYS.map((k: string) => [k, "none"]));
+  Object.assign(areas, { kitchen: "medium", flooring: "medium", interiorPaint: "medium", cleanout: "light" });
+  const expected = priceHome(listing, areas);
+  assert.equal(expected.total, 21454); // 500 + 12,000 + 3,630 + 3,025, plus 2% permits and 10% contingency
+
   let sent: any;
-  const fake: any = { messages: { parse: async (p: any) => { sent = p; return { stop_reason: "end_turn", parsed_output: { condition: "medium_rehab", rehab_estimate: 30000, confidence: "medium", notes: "Dated kitchen.", rooms_seen: ["kitchen"] } }; } } };
+  const fake: any = { messages: { parse: async (p: any) => { sent = p; return { stop_reason: "end_turn", parsed_output: { condition: "medium_rehab", areas, confidence: "medium", notes: "Dated kitchen.", rooms_seen: ["kitchen"] } }; } } };
   const r = await rateHouse(fake, listing, files, cfg.photos);
   assert.equal(sent.model, cfg.photos.model);
   assert.equal(sent.messages[0].content.filter((b: any) => b.type === "image").length, 3);
   assert.ok(sent.output_config.format);
   assert.equal(r!.condition, "medium_rehab");
+  assert.equal(r!.rehab_estimate, expected.total);
+  assert.ok(r!.rehab_lines!.some((x) => x.label === "Kitchen"));
 
   const deal = analyze({ listPrice: 66900, monthlyRent: 1450, annualTax: 2400 }, a, rules);
   const lead: any = { ...listing, value: 105000, deal, dealType: "Rental" };
   applyRating(lead, r!, cfg);
   assert.equal(lead.dealType, "Flip");
-  // 105,000 - 54,900 - 30,000 - 10,500
-  assert.equal(lead.flipProfit, 9600);
+  // 105,000 - 54,900 - rehab - 10,500
+  assert.equal(lead.flipProfit, 105000 - 54900 - expected.total - 10500);
   applyRating(lead, { ...r!, condition: "rental_ready" }, cfg);
   assert.equal(lead.dealType, "Rental");
   assert.equal(lead.flipProfit, undefined);
