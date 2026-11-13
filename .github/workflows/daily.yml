@@ -6,6 +6,7 @@ on:
   # maxApiCallsPerMonth (50) in config.json. When the month's calls are used up it makes 0 calls.
   schedule:
     - cron: "0 11 * * *" # 6 AM Eastern (7 AM during daylight time)
+  # Each run also looks up rent + tax for new houses with tools/rent.py (Property Genie) and commits rents/rents.json.
   # Pushing new photos or rents/rents.json reruns the deal math right away, with no RentCast calls.
   push:
     branches: [main]
@@ -31,6 +32,7 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
+    timeout-minutes: 120
     env:
       MAIL_TO: ${{ secrets.MAIL_TO }}
     steps:
@@ -68,6 +70,35 @@ jobs:
           if [ "$LIMIT" != "all" ]; then ARGS+=(--limit "${LIMIT:-1}"); fi
           node src/run.ts "${ARGS[@]}"
 
+      # Rent + property tax from Property Genie (tools/rent.py), for houses not checked in the last 30 days.
+      # Capped at 45 minutes a run; anything left over is picked up the next run.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Look up rents and taxes (tools/rent.py)
+        id: rents
+        continue-on-error: true
+        timeout-minutes: 60
+        run: |
+          mkdir -p rents && cp out/rents-needed.json rents/needed.json
+          pip install -q playwright
+          python -m playwright install --with-deps chromium > /dev/null
+          before=$(sha1sum rents/rents.json 2>/dev/null || true)
+          python tools/rent.py --max-minutes 45
+          after=$(sha1sum rents/rents.json 2>/dev/null || true)
+          if [ "$before" != "$after" ]; then echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+
+      # New taxes/rents: redo the deal math on the same listings (0 RentCast calls; photo ratings are cached).
+      - name: Re-score with the new rents and taxes
+        if: steps.rents.outputs.changed == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MARKET: ${{ inputs.market }}
+        run: |
+          ARGS=(--limit 0)
+          if [ -n "$MARKET" ]; then ARGS+=(--market "$MARKET"); fi
+          node src/run.ts "${ARGS[@]}"
+
       # Save the list of houses that need photos into the repo (photos/needed.json).
       # Pushes made with the workflow's own token don't start another run.
       # Also keep the newest spreadsheet and cards at a fixed spot: latest/leads.xlsx and latest/cards.html.
@@ -78,9 +109,9 @@ jobs:
           mkdir -p latest && cp out/latest.html latest/cards.html && cp "$(ls -t out/leads-*.xlsx | head -1)" latest/leads.xlsx
           git config user.name "deal-finder-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add photos/needed.json rents/needed.json latest/
+          git add photos/needed.json rents/needed.json rents/rents.json latest/
           if git diff --cached --quiet; then echo "No change"; exit 0; fi
-          git commit -m "Update leads, photos/needed.json and rents/needed.json"
+          git commit -m "Update leads, rents/taxes, photos/needed.json and rents/needed.json"
           git pull --rebase -q && git push
 
       # Morning email with the spreadsheet and cards attached (daily scan only).

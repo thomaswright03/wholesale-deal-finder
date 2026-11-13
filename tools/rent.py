@@ -17,6 +17,7 @@ Usage:
   python3 tools/rent.py --push
   python3 tools/rent.py --dry-run
   python3 tools/rent.py --limit 10
+  python3 tools/rent.py --max-minutes 45   (what the daily GitHub run uses)
 """
 
 from __future__ import annotations
@@ -27,6 +28,7 @@ import re
 import subprocess
 import sys
 import time
+from datetime import date, timedelta
 from pathlib import Path
 
 from playwright.sync_api import (
@@ -285,6 +287,7 @@ def hud_rent(house: dict) -> int | None:
 def scrape_all(
     houses: list[dict],
     existing: dict,
+    max_minutes: float = 0,
 ) -> dict:
     """
     Scrapes all houses and merges newly collected
@@ -301,7 +304,11 @@ def scrape_all(
 
         page = browser.new_page()
 
+        started = time.time()
         for i, house in enumerate(houses, 1):
+            if max_minutes and time.time() - started > max_minutes * 60:
+                print(f"\nTime limit ({max_minutes:g} min) reached; the rest go next run.")
+                break
 
             key = house["key"]
             address = house["address"]
@@ -343,9 +350,9 @@ def scrape_all(
                 else:
                     print("  ! Property tax not found")
 
-                # Only save records with actual new data.
-                if got:
-                    out[key] = merged
+                # Remember we looked, so a house with no data isn't retried every day.
+                merged["checked"] = date.today().isoformat()
+                out[key] = merged
 
             except Exception as e:
                 print(f"  ! Error: {e}")
@@ -370,6 +377,20 @@ def main():
         "--dry-run",
         action="store_true",
         help="Fetch data without saving",
+    )
+
+    parser.add_argument(
+        "--max-minutes",
+        type=float,
+        default=0,
+        help="Stop after this many minutes (the rest are done next run)",
+    )
+
+    parser.add_argument(
+        "--recheck-days",
+        type=int,
+        default=30,
+        help="Look a house up again after this many days if it is still missing rent",
     )
 
     parser.add_argument(
@@ -400,8 +421,12 @@ def main():
 
         has_rent = bool(current.get("rent"))
         has_tax = bool(current.get("propertyTax"))
+        checked = current.get("checked", "")
+        recent = checked >= (date.today() - timedelta(days=args.recheck_days)).isoformat()
 
-        if not has_rent or not has_tax:
+        # Property Genie has no rent for most houses (the scan uses HUD then), so once
+        # a house is checked it waits --recheck-days before another try.
+        if (not has_rent or not has_tax) and not recent:
             todo.append(house)
 
     if args.limit:
@@ -423,6 +448,7 @@ def main():
     new = scrape_all(
         todo,
         existing,
+        args.max_minutes,
     )
 
     # Merge records without destroying existing data.
