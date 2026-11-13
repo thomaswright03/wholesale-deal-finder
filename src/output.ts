@@ -75,7 +75,7 @@ export async function writeSpreadsheet(
       flip: l.dealType === "Flip" ? l.flipProfit : null,
       arv: l.value, rehab: l.dealType === "Flip" ? l.flipRehab : null,
       cond: l.condition ? conditionLabel(l.condition.condition) : "Not rated",
-      conf: l.condition?.confidence, pnotes: l.condition?.notes, pfolder: l.photoFolder ? `data/photos/${l.photoFolder}/` : "",
+      conf: l.condition?.confidence, pnotes: l.condition?.notes, pfolder: l.photoFolder ? `photos/${l.photoFolder}/` : "",
       agent: l.agentName, phone: l.agentPhone, email: l.agentEmail,
       link: { text: "Open", hyperlink: zillowUrl(l) }, notes,
     });

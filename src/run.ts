@@ -4,6 +4,8 @@
 //   node src/run.ts                      all markets in config.json (needs RENTCAST_API_KEY)
 //   node src/run.ts --market "Dayton, OH"  one market
 //   node src/run.ts --csv listings.csv     use a CSV instead of RentCast
+//   node src/run.ts --limit 0              no RentCast calls: reuse the last scan's listings
+//                                          (e.g. to rate newly added photos)
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,6 +18,24 @@ import Anthropic from "@anthropic-ai/sdk";
 import { conditionLabel, listPhotos, photoFolderName, photoSetKey, rateHouse, type ConditionRating, type PhotoConfig } from "./photos.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+// Photos live in the repo so GitHub runs can see them: photos/<address-with-dashes>/
+export const PHOTOS_DIR = "photos";
+// Listings from the latest RentCast scan (kept in the Actions cache), reused when a run makes no calls.
+const LAST_SCAN = join("data", "listings.json");
+// Committed copy of the first real scan, used only until data/listings.json exists.
+const SEED_SCAN = join("seed", "listings.json");
+
+function loadLastScan(): Listing[] {
+  for (const p of [LAST_SCAN, SEED_SCAN]) {
+    if (existsSync(join(ROOT, p))) {
+      const l: Listing[] = JSON.parse(readFileSync(join(ROOT, p), "utf8"));
+      console.log(`Reusing ${l.length} listings from ${p} (no RentCast calls)`);
+      return l;
+    }
+  }
+  console.log("No earlier scan saved yet; nothing to reuse");
+  return [];
+}
 
 interface Config {
   maxApiCallsPerRun: number;
@@ -106,7 +126,7 @@ async function ratePhotos(leads: Lead[], cfg: Config) {
   let rated = 0, cached = 0, withPhotos = 0, skippedNoKey = 0, capped = 0;
   for (const lead of leads) {
     lead.photoFolder = photoFolderName(lead);
-    const files = listPhotos(join(ROOT, "data", "photos", lead.photoFolder), cfg.photos.maxPhotosPerHouse);
+    const files = listPhotos(join(ROOT, PHOTOS_DIR, lead.photoFolder), cfg.photos.maxPhotosPerHouse);
     if (!files.length) continue;
     withPhotos++;
     const k = photoSetKey(lead.photoFolder, files);
@@ -124,7 +144,7 @@ async function ratePhotos(leads: Lead[], cfg: Config) {
   }
   writeFileSync(ratingsPath, JSON.stringify(ratings, null, 1));
   writeFileSync(join(ROOT, "out", "photo-folders.txt"),
-    leads.map((l) => `data/photos/${l.photoFolder}/   ${l.condition ? conditionLabel(l.condition.condition) : "(no rating yet)"}`).join("\n") + "\n");
+    leads.map((l) => `${PHOTOS_DIR}/${l.photoFolder}/   ${l.condition ? conditionLabel(l.condition.condition) : "(no rating yet)"}`).join("\n") + "\n");
   console.log(`Photos: ${withPhotos} of ${leads.length} leads have photos; rated ${rated} new, ${cached} from cache` +
     (skippedNoKey ? `, ${skippedNoKey} waiting for ANTHROPIC_API_KEY` : "") + (capped ? `, ${capped} over the per-run cap` : ""));
 }
@@ -172,6 +192,8 @@ export async function main() {
     listings = loadCsv(csv);
     for (const l of listings) cache[l.id] ??= { fetchedAt: today, firstSeen: today };
     console.log(`Loaded ${listings.length} listings from ${csv}`);
+  } else if (arg("limit") === "0") {
+    listings = loadLastScan();
   } else {
     const key = process.env.RENTCAST_API_KEY;
     if (!key) throw new Error("Set RENTCAST_API_KEY in .env (or use --csv file.csv)");
@@ -249,9 +271,17 @@ export async function main() {
     usage[month] = (usage[month] ?? 0) + calls;
     writeFileSync(usagePath, JSON.stringify(usage, null, 1));
     console.log(`RentCast calls this run: ${calls} (month so far: ${usage[month]} of ${cfg.maxApiCallsPerMonth})`);
+    // Budget used up before anything was pulled: fall back to the last scan instead of an empty sheet.
+    if (calls === 0 && !listings.length) listings = loadLastScan();
+    else {
+      // A full scan replaces the saved listings; a --limit test run only adds to them.
+      const prev: Listing[] = testLimit && existsSync(join(ROOT, LAST_SCAN)) ? JSON.parse(readFileSync(join(ROOT, LAST_SCAN), "utf8")) : [];
+      const byId = new Map([...prev, ...listings].map((l) => [l.id, l]));
+      writeFileSync(join(ROOT, LAST_SCAN), JSON.stringify([...byId.values()]));
+    }
   }
 
-  const { leads, rejected } = evaluate(listings, cfg, today, (l) => cache[l.id]?.firstSeen ?? today, !!arg("limit"));
+  const { leads, rejected } = evaluate(listings, cfg, today, (l) => cache[l.id]?.firstSeen ?? today, Number(arg("limit") ?? 0) > 0);
   writeFileSync(cachePath, JSON.stringify(cache, null, 1));
 
   await ratePhotos(leads, cfg);

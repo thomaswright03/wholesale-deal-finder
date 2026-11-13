@@ -1,6 +1,6 @@
 // Rate a house's condition from its listing photos with Claude.
 //
-// Photos go in data/photos/<folder>/ where <folder> is photoFolderName(listing).
+// Photos go in photos/<folder>/ (committed to the repo) where <folder> is photoFolderName(listing).
 // Any jpg/png/webp/gif files there are used (up to maxPhotosPerHouse, sorted by name).
 // Ratings are cached in data/ratings.json, keyed by the folder and its photo list,
 // so the same photos are never paid for twice.

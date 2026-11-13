@@ -5,15 +5,19 @@ on:
   # Turn it back on after upgrading: remove the # on the two lines below.
   # schedule:
   #   - cron: "0 11 * * *" # 6 AM Eastern (7 AM during daylight time)
+  # Pushing new photos rates them right away, with no RentCast calls.
+  push:
+    branches: [main]
+    paths: ["photos/**"]
   workflow_dispatch:
     inputs:
       market:
         description: 'One market only, e.g. "Dayton, OH" (blank = all in config.json)'
         required: false
       limit:
-        description: 'How many listings to pull (1 = about 4 API calls). Type "all" for a full scan'
+        description: 'Listings to pull: 0 = no RentCast calls (reuse last scan, rate photos), 1 = about 4 calls, "all" = full scan'
         required: true
-        default: "1"
+        default: "0"
 
 permissions:
   contents: read
@@ -37,6 +41,7 @@ jobs:
             data/cache.json
             data/usage.json
             data/ratings.json
+            data/listings.json
           key: rentcast-${{ github.run_id }}
           restore-keys: rentcast-
 
@@ -45,9 +50,10 @@ jobs:
           RENTCAST_API_KEY: ${{ secrets.RENTCAST_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           MARKET: ${{ inputs.market }}
-          LIMIT: ${{ inputs.limit }}
+          LIMIT: ${{ inputs.limit || '0' }}
         run: |
-          if [ -z "$RENTCAST_API_KEY" ]; then echo "Add the RENTCAST_API_KEY repo secret first"; exit 1; fi
+          if [ "$LIMIT" != "0" ] && [ -z "$RENTCAST_API_KEY" ]; then echo "Add the RENTCAST_API_KEY repo secret first"; exit 1; fi
+          if [ -z "$ANTHROPIC_API_KEY" ]; then echo "No ANTHROPIC_API_KEY repo secret; photos won't be rated"; fi
           ARGS=()
           if [ -n "$MARKET" ]; then ARGS+=(--market "$MARKET"); fi
           if [ "$LIMIT" != "all" ]; then ARGS+=(--limit "${LIMIT:-1}"); fi
