@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { analyze, bufferFor, cashOnCash, monthlyMortgage } from "../src/deal.ts";
+import { analyze, bufferFor, cashOnCash, dealType, flipProfit, monthlyMortgage } from "../src/deal.ts";
 import { evaluate } from "../src/run.ts";
 import { loadCsv } from "../src/sources/csv.ts";
 import { readFileSync } from "node:fs";
@@ -44,4 +44,12 @@ test("sample CSV end to end", () => {
   assert.equal(why["500 Example St"], "Property type Condo");
   assert.ok(leads.some((l) => l.address === "6823 Betts Ave"));
   for (const l of leads) assert.ok(l.deal.ceilingOffer >= l.deal.floorOffer);
+});
+
+test("rental vs flip and flip profit", () => {
+  assert.equal(dealType(66900, 105000, cfg.flip), "Flip"); // 64% of value
+  assert.equal(dealType(120000, 140000, cfg.flip), "Rental"); // 86% of value
+  assert.equal(dealType(120000, undefined, cfg.flip), null);
+  // $105k ARV, buyer pays $54,900, 1,100 sqft x $30 = $33,000 rehab, 10% costs = $10,500
+  assert.deepEqual(flipProfit(105000, 54900, 1100, cfg.flip), { rehab: 33000, profit: 6600 });
 });

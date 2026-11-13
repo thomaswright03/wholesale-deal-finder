@@ -45,7 +45,11 @@ export async function writeSpreadsheet(
     { header: "Buyer mortgage /mo", key: "pi", width: 11, style: { numFmt: money } },
     { header: "Buyer cash in", key: "inv", width: 11, style: { numFmt: money } },
     { header: "Buyer cash flow /yr", key: "cf", width: 11, style: { numFmt: money } },
-    { header: "Buyer cash-on-cash", key: "coc", width: 10, style: { numFmt: pct } },
+    { header: "Deal type", key: "type", width: 9 },
+    { header: "Rental: buyer cash-on-cash", key: "coc", width: 12, style: { numFmt: pct } },
+    { header: "Flip: buyer profit", key: "flip", width: 12, style: { numFmt: money } },
+    { header: "Value / ARV", key: "arv", width: 11, style: { numFmt: money } },
+    { header: "Flip rehab (est.)", key: "rehab", width: 11, style: { numFmt: money } },
     { header: "Agent", key: "agent", width: 20 },
     { header: "Agent phone", key: "phone", width: 14 },
     { header: "Agent email", key: "email", width: 24 },
@@ -60,7 +64,11 @@ export async function writeSpreadsheet(
       propertyType: l.propertyType, beds: l.beds, baths: l.baths, sqft: l.sqft, dom: l.daysOnMarket,
       list: d.listPrice, floor: d.floorOffer, ceiling: d.ceilingOffer, buyerMax: d.buyerMaxPrice, fee: d.feeAtFloor,
       rent: d.monthlyRent, tax: d.annualTax, ins: d.annualInsurance, pi: d.buyerMonthlyMortgage,
-      inv: d.buyerCashInvested, cf: d.buyerAnnualCashFlow, coc: d.buyerCashOnCash,
+      inv: d.buyerCashInvested, cf: d.buyerAnnualCashFlow,
+      type: l.dealType ?? "Unknown",
+      coc: l.dealType === "Flip" ? null : d.buyerCashOnCash,
+      flip: l.dealType === "Flip" ? l.flipProfit : null,
+      arv: l.value, rehab: l.dealType === "Flip" ? l.flipRehab : null,
       agent: l.agentName, phone: l.agentPhone, email: l.agentEmail,
       link: { text: "Open", hyperlink: zillowUrl(l) }, notes,
     });
@@ -68,7 +76,7 @@ export async function writeSpreadsheet(
     row.getCell("tier").fill = { type: "pattern", pattern: "solid", fgColor: { argb: fill } };
   }
   ws.getRow(1).font = { bold: true };
-  ws.autoFilter = { from: "A1", to: "AB1" };
+  ws.autoFilter = { from: "A1", to: { row: 1, column: ws.columns.length } };
 
   const rj = wb.addWorksheet("Skipped");
   rj.columns = [
@@ -117,7 +125,7 @@ export function writeCards(path: string, leads: Lead[], date: string, cfg: any) 
     id: l.id, tier: l.deal.tier, isNew: l.isNew, address: l.address, city: l.city, state: l.state, zip: l.zip,
     type: l.propertyType, beds: l.beds, baths: l.baths, sqft: l.sqft, dom: l.daysOnMarket,
     agent: l.agentName, phone: l.agentPhone, email: l.agentEmail, url: zillowUrl(l), taxEstimated: l.taxEstimated,
-    rentLow: l.rentLow, rentHigh: l.rentHigh, hoa: l.monthlyHoa ?? 0, ...l.deal,
+    rentLow: l.rentLow, rentHigh: l.rentHigh, hoa: l.monthlyHoa ?? 0, dealType: l.dealType, flipProfit: l.flipProfit, flipRehab: l.flipRehab, arv: l.value, ...l.deal,
   }));
   const json = (x: unknown) => JSON.stringify(x).replace(/</g, "\\u003c");
   const html = CARD_HTML.replace("__DATE__", () => date)
@@ -191,7 +199,9 @@ function render(){
     const phone=(d.phone||"").replace(/[^0-9+]/g,"");
     el.innerHTML = '<div class="top"><div><div class="addr"></div><div class="meta"></div></div><span class="tier t'+(d.tier||"C")+'">'+(d.tier||"Out")+'</span></div>'+
       '<div class="grid"><div><span>List</span><b>'+$(d.listPrice)+'</b></div><div><span>Offer from</span><b>'+$(d.floorOffer)+'</b></div><div><span>Offer up to</span><b>'+$(d.ceilingOffer)+'</b></div>'+
-      '<div><span>Buyer pays up to</span><b>'+$(d.buyerMaxPrice)+'</b></div><div><span>Your fee at floor</span><b>'+$(d.feeAtFloor)+'</b></div><div><span>Median rent'+(s.rent?' (Zillow)':'')+'</span><b>'+$(d.monthlyRent)+'/mo</b></div></div>'+
+      '<div><span>Buyer pays up to</span><b>'+$(d.buyerMaxPrice)+'</b></div><div><span>Your fee at floor</span><b>'+$(d.feeAtFloor)+'</b></div><div><span>Median rent'+(s.rent?' (Zillow)':'')+'</span><b>'+$(d.monthlyRent)+'/mo</b></div>'+
+      '<div><span>Deal type</span><b>'+(d.dealType||"Unknown")+'</b></div>'+
+      (d.dealType==="Flip"?'<div><span>Flip: buyer profit</span><b>'+$(d.flipProfit)+'</b></div><div><span>Value / ARV</span><b>'+$(d.arv)+'</b></div>':'<div><span>Rental: cash-on-cash</span><b>'+(d.buyerCashOnCash*100).toFixed(1)+'%</b></div><div><span>Value / ARV</span><b>'+(d.arv?$(d.arv):"n/a")+'</b></div>')+'</div>'+
       (s.rent&&!d.qualifies?'<div class="warn">With this rent it no longer works: '+d.reason+'</div>':'')+
       '<div class="rentrow"><button class="zr">Check rent on Zillow</button><input type="number" inputmode="numeric" placeholder="Zillow median rent" value="'+(s.rent||"")+'"><button class="clr">Reset</button></div>'+
       '<details><summary>Buyer numbers at '+$(d.buyerMaxPrice)+'</summary><table>'+

@@ -26,4 +26,5 @@ export interface Listing {
   annualTax?: number;
   taxEstimated?: boolean;
   annualInsurance?: number;
+  value?: number; // RentCast value estimate, used as after-repair value (ARV)
 }

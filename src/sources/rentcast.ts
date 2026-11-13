@@ -91,6 +91,20 @@ export async function fetchRent(l: Listing, key: string) {
   return { rent: r.rent as number, low: r.rentRangeLow as number, high: r.rentRangeHigh as number };
 }
 
+// What the house is worth (RentCast value AVM). Used as the after-repair value for flips.
+
+export async function fetchValue(l: Listing, key: string): Promise<number | undefined> {
+  const params: Record<string, string | number> = {
+    address: `${l.address}, ${l.city}, ${l.state} ${l.zip}`,
+    propertyType: l.propertyType,
+  };
+  if (l.beds != null) params.bedrooms = l.beds;
+  if (l.baths != null) params.bathrooms = l.baths;
+  if (l.sqft != null) params.squareFootage = l.sqft;
+  const r = await get("/avm/value", params, key);
+  return r?.price ?? undefined;
+}
+
 // Latest year's tax bill from the county record. Also catches HOA the listing didn't show.
 export async function fetchTaxAndHoa(l: Listing, key: string) {
   const r = await get("/properties", { address: `${l.address}, ${l.city}, ${l.state} ${l.zip}` }, key);

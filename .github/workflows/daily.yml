@@ -9,7 +9,7 @@ on:
         description: 'One market only, e.g. "Dayton, OH" (blank = all in config.json)'
         required: false
       limit:
-        description: 'Test mode: only pull this many listings and show them all (1 = about 3 API calls). Blank = normal scan'
+        description: 'Test mode: only pull this many listings and show them all (1 = about 4 API calls). Blank = normal scan'
         required: false
 
 permissions:

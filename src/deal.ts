@@ -163,6 +163,28 @@ export function analyze(input: PropertyNumbers, a: BuyerAssumptions, rules: Offe
   };
 }
 
+// ---- Rental vs flip ----
+// From the call: a house that's already fixed up goes to a rental buyer (judged by cash-on-cash);
+// one that needs work goes to a fix-and-flip buyer (judged by flip profit).
+// We can't see condition without photos, so we use price vs. RentCast's value estimate (ARV):
+// listed well under what the house is worth fixed up = probably needs work = flip.
+export interface FlipAssumptions {
+  flipIfListBelowValue: number; // 0.80 -> list price under 80% of value = flip
+  rehabPerSqft: number; // repair budget, $/sqft (no photos, so one middle-of-the-road number)
+  costsPctOfArv: number; // buyer's closing + holding + selling costs, share of ARV
+}
+
+export function dealType(listPrice: number, value: number | undefined, f: FlipAssumptions): "Rental" | "Flip" | null {
+  if (!value) return null;
+  return listPrice <= value * f.flipIfListBelowValue ? "Flip" : "Rental";
+}
+
+export function flipProfit(arv: number, buyerPrice: number, sqft: number | undefined, f: FlipAssumptions) {
+  const rehab = (sqft ?? 0) * f.rehabPerSqft;
+  const costs = arv * f.costsPctOfArv;
+  return { rehab: Math.round(rehab), profit: Math.round(arv - buyerPrice - rehab - costs) };
+}
+
 function fmt(n: number) {
   return Math.round(n).toLocaleString("en-US");
 }

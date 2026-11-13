@@ -7,9 +7,9 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { analyze, type BuyerAssumptions, type DealResult, type OfferRules } from "./deal.ts";
+import { analyze, dealType, flipProfit, type BuyerAssumptions, type DealResult, type FlipAssumptions, type OfferRules } from "./deal.ts";
 import { loadCsv } from "./sources/csv.ts";
-import { fetchListings, fetchRent, fetchTaxAndHoa } from "./sources/rentcast.ts";
+import { fetchListings, fetchRent, fetchTaxAndHoa, fetchValue } from "./sources/rentcast.ts";
 import type { Listing } from "./sources/types.ts";
 import { writeCards, writeSpreadsheet } from "./output.ts";
 
@@ -22,17 +22,22 @@ interface Config {
   search: { minPrice: number; maxPrice: number; propertyTypes: string[]; excludeListingTypes: string[]; skipHoa: boolean };
   buyer: BuyerAssumptions & { taxFallbackPctOfPrice: number };
   offer: OfferRules;
+  flip: FlipAssumptions;
 }
 
 export interface Lead extends Listing {
   deal: DealResult;
   isNew: boolean;
+  dealType: "Rental" | "Flip" | null;
+  flipRehab?: number;
+  flipProfit?: number;
 }
 
 interface CacheEntry {
   rent?: { rent: number; low: number; high: number } | null;
   tax?: number;
   hoa?: number;
+  value?: number;
   taxChecked?: boolean;
   fetchedAt: string;
   firstSeen: string;
@@ -88,7 +93,11 @@ export function evaluate(listings: Listing[], cfg: Config, today: string, firstS
       cfg.buyer,
       cfg.offer,
     );
-    if (deal.qualifies || showAll) leads.push({ ...l, deal, isNew: firstSeen(l) === today });
+    if (deal.qualifies || showAll) {
+      const type = dealType(l.price, l.value, cfg.flip);
+      const flip = type === "Flip" && l.value ? flipProfit(l.value, deal.buyerMaxPrice, l.sqft, cfg.flip) : undefined;
+      leads.push({ ...l, deal, isNew: firstSeen(l) === today, dealType: type, flipRehab: flip?.rehab, flipProfit: flip?.profit });
+    }
     else rejected.push({ l, reason: deal.reason, deal });
   }
   const tierRank = { A: 0, B: 1, C: 2 } as const;
@@ -115,7 +124,7 @@ export async function main() {
     const key = process.env.RENTCAST_API_KEY;
     if (!key) throw new Error("Set RENTCAST_API_KEY in .env (or use --csv file.csv)");
     // --limit N: test mode. Pull only N listings, look up all of them, and show every one
-    // in the spreadsheet even if it isn't a deal (about 1 + 2N calls).
+    // in the spreadsheet even if it isn't a deal (about 1 + 3N calls).
     const testLimit = arg("limit") ? Number(arg("limit")) : 0;
     const only = arg("market");
     const markets = only
@@ -163,9 +172,11 @@ export async function main() {
           calls++;
           c.tax = t.tax;
           c.hoa = t.hoa;
+          if (canCall()) { c.value = await fetchValue(l, key); calls++; }
           c.taxChecked = true;
         }
         if (c.tax != null) l.annualTax = c.tax;
+        if (c.value) l.value = c.value;
         if (c.hoa && !l.monthlyHoa) l.monthlyHoa = c.hoa;
         listings.push(l);
       }

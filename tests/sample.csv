@@ -1,7 +1,7 @@
-address,city,state,zip,propertyType,price,beds,baths,sqft,hoa,rent,tax,dom,agent,agentPhone,agentEmail
-6823 Betts Ave,Cincinnati,OH,45239,Single Family,66900,3,1,1100,,1450,2400,41,Sample Agent One,(513) 555-0101,one@example.com
-100 Example St,Cincinnati,OH,45205,Single Family,120000,3,2,1400,,1500,3100,12,Sample Agent Two,(513) 555-0102,two@example.com
-200 Example St,Cincinnati,OH,45211,Multi-Family,185000,4,2,2200,,2600,3900,77,Sample Agent Three,(513) 555-0103,three@example.com
-300 Example St,Cincinnati,OH,45238,Single Family,280000,4,3,2400,,2100,5600,5,Sample Agent Four,(513) 555-0104,four@example.com
-400 Example St,Cincinnati,OH,45231,Single Family,95000,2,1,900,150,1200,1800,20,Sample Agent Five,(513) 555-0105,five@example.com
-500 Example St,Cincinnati,OH,45224,Condo,90000,2,1,950,,1200,1700,30,Sample Agent Six,(513) 555-0106,six@example.com
+address,city,state,zip,propertyType,price,beds,baths,sqft,hoa,rent,tax,dom,agent,agentPhone,agentEmail,value
+6823 Betts Ave,Cincinnati,OH,45239,Single Family,66900,3,1,1100,,1450,2400,41,Sample Agent One,(513) 555-0101,one@example.com,105000
+100 Example St,Cincinnati,OH,45205,Single Family,120000,3,2,1400,,1500,3100,12,Sample Agent Two,(513) 555-0102,two@example.com,150000
+200 Example St,Cincinnati,OH,45211,Multi-Family,185000,4,2,2200,,2600,3900,77,Sample Agent Three,(513) 555-0103,three@example.com,235000
+300 Example St,Cincinnati,OH,45238,Single Family,280000,4,3,2400,,2100,5600,5,Sample Agent Four,(513) 555-0104,four@example.com,300000
+400 Example St,Cincinnati,OH,45231,Single Family,95000,2,1,900,150,1200,1800,20,Sample Agent Five,(513) 555-0105,five@example.com,110000
+500 Example St,Cincinnati,OH,45224,Condo,90000,2,1,950,,1200,1700,30,Sample Agent Six,(513) 555-0106,six@example.com,100000

@@ -21,6 +21,15 @@ For each listing it finds the most an end buyer can pay and still get a **20% ca
 
 Every number above is in `config.json`. Change it there; nothing else needs to change.
 
+## Rental or flip
+
+Each lead gets a **Deal type**. If RentCast values the house (as-is value, used as the after-repair value) and the list price is under 80% of that value, it's marked **Flip** (probably needs work); otherwise **Rental** (probably already fixed up). This is a guess from price, not photos, so check the photos.
+
+- Rental: the buyer's year-one cash-on-cash return goes in **Rental: buyer cash-on-cash**.
+- Flip: **Flip: buyer profit** = value − buyer's price − rehab (sqft × $30) − 10% of value for closing, holding and selling.
+
+All three numbers are in `config.json` under `flip`. Leads are still picked by the rental rules; the flip number is extra information. The value lookup is 1 more API call per promising home.
+
 ## Run it
 
 ```

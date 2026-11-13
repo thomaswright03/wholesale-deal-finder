@@ -44,13 +44,14 @@ const ALIASES: Record<string, string[]> = {
   rentHigh: ["high", "renthigh"],
   annualTax: ["tax", "taxes", "annualtax", "propertytax", "taxannualamount"],
   annualInsurance: ["insurance", "annualinsurance"],
+  value: ["value", "arv", "valueestimate"],
   daysOnMarket: ["dom", "daysonmarket"],
   agentName: ["agent", "agentname", "listagent", "listagentfullname"],
   agentPhone: ["agentphone", "phone", "listagentphone", "listagentdirectphone"],
   agentEmail: ["agentemail", "email", "listagentemail"],
   url: ["url", "link", "zillow"],
 };
-const NUMERIC = new Set(["price", "beds", "baths", "sqft", "monthlyHoa", "monthlyRent", "rentLow", "rentHigh", "annualTax", "annualInsurance", "daysOnMarket"]);
+const NUMERIC = new Set(["price", "beds", "baths", "sqft", "monthlyHoa", "monthlyRent", "rentLow", "rentHigh", "annualTax", "annualInsurance", "value", "daysOnMarket"]);
 
 export function loadCsv(path: string): Listing[] {
   const [header, ...rows] = parseCsv(readFileSync(path, "utf8"));

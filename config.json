@@ -22,6 +22,11 @@
     "insurancePctOfPrice": 0.006,
     "taxFallbackPctOfPrice": 0.015
   },
+  "flip": {
+    "flipIfListBelowValue": 0.80,
+    "rehabPerSqft": 30,
+    "costsPctOfArv": 0.10
+  },
   "offer": {
     "floorPctOfList": 0.70,
     "minAssignmentFee": 8000,
