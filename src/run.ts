@@ -38,6 +38,7 @@ interface CacheEntry {
   tax?: number;
   hoa?: number;
   value?: number;
+  valueChecked?: boolean;
   taxChecked?: boolean;
   fetchedAt: string;
   firstSeen: string;
@@ -172,8 +173,13 @@ export async function main() {
           calls++;
           c.tax = t.tax;
           c.hoa = t.hoa;
-          if (canCall()) { c.value = await fetchValue(l, key); calls++; }
           c.taxChecked = true;
+        }
+        // Value estimate (for the rental-vs-flip label and flip profit), also only for promising homes.
+        if (c.rent && c.taxChecked && !c.valueChecked && (testLimit || looksPromising(l, cfg)) && canCall()) {
+          c.value = await fetchValue(l, key);
+          c.valueChecked = true;
+          calls++;
         }
         if (c.tax != null) l.annualTax = c.tax;
         if (c.value) l.value = c.value;
