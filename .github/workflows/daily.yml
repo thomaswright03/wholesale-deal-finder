@@ -84,7 +84,7 @@ jobs:
           pip install -q playwright
           python -m playwright install --with-deps chromium > /dev/null
           before=$(sha1sum rents/rents.json 2>/dev/null || true)
-          python tools/rent.py --max-minutes 45
+          python -u tools/rent.py --max-minutes 45
           after=$(sha1sum rents/rents.json 2>/dev/null || true)
           if [ "$before" != "$after" ]; then echo "changed=true" >> "$GITHUB_OUTPUT"; fi
 

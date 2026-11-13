@@ -210,7 +210,11 @@ def scrape_one(page, house: dict) -> dict:
     page.goto(PAGE_URL, wait_until="domcontentloaded", timeout=30000)
 
     box = page.locator("input[placeholder*='property address' i]").first
-    box.wait_for(state="visible", timeout=15000)
+    try:
+        box.wait_for(state="visible", timeout=20000)
+    except PWTimeout:
+        body = " ".join(page.inner_text("body").split())[:300] if page.locator("body").count() else ""
+        raise RuntimeError(f"search box never appeared (title: {page.title()!r}; page says: {body!r})")
 
     # The box starts with the sample address in it, so clear it first.
     box.click()
@@ -305,6 +309,7 @@ def scrape_all(
         page = browser.new_page()
 
         started = time.time()
+        failures = 0
         for i, house in enumerate(houses, 1):
             if max_minutes and time.time() - started > max_minutes * 60:
                 print(f"\nTime limit ({max_minutes:g} min) reached; the rest go next run.")
@@ -355,7 +360,13 @@ def scrape_all(
                 out[key] = merged
 
             except Exception as e:
-                print(f"  ! Error: {e}")
+                print(f"  ! Error: {str(e).splitlines()[0]}")
+                failures += 1
+                if failures >= 3 and not out:
+                    print("\nThe site isn't loading for this computer; stopping. Nothing saved for these houses.")
+                    break
+                continue
+            failures = 0
 
             time.sleep(1.2)
 
