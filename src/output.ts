@@ -4,6 +4,7 @@ import ExcelJS from "exceljs";
 import type { DealResult } from "./deal.ts";
 import type { Listing } from "./sources/types.ts";
 import type { Lead } from "./run.ts";
+import { conditionLabel } from "./photos.ts";
 
 export function zillowUrl(l: Listing) {
   if (l.url) return l.url;
@@ -50,6 +51,10 @@ export async function writeSpreadsheet(
     { header: "Flip: buyer profit", key: "flip", width: 12, style: { numFmt: money } },
     { header: "Value / ARV", key: "arv", width: 11, style: { numFmt: money } },
     { header: "Flip rehab (est.)", key: "rehab", width: 11, style: { numFmt: money } },
+    { header: "Condition (from photos)", key: "cond", width: 14 },
+    { header: "Photo confidence", key: "conf", width: 10 },
+    { header: "Photo notes", key: "pnotes", width: 50 },
+    { header: "Photo folder", key: "pfolder", width: 40 },
     { header: "Agent", key: "agent", width: 20 },
     { header: "Agent phone", key: "phone", width: 14 },
     { header: "Agent email", key: "email", width: 24 },
@@ -69,6 +74,8 @@ export async function writeSpreadsheet(
       coc: l.dealType === "Flip" ? null : d.buyerCashOnCash,
       flip: l.dealType === "Flip" ? l.flipProfit : null,
       arv: l.value, rehab: l.dealType === "Flip" ? l.flipRehab : null,
+      cond: l.condition ? conditionLabel(l.condition.condition) : "Not rated",
+      conf: l.condition?.confidence, pnotes: l.condition?.notes, pfolder: l.photoFolder ? `data/photos/${l.photoFolder}/` : "",
       agent: l.agentName, phone: l.agentPhone, email: l.agentEmail,
       link: { text: "Open", hyperlink: zillowUrl(l) }, notes,
     });
@@ -125,7 +132,7 @@ export function writeCards(path: string, leads: Lead[], date: string, cfg: any) 
     id: l.id, tier: l.deal.tier, isNew: l.isNew, address: l.address, city: l.city, state: l.state, zip: l.zip,
     type: l.propertyType, beds: l.beds, baths: l.baths, sqft: l.sqft, dom: l.daysOnMarket,
     agent: l.agentName, phone: l.agentPhone, email: l.agentEmail, url: zillowUrl(l), taxEstimated: l.taxEstimated,
-    rentLow: l.rentLow, rentHigh: l.rentHigh, hoa: l.monthlyHoa ?? 0, dealType: l.dealType, flipProfit: l.flipProfit, flipRehab: l.flipRehab, arv: l.value, ...l.deal,
+    rentLow: l.rentLow, rentHigh: l.rentHigh, hoa: l.monthlyHoa ?? 0, dealType: l.dealType, flipProfit: l.flipProfit, flipRehab: l.flipRehab, arv: l.value, cond: l.condition ? conditionLabel(l.condition.condition) : null, condConf: l.condition?.confidence, condNotes: l.condition?.notes, ...l.deal,
   }));
   const json = (x: unknown) => JSON.stringify(x).replace(/</g, "\\u003c");
   const html = CARD_HTML.replace("__DATE__", () => date)
@@ -166,6 +173,7 @@ details td{padding:3px 0;border-bottom:1px solid var(--line)}details td:last-chi
 .status{font-size:13px;color:var(--muted);margin-top:8px}
 .rentrow{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.rentrow input{flex:1;min-width:120px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:inherit}
 .rentrow button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:14px}
+.cond{margin-top:10px;padding:8px 10px;border-radius:8px;background:var(--bg);font-size:14px}.cond .sub{font-size:12px}
 .warn{margin-top:10px;padding:8px 10px;border-radius:8px;background:#fde8e4;color:#8a2c1c;font-size:13px}
 textarea{width:100%;margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg);color:var(--ink);font:inherit;font-size:13px}
 @media (max-width:520px){.grid{grid-template-columns:repeat(2,1fr)}}
@@ -204,6 +212,7 @@ function render(){
       (d.dealType==="Flip"?'<div><span>Flip: buyer profit</span><b>'+$(d.flipProfit)+'</b></div><div><span>Value / ARV</span><b>'+$(d.arv)+'</b></div>':'<div><span>Rental: cash-on-cash</span><b>'+(d.buyerCashOnCash*100).toFixed(1)+'%</b></div><div><span>Value / ARV</span><b>'+(d.arv?$(d.arv):"n/a")+'</b></div>')+'</div>'+
       (s.rent&&!d.qualifies?'<div class="warn">With this rent it no longer works: '+d.reason+'</div>':'')+
       '<div class="rentrow"><button class="zr">Check rent on Zillow</button><input type="number" inputmode="numeric" placeholder="Zillow median rent" value="'+(s.rent||"")+'"><button class="clr">Reset</button></div>'+
+      (d.cond?'<div class="cond"><b>'+d.cond+'</b> <span class="sub">('+d.condConf+' confidence, from photos)</span><div class="sub cn"></div></div>':'')+
       '<details><summary>Buyer numbers at '+$(d.buyerMaxPrice)+'</summary><table>'+
       '<tr><td>Mortgage (P&amp;I)</td><td>'+$(d.buyerMonthlyMortgage)+'/mo</td></tr>'+
       '<tr><td>Property tax'+(d.taxEstimated?" (estimated)":"")+'</td><td>'+$(d.annualTax)+'/yr</td></tr>'+
@@ -216,6 +225,7 @@ function render(){
       '<a href="'+d.url+'" target="_blank" rel="noopener">Photos</a><button data-s="contacted">Contacted</button><button data-s="skip">Skip</button></div>'+
       '<div class="status"></div><textarea rows="2" placeholder="Notes"></textarea>';
     el.querySelector(".addr").textContent = d.address;
+    if(d.cond) el.querySelector(".cn").textContent = d.condNotes||"";
     el.querySelector(".meta").innerHTML = '';
     el.querySelector(".meta").append(d.city+", "+d.state+" "+(d.zip||"")+" · "+[d.type,d.beds&&d.beds+" bd",d.baths&&d.baths+" ba",d.sqft&&d.sqft.toLocaleString()+" sqft",d.dom!=null&&d.dom+" days listed"].filter(Boolean).join(" · ")+(d.agent?" · "+d.agent:""));
     if(d.isNew){const n=document.createElement("span");n.className="new";n.textContent="NEW";el.querySelector(".addr").append(n)}

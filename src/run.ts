@@ -12,6 +12,8 @@ import { loadCsv } from "./sources/csv.ts";
 import { fetchListings, fetchRent, fetchTaxAndHoa, fetchValue } from "./sources/rentcast.ts";
 import type { Listing } from "./sources/types.ts";
 import { writeCards, writeSpreadsheet } from "./output.ts";
+import Anthropic from "@anthropic-ai/sdk";
+import { conditionLabel, listPhotos, photoFolderName, photoSetKey, rateHouse, type ConditionRating, type PhotoConfig } from "./photos.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -24,6 +26,7 @@ interface Config {
   buyer: BuyerAssumptions & { taxFallbackPctOfPrice: number };
   offer: OfferRules;
   flip: FlipAssumptions;
+  photos: PhotoConfig;
 }
 
 export interface Lead extends Listing {
@@ -32,6 +35,8 @@ export interface Lead extends Listing {
   dealType: "Rental" | "Flip" | null;
   flipRehab?: number;
   flipProfit?: number;
+  photoFolder?: string;
+  condition?: ConditionRating;
 }
 
 interface CacheEntry {
@@ -77,6 +82,51 @@ function looksPromising(l: Listing, cfg: Config): boolean {
     cfg.offer,
   );
   return d.ceilingOffer >= d.floorOffer - l.price * 0.05;
+}
+
+// A photo rating replaces the price-based rental/flip guess: rental_ready = Rental, anything else = Flip,
+// and Claude's rehab estimate replaces the flat $/sqft number in the flip profit.
+export function applyRating(lead: Lead, r: ConditionRating, cfg: Config) {
+  lead.condition = r;
+  lead.dealType = r.condition === "rental_ready" ? "Rental" : "Flip";
+  if (lead.dealType === "Flip" && lead.value) {
+    lead.flipRehab = Math.round(r.rehab_estimate);
+    lead.flipProfit = Math.round(lead.value - lead.deal.buyerMaxPrice - r.rehab_estimate - lead.value * cfg.flip.costsPctOfArv);
+  } else {
+    lead.flipRehab = undefined;
+    lead.flipProfit = undefined;
+  }
+}
+
+async function ratePhotos(leads: Lead[], cfg: Config) {
+  const ratingsPath = join(ROOT, "data", "ratings.json");
+  const ratings: Record<string, ConditionRating> = existsSync(ratingsPath) ? JSON.parse(readFileSync(ratingsPath, "utf8")) : {};
+  const key = process.env.ANTHROPIC_API_KEY;
+  const client = key ? new Anthropic({ apiKey: key }) : null;
+  let rated = 0, cached = 0, withPhotos = 0, skippedNoKey = 0, capped = 0;
+  for (const lead of leads) {
+    lead.photoFolder = photoFolderName(lead);
+    const files = listPhotos(join(ROOT, "data", "photos", lead.photoFolder), cfg.photos.maxPhotosPerHouse);
+    if (!files.length) continue;
+    withPhotos++;
+    const k = photoSetKey(lead.photoFolder, files);
+    if (ratings[k]) { applyRating(lead, ratings[k], cfg); cached++; continue; }
+    if (!client) { skippedNoKey++; continue; }
+    if (rated >= cfg.photos.maxHousesPerRun) { capped++; continue; }
+    try {
+      const r = await rateHouse(client, lead, files, cfg.photos);
+      rated++;
+      if (r) { ratings[k] = r; applyRating(lead, r, cfg); }
+      else console.log(`  Claude declined to rate ${lead.address}`);
+    } catch (e: any) {
+      console.log(`  Photo rating failed for ${lead.address}: ${e.message ?? e}`);
+    }
+  }
+  writeFileSync(ratingsPath, JSON.stringify(ratings, null, 1));
+  writeFileSync(join(ROOT, "out", "photo-folders.txt"),
+    leads.map((l) => `data/photos/${l.photoFolder}/   ${l.condition ? conditionLabel(l.condition.condition) : "(no rating yet)"}`).join("\n") + "\n");
+  console.log(`Photos: ${withPhotos} of ${leads.length} leads have photos; rated ${rated} new, ${cached} from cache` +
+    (skippedNoKey ? `, ${skippedNoKey} waiting for ANTHROPIC_API_KEY` : "") + (capped ? `, ${capped} over the per-run cap` : ""));
 }
 
 export function evaluate(listings: Listing[], cfg: Config, today: string, firstSeen: (l: Listing) => string, showAll = false) {
@@ -203,6 +253,8 @@ export async function main() {
 
   const { leads, rejected } = evaluate(listings, cfg, today, (l) => cache[l.id]?.firstSeen ?? today, !!arg("limit"));
   writeFileSync(cachePath, JSON.stringify(cache, null, 1));
+
+  await ratePhotos(leads, cfg);
 
   const xlsx = join(ROOT, "out", `leads-${today}.xlsx`);
   const html = join(ROOT, "out", `cards-${today}.html`);

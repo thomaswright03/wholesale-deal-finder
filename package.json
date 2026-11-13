@@ -16,6 +16,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "exceljs": "^4.4.0"
+    "@anthropic-ai/sdk": "^1.8.0",
+    "exceljs": "^4.4.0",
+    "zod": "^4.6.7"
   }
 }

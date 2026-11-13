@@ -28,6 +28,11 @@
     "rehabPerSqft": 30,
     "costsPctOfArv": 0.10
   },
+  "photos": {
+    "model": "claude-opus-5-5",
+    "maxPhotosPerHouse": 10,
+    "maxHousesPerRun": 25
+  },
   "offer": {
     "floorPctOfList": 0.70,
     "minAssignmentFee": 8000,

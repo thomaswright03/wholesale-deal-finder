@@ -36,12 +36,14 @@ jobs:
           path: |
             data/cache.json
             data/usage.json
+            data/ratings.json
           key: rentcast-${{ github.run_id }}
           restore-keys: rentcast-
 
       - name: Scan markets
         env:
           RENTCAST_API_KEY: ${{ secrets.RENTCAST_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           MARKET: ${{ inputs.market }}
           LIMIT: ${{ inputs.limit }}
         run: |

@@ -30,6 +30,17 @@ Each lead gets a **Deal type**. If RentCast values the house (as-is value, used 
 
 All three numbers are in `config.json` under `flip`. Leads are still picked by the rental rules; the flip number is extra information. The value lookup is 1 more API call per promising home.
 
+## Condition from photos (Claude)
+
+Put a house's listing photos in `data/photos/<folder>/` (jpg, png, webp or gif, under 5 MB each). The folder name is the address with dashes, e.g. `data/photos/6823-Betts-Ave-Cincinnati-OH-45239/`. Every run writes `out/photo-folders.txt` with the exact folder name for each lead.
+
+On the next run, each lead with photos is sent to Claude (`claude-opus-5-5`, up to 10 photos per house, sorted by file name) and rated **Rental-ready / Light / Medium / Heavy rehab** with a rehab dollar estimate, a confidence and a short note. That rating replaces the price-based guess: rental-ready = Rental, anything else = Flip, and Claude's rehab estimate replaces the $30/sqft number in Flip profit. The spreadsheet gets Condition, Photo confidence, Photo notes and Photo folder columns; the cards show the rating and the note.
+
+- Needs `ANTHROPIC_API_KEY` in `.env` (local) or as a repo secret (GitHub).
+- Ratings are cached in `data/ratings.json`; the same photos are never rated twice. Adding or changing photos re-rates that house.
+- At most `photos.maxHousesPerRun` (25) new ratings per run. Roughly $0.05 to $0.10 per house at 10 photos (estimate).
+- The photos must be on the machine doing the run. For GitHub runs that means committing them under `data/photos/` (and un-ignoring that folder); running `npm start` locally is simpler.
+
 ## Run it
 
 ```
