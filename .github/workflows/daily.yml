@@ -115,7 +115,8 @@ jobs:
           git add photos/needed.json rents/needed.json rents/rents.json taxes/county.json latest/
           if git diff --cached --quiet; then echo "No change"; exit 0; fi
           git commit -m "Update leads, rents/taxes, photos/needed.json and rents/needed.json"
-          git pull --rebase -q && git push
+          # Another run may have pushed first; keep this run's newer outputs if the binary files clash.
+          git pull --rebase -X theirs -q && git push
 
       # Morning email with the spreadsheet and cards attached (daily scan only).
       # Turns on once these repo secrets exist: MAIL_USERNAME + MAIL_PASSWORD (a Gmail address and

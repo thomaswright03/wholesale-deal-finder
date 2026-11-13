@@ -42,6 +42,16 @@ export type ConditionRating = z.infer<typeof Condition> & {
   rehab_lines?: { label: string; cost: number; detail?: string }[];
 };
 
+// The real image type from the file's first bytes. Photo downloaders often save WebP as .jpg,
+// and the API rejects a media type that doesn't match the bytes.
+export function sniffMedia(b: Buffer): "image/jpeg" | "image/png" | "image/webp" | "image/gif" | undefined {
+  if (b[0] === 0xff && b[1] === 0xd8) return "image/jpeg";
+  if (b[0] === 0x89 && b.toString("latin1", 1, 4) === "PNG") return "image/png";
+  if (b.toString("latin1", 0, 4) === "RIFF" && b.toString("latin1", 8, 12) === "WEBP") return "image/webp";
+  if (b.toString("latin1", 0, 3) === "GIF") return "image/gif";
+  return undefined;
+}
+
 const MEDIA: Record<string, "image/jpeg" | "image/png" | "image/webp" | "image/gif"> = {
   ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".gif": "image/gif",
 };
@@ -101,7 +111,7 @@ export async function rateHouse(client: Anthropic, l: Listing, files: string[], 
     content.push({ type: "text", text: `Photo ${i + 1}:` });
     content.push({
       type: "image",
-      source: { type: "base64", media_type: MEDIA[extname(f).toLowerCase()], data: readFileSync(f).toString("base64") },
+      source: { type: "base64", media_type: sniffMedia(readFileSync(f)) ?? MEDIA[extname(f).toLowerCase()], data: readFileSync(f).toString("base64") },
     });
   });
   content.push({ type: "text", text: `${facts}\n\nRate the work each area of this house needs.` });

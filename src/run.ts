@@ -256,7 +256,7 @@ async function ratePhotos(leads: Lead[], cfg: Config) {
   const ratings: Record<string, ConditionRating> = existsSync(ratingsPath) ? JSON.parse(readFileSync(ratingsPath, "utf8")) : {};
   const key = process.env.ANTHROPIC_API_KEY;
   const client = key ? new Anthropic({ apiKey: key }) : null;
-  let rated = 0, cached = 0, withPhotos = 0, skippedNoKey = 0, capped = 0;
+  let rated = 0, cached = 0, withPhotos = 0, skippedNoKey = 0, capped = 0, failedRatings = 0;
   for (const lead of leads) {
     lead.photoFolder = photoFolderName(lead);
     const files = listPhotos(join(ROOT, PHOTOS_DIR, lead.photoFolder), cfg.photos.maxPhotosPerHouse);
@@ -272,6 +272,7 @@ async function ratePhotos(leads: Lead[], cfg: Config) {
       if (r) { ratings[k] = r; applyRating(lead, r, cfg); }
       else console.log(`  Claude declined to rate ${lead.address}`);
     } catch (e: any) {
+      failedRatings++;
       console.log(`  Photo rating failed for ${lead.address}: ${e.message ?? e}`);
     }
   }
@@ -290,7 +291,7 @@ async function ratePhotos(leads: Lead[], cfg: Config) {
   }));
   writeFileSync(join(ROOT, "out", "needed.json"), JSON.stringify({ houses: needed }, null, 2) + "\n");
   console.log(`Photos: ${withPhotos} of ${leads.length} leads have photos; rated ${rated} new, ${cached} from cache` +
-    (skippedNoKey ? `, ${skippedNoKey} waiting for ANTHROPIC_API_KEY` : "") + (capped ? `, ${capped} over the per-run cap` : ""));
+    (skippedNoKey ? `, ${skippedNoKey} waiting for ANTHROPIC_API_KEY` : "") + (capped ? `, ${capped} over the per-run cap` : "") + (failedRatings ? `, ${failedRatings} failed` : ""));
 }
 
 export function evaluate(listings: Listing[], cfg: Config, today: string, firstSeen: (l: Listing) => string, showAll = false) {
