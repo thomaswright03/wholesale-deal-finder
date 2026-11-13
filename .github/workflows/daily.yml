@@ -2,8 +2,8 @@ name: Daily deal scan
 
 on:
   # Daily scan. Sized for RentCast's free plan: rent comes from your own script (rents/rents.json),
-  # so a day is about 1 call for listings + a few tax/value lookups, capped by maxApiCallsPerRun (4)
-  # and maxApiCallsPerMonth (45) in config.json. When the month's calls are used up it makes 0 calls.
+  # so a day is 1 call per market for listings (rentcastListingsOnly), capped by
+  # maxApiCallsPerMonth (50) in config.json. When the month's calls are used up it makes 0 calls.
   schedule:
     - cron: "0 11 * * *" # 6 AM Eastern (7 AM during daylight time)
   # Pushing new photos or rents/rents.json reruns the deal math right away, with no RentCast calls.

@@ -1,7 +1,8 @@
 {
-  "maxApiCallsPerRun": 4,
-  "maxApiCallsPerMonth": 45,
+  "maxApiCallsPerRun": 1,
+  "maxApiCallsPerMonth": 50,
   "billingDay": 12,
+  "rentcastListingsOnly": true,
   "markets": [
     {
       "city": "Cincinnati",

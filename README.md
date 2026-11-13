@@ -36,7 +36,7 @@ Every run pulls today's 30-year fixed rate from FRED (St. Louis Fed): the Optima
 
 ## Daily schedule and where results land
 
-The workflow runs every day at 11:00 UTC. With rent coming from your script, a day costs about 1 RentCast call for the listing search plus tax/value lookups for the most promising homes, capped at 4 per run and 45 per billing period (`maxApiCallsPerRun`, `maxApiCallsPerMonth`). Once the period's calls are used it makes 0 calls and reuses the last scan.
+The workflow runs every day at 11:00 UTC. With `"rentcastListingsOnly": true` RentCast is used only for the listing search: 1 call per market per day, up to 500 active listings each (Cincinnati has ~420). Rent and tax come from your script. The month is capped at `maxApiCallsPerMonth` (50, the free plan). Once the period's calls are used it makes 0 calls and reuses the last scan.
 
 Every run commits the newest results to `latest/leads.xlsx` and `latest/cards.html`. To email them each morning, add repo secrets `MAIL_USERNAME` and `MAIL_PASSWORD` (a Gmail address and an app password for it) and `MAIL_TO` (comma-separated recipients). Without those secrets the email step is skipped.
 

@@ -97,6 +97,9 @@ interface Config {
   // "file" = rent only from rents/rents.json (your own script); "rentcast" = RentCast, with rents.json overriding it
   rentSource?: "rentcast" | "file";
   liveMortgageRate?: boolean;
+  // true = RentCast is used only for the listing search: 1 call (up to 500 listings) per market per run,
+  // no tax / value lookups (your scripts supply rent and tax).
+  rentcastListingsOnly?: boolean;
   rateSource?: string;
 }
 
@@ -291,7 +294,9 @@ export async function main() {
     const old = today.slice(0, 7);
     if (usage[old] != null && !usage[month]) { usage[month] = usage[old]; delete usage[old]; }
     const leftThisMonth = cfg.maxApiCallsPerMonth - (usage[month] ?? 0);
-    const budget = Math.max(0, Math.min(cfg.maxApiCallsPerRun, leftThisMonth));
+    // Listings-only: one call per market per run.
+    const perRun = cfg.rentcastListingsOnly ? markets.length : cfg.maxApiCallsPerRun;
+    const budget = Math.max(0, Math.min(perRun, leftThisMonth));
     if (budget === 0) console.log(`Monthly API budget (${cfg.maxApiCallsPerMonth}) used up for ${month}; using cached data only`);
     let calls = 0;
     const canCall = () => calls < budget;
@@ -299,7 +304,7 @@ export async function main() {
       if (!canCall()) { console.log(`Call budget used up, skipping ${m.city}, ${m.state}`); continue; }
       const found = testLimit
         ? await fetchListings(m, cfg.search, key, 1, testLimit)
-        : await fetchListings(m, cfg.search, key, Math.max(1, Math.min(20, budget - calls)));
+        : await fetchListings(m, cfg.search, key, cfg.rentcastListingsOnly ? 1 : Math.max(1, Math.min(20, budget - calls)));
       calls += Math.max(1, Math.ceil(found.length / 500));
       console.log(`${m.city}, ${m.state}: ${found.length} active listings`);
       found.sort((a, b) => (b.daysOnMarket ?? 0) - (a.daysOnMarket ?? 0));
@@ -326,7 +331,7 @@ export async function main() {
         const hasRent = !!l.monthlyRent;
         // Second call (county tax record) only for homes that look like they could work
         // with an estimated tax bill. Saves roughly half the calls.
-        if (hasRent && !c.taxChecked && (testLimit || looksPromising(l, cfg))) {
+        if (hasRent && !cfg.rentcastListingsOnly && !c.taxChecked && (testLimit || looksPromising(l, cfg))) {
           if (!canCall()) { waiting++; listings.push(l); continue; }
           const t = await fetchTaxAndHoa(l, key);
           calls++;
@@ -335,7 +340,7 @@ export async function main() {
           c.taxChecked = true;
         }
         // Value estimate (for the rental-vs-flip label and flip profit), also only for promising homes.
-        if (hasRent && c.taxChecked && !c.valueChecked && !rentFile[rentKey(l)]?.value && (testLimit || looksPromising(l, cfg)) && canCall()) {
+        if (hasRent && !cfg.rentcastListingsOnly && c.taxChecked && !c.valueChecked && !rentFile[rentKey(l)]?.value && (testLimit || looksPromising(l, cfg)) && canCall()) {
           c.value = await fetchValue(l, key);
           c.valueChecked = true;
           calls++;
