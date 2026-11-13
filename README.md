@@ -30,6 +30,10 @@ Each lead gets a **Deal type**. If RentCast values the house (as-is value, used 
 
 All three numbers are in `config.json` under `flip`. Leads are still picked by the rental rules; the flip number is extra information. The value lookup is 1 more API call per promising home.
 
+## Rent from your own script
+
+`config.json` → `"rentSource": "file"` means RentCast is never asked for rent. Each run writes `rents/needed.json` (every listing that passes the filters, with a `key`, address, beds, baths, sqft and `hasRent`). Your script writes `rents/rents.json` as `{ "<key>": { "rent": 1450, "low": 1300, "high": 1600 } }` and pushes; the push reruns the workflow with 0 RentCast calls. See `rents/README.txt`. Set `"rentSource": "rentcast"` to go back (rents.json still overrides RentCast where present). RentCast is still used for the listing search, tax record and value estimate.
+
 ## Condition from photos (Claude)
 
 Commit a house's listing photos to `photos/<folder>/` in this repo (jpg, png, webp or gif, under 5 MB each). The folder name is the address with dashes, e.g. `photos/238-Helen-St-Cincinnati-OH-45219/`. Every run writes `out/photo-folders.txt` with the exact folder name for each lead.

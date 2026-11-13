@@ -25,6 +25,47 @@ const LAST_SCAN = join("data", "listings.json");
 // Committed copy of the first real scan, used only until data/listings.json exists.
 const SEED_SCAN = join("seed", "listings.json");
 
+// Rent from your own script. rents/needed.json lists what to look up; rents/rents.json is what comes back:
+//   { "238-Helen-St-Cincinnati-OH-45219": { "rent": 3300, "low": 3000, "high": 3600 }, ... }
+const RENTS_DIR = "rents";
+type RentEntry = { rent: number; low?: number; high?: number; source?: string; date?: string };
+const rentKey = (l: Listing) => photoFolderName(l);
+
+function loadRentFile(): Record<string, RentEntry> {
+  const p = join(ROOT, RENTS_DIR, "rents.json");
+  if (!existsSync(p)) return {};
+  const raw = JSON.parse(readFileSync(p, "utf8"));
+  const out: Record<string, RentEntry> = {};
+  for (const [k, v] of Object.entries<any>(raw)) {
+    const rent = Number(typeof v === "number" ? v : v?.rent);
+    if (rent > 0) out[k] = typeof v === "number" ? { rent } : { ...v, rent };
+  }
+  console.log(`Rents from your script (rents/rents.json): ${Object.keys(out).length}`);
+  return out;
+}
+
+function applyFileRent(l: Listing, rents: Record<string, RentEntry>) {
+  const r = rents[rentKey(l)];
+  if (!r) return;
+  l.monthlyRent = r.rent;
+  l.rentLow = r.low ?? r.rent;
+  l.rentHigh = r.high ?? r.rent;
+}
+
+function writeRentsNeeded(listings: Listing[], rents: Record<string, RentEntry>, cfg: Config) {
+  const houses = listings
+    .filter((l) => !passesSearch(l, cfg.search))
+    .map((l) => ({
+      key: rentKey(l),
+      address: `${l.address}, ${l.city}, ${l.state} ${l.zip}`.trim(),
+      street: l.address, city: l.city, state: l.state, zip: l.zip,
+      propertyType: l.propertyType, beds: l.beds ?? null, baths: l.baths ?? null, sqft: l.sqft ?? null,
+      listPrice: l.price,
+      hasRent: !!rents[rentKey(l)],
+    }));
+  writeFileSync(join(ROOT, "out", "rents-needed.json"), JSON.stringify({ houses }, null, 2) + "\n");
+}
+
 function loadLastScan(): Listing[] {
   for (const p of [LAST_SCAN, SEED_SCAN]) {
     if (existsSync(join(ROOT, p))) {
@@ -47,6 +88,8 @@ interface Config {
   offer: OfferRules;
   flip: FlipAssumptions;
   photos: PhotoConfig;
+  // "file" = rent only from rents/rents.json (your own script); "rentcast" = RentCast, with rents.json overriding it
+  rentSource?: "rentcast" | "file";
 }
 
 export interface Lead extends Listing {
@@ -197,6 +240,7 @@ export async function main() {
   mkdirSync(join(ROOT, "out"), { recursive: true });
   const cache: Record<string, CacheEntry> = existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, "utf8")) : {};
 
+  const rentFile = loadRentFile();
   let listings: Listing[] = [];
   const csv = arg("csv");
   if (csv) {
@@ -245,19 +289,25 @@ export async function main() {
         // Only spend API calls on listings that pass the free filters first.
         if (passesSearch(l, cfg.search)) { listings.push(l); continue; }
         const c = (cache[l.id] ??= { fetchedAt: "", firstSeen: today });
-        const stale = !c.fetchedAt || (Date.parse(today) - Date.parse(c.fetchedAt)) / 864e5 > REFRESH_DAYS;
-        if (stale) {
-          if (!canCall()) { waiting++; continue; }
-          c.rent = await fetchRent(l, key);
-          calls++;
-          c.fetchedAt = today;
-          c.tax = undefined;
-          c.taxChecked = false;
+        if (rentFile[rentKey(l)]) {
+          // Rent from your own script (rents/rents.json): no RentCast rent call.
+        } else if (cfg.rentSource !== "file") {
+          const stale = !c.fetchedAt || (Date.parse(today) - Date.parse(c.fetchedAt)) / 864e5 > REFRESH_DAYS;
+          if (stale) {
+            if (!canCall()) { waiting++; continue; }
+            c.rent = await fetchRent(l, key);
+            calls++;
+            c.fetchedAt = today;
+            c.tax = undefined;
+            c.taxChecked = false;
+          }
+          if (c.rent) { l.monthlyRent = c.rent.rent; l.rentLow = c.rent.low; l.rentHigh = c.rent.high; }
         }
-        if (c.rent) { l.monthlyRent = c.rent.rent; l.rentLow = c.rent.low; l.rentHigh = c.rent.high; }
+        applyFileRent(l, rentFile);
+        const hasRent = !!l.monthlyRent;
         // Second call (county tax record) only for homes that look like they could work
         // with an estimated tax bill. Saves roughly half the calls.
-        if (c.rent && !c.taxChecked && (testLimit || looksPromising(l, cfg))) {
+        if (hasRent && !c.taxChecked && (testLimit || looksPromising(l, cfg))) {
           if (!canCall()) { waiting++; listings.push(l); continue; }
           const t = await fetchTaxAndHoa(l, key);
           calls++;
@@ -266,7 +316,7 @@ export async function main() {
           c.taxChecked = true;
         }
         // Value estimate (for the rental-vs-flip label and flip profit), also only for promising homes.
-        if (c.rent && c.taxChecked && !c.valueChecked && (testLimit || looksPromising(l, cfg)) && canCall()) {
+        if (hasRent && c.taxChecked && !c.valueChecked && (testLimit || looksPromising(l, cfg)) && canCall()) {
           c.value = await fetchValue(l, key);
           c.valueChecked = true;
           calls++;
@@ -291,6 +341,9 @@ export async function main() {
       writeFileSync(join(ROOT, LAST_SCAN), JSON.stringify([...byId.values()]));
     }
   }
+
+  for (const l of listings) applyFileRent(l, rentFile);
+  writeRentsNeeded(listings, rentFile, cfg);
 
   const { leads, rejected } = evaluate(listings, cfg, today, (l) => cache[l.id]?.firstSeen ?? today, Number(arg("limit") ?? 0) > 0);
   writeFileSync(cachePath, JSON.stringify(cache, null, 1));

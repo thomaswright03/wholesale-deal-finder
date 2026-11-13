@@ -5,10 +5,10 @@ on:
   # Turn it back on after upgrading: remove the # on the two lines below.
   # schedule:
   #   - cron: "0 11 * * *" # 6 AM Eastern (7 AM during daylight time)
-  # Pushing new photos rates them right away, with no RentCast calls.
+  # Pushing new photos or rents/rents.json reruns the deal math right away, with no RentCast calls.
   push:
     branches: [main]
-    paths: ["photos/**"]
+    paths: ["photos/**", "rents/rents.json"]
   workflow_dispatch:
     inputs:
       market:
@@ -66,14 +66,15 @@ jobs:
 
       # Save the list of houses that need photos into the repo (photos/needed.json).
       # Pushes made with the workflow's own token don't start another run.
-      - name: Update photos/needed.json
+      - name: Update photos/needed.json and rents/needed.json
         run: |
           cp out/needed.json photos/needed.json
+          mkdir -p rents && cp out/rents-needed.json rents/needed.json
           git config user.name "deal-finder-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add photos/needed.json
+          git add photos/needed.json rents/needed.json
           if git diff --cached --quiet; then echo "No change"; exit 0; fi
-          git commit -m "Update photos/needed.json"
+          git commit -m "Update photos/needed.json and rents/needed.json"
           git pull --rebase -q && git push
 
       - uses: actions/upload-artifact@v4
