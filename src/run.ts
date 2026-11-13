@@ -28,7 +28,7 @@ const SEED_SCAN = join("seed", "listings.json");
 // Rent from your own script. rents/needed.json lists what to look up; rents/rents.json is what comes back:
 //   { "238-Helen-St-Cincinnati-OH-45219": { "rent": 3300, "low": 3000, "high": 3600 }, ... }
 const RENTS_DIR = "rents";
-type RentEntry = { rent: number; low?: number; high?: number; source?: string; date?: string };
+type RentEntry = { rent: number; low?: number; high?: number; value?: number; source?: string; date?: string };
 const rentKey = (l: Listing) => photoFolderName(l);
 
 function loadRentFile(): Record<string, RentEntry> {
@@ -50,6 +50,8 @@ function applyFileRent(l: Listing, rents: Record<string, RentEntry>) {
   l.monthlyRent = r.rent;
   l.rentLow = r.low ?? r.rent;
   l.rentHigh = r.high ?? r.rent;
+  // Optional as-is value / ARV from your script; used for flip profit (skips the RentCast value call).
+  if (Number(r.value) > 0) l.value = Number(r.value);
 }
 
 function writeRentsNeeded(listings: Listing[], rents: Record<string, RentEntry>, cfg: Config) {
@@ -60,7 +62,7 @@ function writeRentsNeeded(listings: Listing[], rents: Record<string, RentEntry>,
       address: `${l.address}, ${l.city}, ${l.state} ${l.zip}`.trim(),
       street: l.address, city: l.city, state: l.state, zip: l.zip,
       propertyType: l.propertyType, beds: l.beds ?? null, baths: l.baths ?? null, sqft: l.sqft ?? null,
-      listPrice: l.price,
+      listPrice: l.price, daysOnMarket: l.daysOnMarket ?? null,
       hasRent: !!rents[rentKey(l)],
     }));
   writeFileSync(join(ROOT, "out", "rents-needed.json"), JSON.stringify({ houses }, null, 2) + "\n");
@@ -316,7 +318,7 @@ export async function main() {
           c.taxChecked = true;
         }
         // Value estimate (for the rental-vs-flip label and flip profit), also only for promising homes.
-        if (hasRent && c.taxChecked && !c.valueChecked && (testLimit || looksPromising(l, cfg)) && canCall()) {
+        if (hasRent && c.taxChecked && !c.valueChecked && !rentFile[rentKey(l)]?.value && (testLimit || looksPromising(l, cfg)) && canCall()) {
           c.value = await fetchValue(l, key);
           c.valueChecked = true;
           calls++;

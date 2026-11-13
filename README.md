@@ -30,9 +30,17 @@ Each lead gets a **Deal type**. If RentCast values the house (as-is value, used 
 
 All three numbers are in `config.json` under `flip`. Leads are still picked by the rental rules; the flip number is extra information. The value lookup is 1 more API call per promising home.
 
+## Daily schedule and where results land
+
+The workflow runs every day at 11:00 UTC. With rent coming from your script, a day costs about 1 RentCast call for the listing search plus tax/value lookups for the most promising homes, capped at 4 per run and 45 per billing period (`maxApiCallsPerRun`, `maxApiCallsPerMonth`). Once the period's calls are used it makes 0 calls and reuses the last scan.
+
+Every run commits the newest results to `latest/leads.xlsx` and `latest/cards.html`. To email them each morning, add repo secrets `MAIL_USERNAME` and `MAIL_PASSWORD` (a Gmail address and an app password for it) and `MAIL_TO` (comma-separated recipients). Without those secrets the email step is skipped.
+
+A typical day: 6 AM scan → `rents/needed.json` and `photos/needed.json` update → you run your rent and photo scripts and push → the push reruns the deal math and rates new photos → `latest/` updates.
+
 ## Rent from your own script
 
-`config.json` → `"rentSource": "file"` means RentCast is never asked for rent. Each run writes `rents/needed.json` (every listing that passes the filters, with a `key`, address, beds, baths, sqft and `hasRent`). Your script writes `rents/rents.json` as `{ "<key>": { "rent": 1450, "low": 1300, "high": 1600 } }` and pushes; the push reruns the workflow with 0 RentCast calls. See `rents/README.txt`. Set `"rentSource": "rentcast"` to go back (rents.json still overrides RentCast where present). RentCast is still used for the listing search, tax record and value estimate.
+`config.json` → `"rentSource": "file"` means RentCast is never asked for rent. Each run writes `rents/needed.json` (every listing that passes the filters, with a `key`, address, beds, baths, sqft and `hasRent`). Your script writes `rents/rents.json` as `{ "<key>": { "rent": 1450, "low": 1300, "high": 1600 } }` and pushes; the push reruns the workflow with 0 RentCast calls. See `rents/README.txt`. An entry can also carry `"value"` (as-is value / ARV); that fills Flip profit and skips the RentCast value call. Set `"rentSource": "rentcast"` to go back (rents.json still overrides RentCast where present). RentCast is still used for the listing search, tax record and value estimate.
 
 ## Condition from photos (Claude)
 

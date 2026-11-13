@@ -1,10 +1,11 @@
 name: Daily deal scan
 
 on:
-  # Daily schedule paused while on RentCast's free plan (50 calls/month).
-  # Turn it back on after upgrading: remove the # on the two lines below.
-  # schedule:
-  #   - cron: "0 11 * * *" # 6 AM Eastern (7 AM during daylight time)
+  # Daily scan. Sized for RentCast's free plan: rent comes from your own script (rents/rents.json),
+  # so a day is about 1 call for listings + a few tax/value lookups, capped by maxApiCallsPerRun (4)
+  # and maxApiCallsPerMonth (45) in config.json. When the month's calls are used up it makes 0 calls.
+  schedule:
+    - cron: "0 11 * * *" # 6 AM Eastern (7 AM during daylight time)
   # Pushing new photos or rents/rents.json reruns the deal math right away, with no RentCast calls.
   push:
     branches: [main]
@@ -30,6 +31,8 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
+    env:
+      MAIL_TO: ${{ secrets.MAIL_TO }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -55,7 +58,7 @@ jobs:
           RENTCAST_API_KEY: ${{ secrets.RENTCAST_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           MARKET: ${{ inputs.market }}
-          LIMIT: ${{ inputs.limit || '0' }}
+          LIMIT: ${{ github.event_name == 'schedule' && 'all' || inputs.limit || '0' }}
         run: |
           if [ "$LIMIT" != "0" ] && [ -z "$RENTCAST_API_KEY" ]; then echo "Add the RENTCAST_API_KEY repo secret first"; exit 1; fi
           if [ -z "$ANTHROPIC_API_KEY" ]; then echo "No ANTHROPIC_API_KEY repo secret; photos won't be rated"; fi
@@ -66,16 +69,36 @@ jobs:
 
       # Save the list of houses that need photos into the repo (photos/needed.json).
       # Pushes made with the workflow's own token don't start another run.
-      - name: Update photos/needed.json and rents/needed.json
+      # Also keep the newest spreadsheet and cards at a fixed spot: latest/leads.xlsx and latest/cards.html.
+      - name: Update needed.json files and latest/
         run: |
           cp out/needed.json photos/needed.json
           mkdir -p rents && cp out/rents-needed.json rents/needed.json
+          mkdir -p latest && cp out/latest.html latest/cards.html && cp "$(ls -t out/leads-*.xlsx | head -1)" latest/leads.xlsx
           git config user.name "deal-finder-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add photos/needed.json rents/needed.json
+          git add photos/needed.json rents/needed.json latest/
           if git diff --cached --quiet; then echo "No change"; exit 0; fi
-          git commit -m "Update photos/needed.json and rents/needed.json"
+          git commit -m "Update leads, photos/needed.json and rents/needed.json"
           git pull --rebase -q && git push
+
+      # Morning email with the spreadsheet and cards attached (daily scan only).
+      # Turns on once these repo secrets exist: MAIL_USERNAME + MAIL_PASSWORD (a Gmail address and
+      # its app password) and MAIL_TO (comma-separated recipients).
+      - name: Email the leads
+        if: github.event_name == 'schedule' && env.MAIL_TO != ''
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          from: Deal Finder <${{ secrets.MAIL_USERNAME }}>
+          to: ${{ secrets.MAIL_TO }}
+          subject: Wholesale leads for today
+          body: Today's leads are attached. Open cards.html on your phone for call cards.
+          attachments: latest/leads.xlsx,latest/cards.html
 
       - uses: actions/upload-artifact@v4
         with:

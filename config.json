@@ -1,5 +1,5 @@
 {
-  "maxApiCallsPerRun": 45,
+  "maxApiCallsPerRun": 4,
   "maxApiCallsPerMonth": 45,
   "billingDay": 12,
   "markets": [
