@@ -535,8 +535,8 @@
       "state": "OH",
       "zip": "45238",
       "folder": "photos/1108-Morado-Dr-Cincinnati-OH-45238",
-      "hasPhotos": true,
-      "rated": true,
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -623,8 +623,8 @@
       "state": "OH",
       "zip": "45214",
       "folder": "photos/845-Charlotte-St-Cincinnati-OH-45214",
-      "hasPhotos": true,
-      "rated": true,
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -811,7 +811,7 @@
       "zip": "45223",
       "folder": "photos/4417-Colerain-Ave-Cincinnati-OH-45223",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -822,7 +822,7 @@
       "zip": "45204",
       "folder": "photos/1017-Underwood-Pl-Cincinnati-OH-45204",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -844,7 +844,7 @@
       "zip": "45211",
       "folder": "photos/2460-Montana-Ave-Cincinnati-OH-45211",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -855,7 +855,7 @@
       "zip": "45204",
       "folder": "photos/3196-River-Rd-Cincinnati-OH-45204",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -866,7 +866,7 @@
       "zip": "45204",
       "folder": "photos/791-Sedam-St-Cincinnati-OH-45204",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -877,7 +877,7 @@
       "zip": "45205",
       "folder": "photos/4112-Vinedale-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -888,7 +888,7 @@
       "zip": "45227",
       "folder": "photos/5128-Blaesi-St-Cincinnati-OH-45227",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -899,7 +899,7 @@
       "zip": "45205",
       "folder": "photos/922-Fairbanks-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -910,7 +910,7 @@
       "zip": "45214",
       "folder": "photos/1767-Fairmount-Ave-Cincinnati-OH-45214",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -921,7 +921,7 @@
       "zip": "45208",
       "folder": "photos/2120-Pogue-Ave-Cincinnati-OH-45208",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -932,7 +932,7 @@
       "zip": "45211",
       "folder": "photos/3116-Mchenry-Ave-Cincinnati-OH-45211",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -943,7 +943,7 @@
       "zip": "45211",
       "folder": "photos/2484-Montana-Ave-Cincinnati-OH-45211",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -954,7 +954,7 @@
       "zip": "45205",
       "folder": "photos/3622-Laclede-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -1009,7 +1009,7 @@
       "zip": "45215",
       "folder": "photos/87-Grove-Rd-Cincinnati-OH-45215",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
