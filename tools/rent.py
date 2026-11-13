@@ -265,6 +265,22 @@ def scrape_one(page, house: dict) -> dict:
     return result
 
 
+def hud_rent(house: dict) -> int | None:
+    """The HUD backup rent the scan will use (reference/hud-safmr-*.json). Display only."""
+    if "multi" in str(house.get("propertyType", "")).lower():
+        return None
+    ref = Path(__file__).resolve().parent.parent / "reference"
+    files = sorted(ref.glob("hud-safmr-*.json"))
+    if not files:
+        return None
+    row = json.loads(files[-1].read_text())["zips"].get(str(house.get("zip", ""))[:5])
+    if not row:
+        return None
+    beds = house.get("beds")
+    beds = 3 if beds is None else max(0, min(4, round(beds)))
+    return row[beds]
+
+
 def scrape_all(
     houses: list[dict],
     existing: dict,
@@ -312,7 +328,11 @@ def scrape_all(
                         f"  Rent: ${merged['rent']:,}/month"
                     )
                 else:
-                    print("  ! Rent not found")
+                    hud = hud_rent(house)
+                    if hud:
+                        print(f"  Rent: not on Property Genie -> scan will use HUD ${hud:,}/month")
+                    else:
+                        print("  ! Rent not found (no HUD rent either)")
 
                 if "propertyTax" in merged:
                     print(
