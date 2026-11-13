@@ -52,7 +52,7 @@
       "zip": "45231",
       "folder": "photos/1263-W-Galbraith-Rd-Cincinnati-OH-45231",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "A"
     },
     {
@@ -74,7 +74,7 @@
       "zip": "45207",
       "folder": "photos/1626-Brewster-Ave-Cincinnati-OH-45207",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "A"
     },
     {
@@ -404,7 +404,7 @@
       "zip": "45227",
       "folder": "photos/6014-Bramble-Ave-Cincinnati-OH-45227",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -547,7 +547,7 @@
       "zip": "45202",
       "folder": "photos/2326-Gladstone-Ave-Cincinnati-OH-45202",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -580,7 +580,7 @@
       "zip": "45205",
       "folder": "photos/1242-Quebec-Rd-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -591,7 +591,7 @@
       "zip": "45205",
       "folder": "photos/4034-Fawnhill-Ln-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -635,7 +635,7 @@
       "zip": "45214",
       "folder": "photos/532-York-St-Cincinnati-OH-45214",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -646,7 +646,7 @@
       "zip": "45238",
       "folder": "photos/964-Seibel-Ln-Cincinnati-OH-45238",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -657,7 +657,7 @@
       "zip": "45205",
       "folder": "photos/4355-St-Lawrence-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -668,7 +668,7 @@
       "zip": "45225",
       "folder": "photos/1773-Denham-St-Cincinnati-OH-45225",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -679,7 +679,7 @@
       "zip": "45205",
       "folder": "photos/4311-Delridge-Dr-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -690,7 +690,7 @@
       "zip": "45211",
       "folder": "photos/3072-Bracken-Woods-Ln-Cincinnati-OH-45211",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -701,7 +701,7 @@
       "zip": "45238",
       "folder": "photos/3040-Boudinot-Ave-Cincinnati-OH-45238",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -712,7 +712,7 @@
       "zip": "45205",
       "folder": "photos/969-Mansion-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -723,7 +723,7 @@
       "zip": "45205",
       "folder": "photos/3814-St-Lawrence-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -734,7 +734,7 @@
       "zip": "45223",
       "folder": "photos/4728-Kirby-Ave-Cincinnati-OH-45223",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -745,7 +745,7 @@
       "zip": "45205",
       "folder": "photos/1216-Carson-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -756,7 +756,7 @@
       "zip": "45204",
       "folder": "photos/735-State-Ave-Cincinnati-OH-45204",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -767,7 +767,7 @@
       "zip": "45239",
       "folder": "photos/2717-W-North-Bend-Rd-Cincinnati-OH-45239",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -778,7 +778,7 @@
       "zip": "45238",
       "folder": "photos/1723-Ashbrook-Dr-Cincinnati-OH-45238",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -800,7 +800,7 @@
       "zip": "45205",
       "folder": "photos/1300-Rutledge-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -965,7 +965,7 @@
       "zip": "45204",
       "folder": "photos/2154-Staebler-St-Cincinnati-OH-45204",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -987,7 +987,7 @@
       "zip": "45205",
       "folder": "photos/3217-W-Eighth-St-Cincinnati-OH-45205",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -998,7 +998,7 @@
       "zip": "45214",
       "folder": "photos/2129-Colerain-Ave-Cincinnati-OH-45214",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -1020,7 +1020,7 @@
       "zip": "45229",
       "folder": "photos/835-Blair-Ave-Cincinnati-OH-45229",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
