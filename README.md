@@ -36,6 +36,10 @@ Output goes to `out/`: `leads-YYYY-MM-DD.xlsx` (Leads, Skipped with the reason, 
 
 **Checking rent on Zillow:** each card has a "Check rent on Zillow" button. It copies the address and opens Zillow's [Price My Rental](https://www.zillow.com/rental-manager/price-my-rental/) page. Type the median rent you see into the card and the offers recalculate with the same math (from `src/deal.ts`). If the rent kills the deal, the card says why. This is done by hand on purpose: scraping Zillow breaks their terms and gets blocked.
 
+## Daily run on GitHub
+
+`.github/workflows/daily.yml` runs every morning at 11:00 UTC (6 AM Eastern) and can be started by hand from the Actions tab ("Run workflow", optionally with one market). It needs the repo secret `RENTCAST_API_KEY` (Settings → Secrets and variables → Actions). Each run's spreadsheet and cards are attached to the run as a download called `leads-<number>`, kept 30 days. The rent/tax cache carries over between runs.
+
 ## Data source
 
 [RentCast](https://developers.rentcast.io) gives listings (with listing agent name and phone), rent estimates (median + range) and county tax records with one key. Rent and tax are cached in `data/cache.json` for 30 days, so after the first run a market only costs calls for new listings: 1 call per 500 listings, plus 2 calls per new listing.
@@ -56,4 +60,3 @@ Put the number in the card's Zillow rent box and the offers recalculate. Changes
 
 - Not yet run against the live RentCast API (no key here). The endpoint shapes follow their docs.
 - Condition / rehab estimate: not automated. The card's Photos button opens the Zillow page so you judge it by eye. Fix-and-flip math isn't in yet; this is rentals only.
-- Daily schedule: run `npm start` from cron or a scheduled task once a key is in.
