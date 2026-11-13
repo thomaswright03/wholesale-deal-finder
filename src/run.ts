@@ -145,6 +145,17 @@ async function ratePhotos(leads: Lead[], cfg: Config) {
   writeFileSync(ratingsPath, JSON.stringify(ratings, null, 1));
   writeFileSync(join(ROOT, "out", "photo-folders.txt"),
     leads.map((l) => `${PHOTOS_DIR}/${l.photoFolder}/   ${l.condition ? conditionLabel(l.condition.condition) : "(no rating yet)"}`).join("\n") + "\n");
+  // The to-do list for a photo downloader: every lead, where its photos go, and whether they're there yet.
+  // The workflow commits this to photos/needed.json.
+  const needed = leads.map((l) => ({
+    address: `${l.address}, ${l.city}, ${l.state} ${l.zip}`.trim(),
+    street: l.address, city: l.city, state: l.state, zip: l.zip,
+    folder: `${PHOTOS_DIR}/${l.photoFolder}`,
+    hasPhotos: listPhotos(join(ROOT, PHOTOS_DIR, l.photoFolder!), 1).length > 0,
+    rated: !!l.condition,
+    tier: l.deal.tier,
+  }));
+  writeFileSync(join(ROOT, "out", "needed.json"), JSON.stringify({ houses: needed }, null, 2) + "\n");
   console.log(`Photos: ${withPhotos} of ${leads.length} leads have photos; rated ${rated} new, ${cached} from cache` +
     (skippedNoKey ? `, ${skippedNoKey} waiting for ANTHROPIC_API_KEY` : "") + (capped ? `, ${capped} over the per-run cap` : ""));
 }

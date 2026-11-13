@@ -20,7 +20,7 @@ on:
         default: "0"
 
 permissions:
-  contents: read
+  contents: write # to commit photos/needed.json
 
 jobs:
   scan:
@@ -58,6 +58,18 @@ jobs:
           if [ -n "$MARKET" ]; then ARGS+=(--market "$MARKET"); fi
           if [ "$LIMIT" != "all" ]; then ARGS+=(--limit "${LIMIT:-1}"); fi
           node src/run.ts "${ARGS[@]}"
+
+      # Save the list of houses that need photos into the repo (photos/needed.json).
+      # Pushes made with the workflow's own token don't start another run.
+      - name: Update photos/needed.json
+        run: |
+          cp out/needed.json photos/needed.json
+          git config user.name "deal-finder-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add photos/needed.json
+          if git diff --cached --quiet; then echo "No change"; exit 0; fi
+          git commit -m "Update photos/needed.json"
+          git pull --rebase -q && git push
 
       - uses: actions/upload-artifact@v4
         with:
