@@ -1,6 +1,15 @@
 {
   "houses": [
     {
+      "key": "960-Delhi-Ave-Cincinnati-OH-45204",
+      "address": "960 Delhi Ave, Cincinnati, OH 45204",
+      "street": "960 Delhi Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45204",
+      "hasRent": false
+    },
+    {
       "key": "238-Helen-St-Cincinnati-OH-45219",
       "address": "238 Helen St, Cincinnati, OH 45219",
       "street": "238 Helen St",
