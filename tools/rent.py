@@ -267,8 +267,6 @@ def scrape_one(page, house: dict) -> dict:
 
 def hud_rent(house: dict) -> int | None:
     """The HUD backup rent the scan will use (reference/hud-safmr-*.json). Display only."""
-    if "multi" in str(house.get("propertyType", "")).lower():
-        return None
     ref = Path(__file__).resolve().parent.parent / "reference"
     files = sorted(ref.glob("hud-safmr-*.json"))
     if not files:
@@ -276,6 +274,9 @@ def hud_rent(house: dict) -> int | None:
     row = json.loads(files[-1].read_text())["zips"].get(str(house.get("zip", ""))[:5])
     if not row:
         return None
+    # Multi-family: the scan assumes a duplex of two 2-bedroom units.
+    if "multi" in str(house.get("propertyType", "")).lower():
+        return 2 * row[2]
     beds = house.get("beds")
     beds = 3 if beds is None else max(0, min(4, round(beds)))
     return row[beds]

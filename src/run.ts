@@ -61,13 +61,17 @@ function loadHud(): Hud | null {
 }
 
 function hudRent(l: Listing): number | undefined {
-  // HUD rents are per unit; a multi-family listing's bed count covers all units, so skip those.
-  if (/multi/i.test(l.propertyType ?? "")) return undefined;
   const row = loadHud()?.zips[String(l.zip ?? "").slice(0, 5)];
   if (!row) return undefined;
+  // HUD rents are per unit and listings don't give a unit count, so a multi-family
+  // is assumed to be a duplex of two 2-bedroom units (capped at tier B; see findLeads).
+  if (isMulti(l)) return 2 * row[2];
   const beds = Math.max(0, Math.min(4, Math.round(l.beds ?? 3)));
   return row[beds];
 }
+
+const isMulti = (l: Listing) => /multi/i.test(l.propertyType ?? "");
+const DUPLEX_GUESS = (l: Listing) => isMulti(l) && !!l.rentSource?.startsWith("HUD");
 
 function applyFileRent(l: Listing, rents: Record<string, RentEntry>) {
   const r = rents[rentKey(l)];
@@ -80,7 +84,7 @@ function applyFileRent(l: Listing, rents: Record<string, RentEntry>) {
     const hud = hudRent(l);
     if (hud) {
       l.monthlyRent = hud; l.rentLow = hud; l.rentHigh = hud;
-      l.rentSource = `HUD FMR ${loadHud()!.year}`;
+      l.rentSource = `HUD FMR ${loadHud()!.year}` + (isMulti(l) ? " (duplex guess)" : "");
     }
   }
   if (!r) return;
@@ -265,6 +269,8 @@ export function evaluate(listings: Listing[], cfg: Config, today: string, firstS
       cfg.buyer,
       cfg.offer,
     );
+    // Multi-family rent is a duplex guess until someone confirms the units: never tier A.
+    if (DUPLEX_GUESS(l) && deal.tier === "A") deal.tier = "B";
     if (deal.qualifies || showAll) {
       const type = dealType(l.price, l.value, cfg.flip);
       const flip = type === "Flip" && l.value ? flipProfit(l.value, deal.buyerMaxPrice, l.sqft, cfg.flip) : undefined;
