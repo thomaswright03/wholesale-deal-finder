@@ -35,7 +35,6 @@ MIN_FILES = 5
 MAX_BYTES = 5 * 1024 * 1024
 OK_EXT = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
 
-# listing gallery JSON only — not every cdn-redfin URL on the page
 PHOTOURLS = re.compile(
     r'"photoUrls"\s*:\s*\{[^}]*?"bigphoto"\s*:\s*"(https://ssl\.cdn-redfin\.com/photo/[^"]+)"',
     re.S)
@@ -52,7 +51,6 @@ CARDS = ["a[href*='/home/']", ".SearchResultCard a"]
 GALLERY = ["button[data-testid='hero-photo-count']", "[data-rf-test-name*='photo']",
            "button[aria-label*='photo' i]", "a[href*='photogallery']"]
 
-# only images inside the listing gallery / hero — not similar homes
 DOM_JS = """() => {
   const roots = document.querySelectorAll(
     '[class*="MediaBrowser"], [class*="media-browser"], [class*="PhotoCarousel"],'
@@ -79,7 +77,6 @@ DOM_JS = """() => {
 # ---------------------------------------------------------------- repo
 
 def find_repo(explicit=None):
-    """Repo root: explicit flag, else nearest ancestor with .git or the queue."""
     if explicit:
         return pathlib.Path(explicit).expanduser().resolve()
     here = pathlib.Path(__file__).resolve().parent
@@ -171,7 +168,6 @@ def photo_key(url):
 
 
 def listing_only(urls):
-    """Keep the largest /photo/{id}/ cluster — that's this listing, not comps."""
     groups = defaultdict(list)
     for u in urls:
         m = SET_ID.search(u)
@@ -194,7 +190,6 @@ def extract(html, dom):
         for node in (data if isinstance(data, list) else [data]):
             if not isinstance(node, dict):
                 continue
-            # only the listing's own schema, not related listings
             types = node.get("@type") or ""
             if isinstance(types, list):
                 types = " ".join(types)
@@ -221,7 +216,6 @@ def extract(html, dom):
 
 
 def harvest(driver, url, cap):
-    """Open a listing, walk the gallery, return up to `cap` CDN urls."""
     driver.get(url)
     time.sleep(3)
     if blocked(driver):
@@ -255,7 +249,6 @@ def harvest(driver, url, cap):
 # ---------------------------------------------------------------- download
 
 def download(urls, folder, delay):
-    """Save into folder as 01, 02, ... Skipping oversize or broken files."""
     folder.mkdir(parents=True, exist_ok=True)
     s = requests.Session()
     s.headers.update({"user-agent": UA, "referer": "https://www.redfin.com/"})
