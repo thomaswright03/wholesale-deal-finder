@@ -4,17 +4,19 @@
 Fill rents/rents.json from Property Genie.
 
 Collects:
-  - Est. Rent (LTR): Monthly long-term rental estimate
-  - Last Tax Paid: Annual property tax amount
+  - Est. Rent (LTR): monthly long-term rent (some houses show N/A)
+  - Estimate: value, when shown
+  - Annual property tax, estimated from Last Tax Valuation x Property Tax Rate
+    (Ohio valuations are 35% of market value, so they are scaled up first)
 
 Reads rents/needed.json and looks up every house missing
 either rent or property tax information.
 
 Usage:
-  python rents/fetch_rents.py
-  python rents/fetch_rents.py --push
-  python rents/fetch_rents.py --dry-run
-  python rents/fetch_rents.py --limit 10
+  python3 tools/rent.py
+  python3 tools/rent.py --push
+  python3 tools/rent.py --dry-run
+  python3 tools/rent.py --limit 10
 """
 
 from __future__ import annotations
@@ -34,19 +36,15 @@ from playwright.sync_api import (
 
 PAGE_URL = "https://www.propertygenie.us/property-insight"
 
-LTR_RE = re.compile(
-    r"Est\.?\s*Rent\s*\(LTR\)",
-    re.I,
-)
+# Before any search the page shows a built-in sample house
+# ("3126 Valley View Dr, Arnold, CA", rent $2,436). We only read numbers
+# once the address under "Property Analysis Results" is the one we searched.
+RESULTS_HEADING = "Property Analysis Results"
 
-TAX_RE = re.compile(
-    r"Last\s+Tax\s+Paid",
-    re.I,
-)
-
-MONEY_RE = re.compile(
-    r"\$\s*([\d,]+(?:\.\d{2})?)"
-)
+# Ohio taxes are charged on the assessed value, which is 35% of market value.
+# Property Genie's "Last Tax Valuation" is that assessed value for Ohio houses,
+# and "Property Tax Rate" is the rate on market value.
+ASSESSED_SHARE = {"OH": 0.35}
 
 
 def find_rents_dir() -> Path:
@@ -164,157 +162,105 @@ def as_int(value) -> int | None:
     )
 
 
-def extract_label_value(page, pattern) -> int | None:
-    """
-    Finds a page label and extracts the dollar amount
-    displayed next to or underneath it.
-    """
+def results_text(page) -> str:
+    """Text of the results section (address line first)."""
+    text = page.inner_text("body")
+    i = text.find(RESULTS_HEADING)
+    return text[i + len(RESULTS_HEADING):] if i >= 0 else ""
 
-    labels = page.get_by_text(pattern)
 
-    if labels.count() == 0:
+def same_house(result_address: str, street: str) -> bool:
+    """True when the result is the house we searched (number + street name)."""
+    want = street.lower().split()
+    got = result_address.lower().replace(",", " ").split()
+    return len(want) >= 2 and got[:2] == want[:2]
+
+
+def field(text: str, label: str) -> str | None:
+    """Value printed under a label, e.g. 'Est. Rent (LTR)\n\n$1,450'."""
+    m = re.search(re.escape(label) + r"\s*\n+\s*([^\n]+)", text)
+    return m.group(1).strip() if m else None
+
+
+def money(value: str | None) -> int | None:
+    if not value:
         return None
-
-    label = labels.first
-
-    candidates = []
-
-    # First try the next sibling.
-    try:
-        sibling = label.locator(
-            "xpath=following-sibling::*[1]"
-        )
-
-        if sibling.count():
-            candidates.append(
-                sibling.inner_text(timeout=2000)
-            )
-    except Exception:
-        pass
-
-    # Then try the immediate parent.
-    try:
-        parent = label.locator("xpath=..")
-
-        candidates.append(
-            parent.inner_text(timeout=2000)
-        )
-    except Exception:
-        pass
-
-    # Finally try the grandparent.
-    try:
-        grandparent = label.locator("xpath=../..")
-
-        candidates.append(
-            grandparent.inner_text(timeout=2000)
-        )
-    except Exception:
-        pass
-
-    for candidate in candidates:
-        if not candidate:
-            continue
-
-        match = MONEY_RE.search(candidate)
-
-        if match:
-            amount = as_int(match.group(1))
-
-            if amount:
-                return amount
-
-    return None
+    m = re.search(r"\$\s*([\d,]+)", value)
+    return int(m.group(1).replace(",", "")) if m else None
 
 
-def scrape_one(page, address: str) -> dict:
+def percent(value: str | None) -> float | None:
+    if not value:
+        return None
+    m = re.search(r"([\d.]+)\s*%", value)
+    return float(m.group(1)) if m else None
+
+
+def scrape_one(page, house: dict) -> dict:
     """
-    Searches Property Genie for one property
-    and extracts rent and property tax.
+    Searches Property Genie for one house and returns
+    rent, value and an annual property-tax estimate.
+    Returns {} if the page never showed this house.
     """
+    address = house["address"]
+    street = house.get("street") or address.split(",")[0]
 
-    page.goto(
-        PAGE_URL,
-        wait_until="domcontentloaded",
-        timeout=30000,
-    )
+    page.goto(PAGE_URL, wait_until="domcontentloaded", timeout=30000)
 
-    box = page.locator(
-        "input[placeholder*='property address' i]"
-    ).first
+    box = page.locator("input[placeholder*='property address' i]").first
+    box.wait_for(state="visible", timeout=15000)
 
-    box.wait_for(
-        state="visible",
-        timeout=15000,
-    )
-
+    # The box starts with the sample address in it, so clear it first.
     box.click()
-    box.fill("")
+    box.press("ControlOrMeta+a")
+    box.press("Backspace")
     box.type(address, delay=35)
 
-    # Select the address suggestion.
+    # Pick the suggestion for this house.
+    number = street.split()[0]
+    suggestion = page.locator(
+        ".pac-item, [role='option'], li"
+    ).filter(has_text=re.compile(r"^\s*" + re.escape(number) + r"\b")).first
     try:
-        page.wait_for_selector(
-            ".pac-item, [role='option'], [class*='suggestion']",
-            timeout=7000,
-        )
-
-        suggestion = page.locator(
-            ".pac-item, [role='option']"
-        ).first
-
+        suggestion.wait_for(state="visible", timeout=8000)
         suggestion.click()
-
     except PWTimeout:
-        box.press("Enter")
+        print("  ! No address suggestion; trying anyway.")
 
-    # Submit search.
-    page.get_by_role(
-        "button",
-        name=re.compile(r"^search$", re.I),
-    ).click()
+    page.get_by_role("button", name=re.compile(r"^search$", re.I)).click()
 
-    # Wait for rental estimate.
-    try:
-        page.wait_for_selector(
-            "text=/Est\\.?\\s*Rent\\s*\\(LTR\\)/i",
-            timeout=30000,
-        )
+    # Wait until the results show OUR house, not the sample one.
+    text = ""
+    deadline = time.time() + 30
+    while time.time() < deadline:
+        text = results_text(page)
+        first_line = text.strip().split("\n", 1)[0] if text.strip() else ""
+        if same_house(first_line, street) and "Last Tax Valuation" in text:
+            break
+        time.sleep(0.5)
+    else:
+        first_line = text.strip().split("\n", 1)[0] if text.strip() else "(nothing)"
+        print(f"  ! Results never showed this house (page shows: {first_line})")
+        return {}
 
-    except PWTimeout:
-        print("  ! Rent results did not appear.")
+    result: dict = {}
 
-    # Extract rental estimate.
-    rent = extract_label_value(
-        page,
-        LTR_RE,
-    )
-
-    # Wait briefly for the financial overview.
-    try:
-        page.get_by_text(
-            TAX_RE
-        ).first.wait_for(
-            state="visible",
-            timeout=10000,
-        )
-
-    except PWTimeout:
-        print("  ! Last Tax Paid label not found.")
-
-    # Extract annual property taxes.
-    property_tax = extract_label_value(
-        page,
-        TAX_RE,
-    )
-
-    result = {}
-
+    rent = money(field(text, "Est. Rent (LTR)"))
     if rent:
         result["rent"] = rent
 
-    if property_tax:
-        result["propertyTax"] = property_tax
+    value = money(field(text, "Estimate"))
+    if value:
+        result["value"] = value
+
+    valuation = money(field(text, "Last Tax Valuation"))
+    rate = percent(field(text, "Property Tax Rate"))
+    if valuation and rate:
+        share = ASSESSED_SHARE.get(str(house.get("state", "")).upper(), 1.0)
+        market = valuation / share
+        result["propertyTax"] = int(round(market * rate / 100))
+        result["taxValuation"] = valuation
+        result["taxRate"] = rate
 
     return result
 
@@ -350,7 +296,7 @@ def scrape_all(
             try:
                 got = scrape_one(
                     page,
-                    address,
+                    house,
                 )
 
                 # Preserve existing values.
