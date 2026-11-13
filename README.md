@@ -44,7 +44,7 @@ A typical day: 6 AM scan → `rents/needed.json` and `photos/needed.json` update
 
 ## Rent from your own script
 
-`config.json` → `"rentSource": "file"` means RentCast is never asked for rent. Each run writes `rents/needed.json` (every listing that passes the filters, with a `key`, address, beds, baths, sqft and `hasRent`). Your script writes `rents/rents.json` as `{ "<key>": { "rent": 1450, "low": 1300, "high": 1600 } }` and pushes; the push reruns the workflow with 0 RentCast calls. See `rents/README.txt`. An entry can also carry `"value"` (as-is value / ARV); that fills Flip profit and skips the RentCast value call. Set `"rentSource": "rentcast"` to go back (rents.json still overrides RentCast where present). RentCast is still used for the listing search, tax record and value estimate.
+`config.json` → `"rentSource": "file"` means RentCast is never asked for rent. Each run writes `rents/needed.json` (every listing that passes the filters, with a `key`, address, beds, baths, sqft and `hasRent`). Your script writes `rents/rents.json` as `{ "<key>": { "rent": 1450, "low": 1300, "high": 1600 } }` and pushes; the push reruns the workflow with 0 RentCast calls. See `rents/README.txt`. An entry can also carry `"value"` (as-is value / ARV, fills Flip profit) and `"tax"` (the actual annual property tax bill, replaces any estimate). Set `"rentSource": "rentcast"` to go back (rents.json still overrides RentCast where present). RentCast is still used for the listing search, tax record and value estimate.
 
 ## Condition from photos (Claude)
 

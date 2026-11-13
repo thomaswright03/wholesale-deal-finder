@@ -29,7 +29,7 @@ const SEED_SCAN = join("seed", "listings.json");
 // Rent from your own script. rents/needed.json lists what to look up; rents/rents.json is what comes back:
 //   { "238-Helen-St-Cincinnati-OH-45219": { "rent": 3300, "low": 3000, "high": 3600 }, ... }
 const RENTS_DIR = "rents";
-type RentEntry = { rent: number; low?: number; high?: number; value?: number; source?: string; date?: string };
+type RentEntry = { rent: number; low?: number; high?: number; value?: number; tax?: number; source?: string; date?: string };
 const rentKey = (l: Listing) => photoFolderName(l);
 
 function loadRentFile(): Record<string, RentEntry> {
@@ -53,6 +53,8 @@ function applyFileRent(l: Listing, rents: Record<string, RentEntry>) {
   l.rentHigh = r.high ?? r.rent;
   // Optional as-is value / ARV from your script; used for flip profit (skips the RentCast value call).
   if (Number(r.value) > 0) l.value = Number(r.value);
+  // Optional actual annual property tax (e.g. from the county auditor's bill) beats any estimate.
+  if (Number(r.tax) > 0) { l.annualTax = Number(r.tax); l.taxEstimated = false; }
 }
 
 function writeRentsNeeded(listings: Listing[], rents: Record<string, RentEntry>, cfg: Config) {
