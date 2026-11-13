@@ -12,7 +12,8 @@
       "baths": 2,
       "sqft": 1829,
       "listPrice": 270000,
-      "hasRent": true
+      "daysOnMarket": 234,
+      "hasRent": false
     },
     {
       "key": "3235-Wold-Ave-Cincinnati-OH-45207",
@@ -26,6 +27,7 @@
       "baths": 2.5,
       "sqft": 1637,
       "listPrice": 164900,
+      "daysOnMarket": 294,
       "hasRent": false
     },
     {
@@ -40,6 +42,7 @@
       "baths": 1.5,
       "sqft": 1488,
       "listPrice": 160000,
+      "daysOnMarket": 241,
       "hasRent": false
     },
     {
@@ -54,6 +57,7 @@
       "baths": 1,
       "sqft": 1508,
       "listPrice": 140000,
+      "daysOnMarket": 179,
       "hasRent": false
     },
     {
@@ -68,6 +72,7 @@
       "baths": 2,
       "sqft": 1320,
       "listPrice": 225000,
+      "daysOnMarket": 457,
       "hasRent": false
     },
     {
@@ -82,6 +87,7 @@
       "baths": 1,
       "sqft": 1532,
       "listPrice": 98000,
+      "daysOnMarket": 254,
       "hasRent": false
     },
     {
@@ -96,6 +102,7 @@
       "baths": 2,
       "sqft": 1482,
       "listPrice": 119900,
+      "daysOnMarket": 184,
       "hasRent": false
     },
     {
@@ -110,6 +117,7 @@
       "baths": 1.5,
       "sqft": 1629,
       "listPrice": 110000,
+      "daysOnMarket": 183,
       "hasRent": false
     },
     {
@@ -124,6 +132,7 @@
       "baths": 3.5,
       "sqft": null,
       "listPrice": 265000,
+      "daysOnMarket": 221,
       "hasRent": false
     },
     {
@@ -138,6 +147,7 @@
       "baths": 2,
       "sqft": 2430,
       "listPrice": 190000,
+      "daysOnMarket": 200,
       "hasRent": false
     },
     {
@@ -152,6 +162,7 @@
       "baths": 1,
       "sqft": 1222,
       "listPrice": 134900,
+      "daysOnMarket": 301,
       "hasRent": false
     }
   ]

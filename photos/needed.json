@@ -51,8 +51,8 @@
       "state": "OH",
       "zip": "45208",
       "folder": "photos/2120-Pogue-Ave-Cincinnati-OH-45208",
-      "hasPhotos": true,
-      "rated": true,
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -84,8 +84,8 @@
       "state": "OH",
       "zip": "45220",
       "folder": "photos/119-Woolper-Ave-Cincinnati-OH-45220",
-      "hasPhotos": true,
-      "rated": true,
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -106,8 +106,8 @@
       "state": "OH",
       "zip": "45204",
       "folder": "photos/2923-Lehman-Rd-Cincinnati-OH-45204",
-      "hasPhotos": true,
-      "rated": true,
+      "hasPhotos": false,
+      "rated": false,
       "tier": "C"
     },
     {

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deal Cards</title>
+<style>
+:root{--bg:#f6f5f2;--card:#fff;--ink:#1d1d1b;--muted:#6b6a66;--line:#e4e2dc;--a:#1f7a4d;--b:#b7791f;--c:#6b6a66;--accent:#2f5bd3}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--card:#21211f;--ink:#f1efe9;--muted:#a3a19a;--line:#33322f;--accent:#7d9cff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,system-ui,sans-serif}
+header{padding:20px 16px 8px;max-width:760px;margin:auto}h1{font-size:22px;margin:0}
+.sub{color:var(--muted);font-size:13px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.bar button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer;font-size:13px}
+.bar button.on{background:var(--ink);color:var(--bg)}
+main{max-width:760px;margin:auto;padding:8px 16px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+.card.done{opacity:.5}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.addr{font-weight:600;font-size:17px}.meta{color:var(--muted);font-size:13px}
+.tier{font-weight:700;border-radius:8px;padding:2px 9px;color:#fff;font-size:13px}
+.tA{background:var(--a)}.tB{background:var(--b)}.tC{background:var(--c)}
+.new{font-size:11px;border:1px solid var(--accent);color:var(--accent);border-radius:6px;padding:1px 6px;margin-left:6px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.grid div{background:var(--bg);border-radius:10px;padding:8px 10px}.grid b{display:block;font-size:16px}
+.grid span{color:var(--muted);font-size:12px}
+details{font-size:13px;color:var(--muted)}details table{width:100%;border-collapse:collapse;margin-top:6px}
+details td{padding:3px 0;border-bottom:1px solid var(--line)}details td:last-child{text-align:right;color:var(--ink)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.actions a,.actions button{flex:1;min-width:90px;text-align:center;text-decoration:none;border-radius:10px;padding:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:14px;cursor:pointer}
+.actions .call{background:var(--accent);color:#fff;border-color:var(--accent)}
+.status{font-size:13px;color:var(--muted);margin-top:8px}
+.rentrow{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.rentrow input{flex:1;min-width:120px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:inherit}
+.rentrow button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:14px}
+.cond{margin-top:10px;padding:8px 10px;border-radius:8px;background:var(--bg);font-size:14px}.cond .sub{font-size:12px}
+.warn{margin-top:10px;padding:8px 10px;border-radius:8px;background:#fde8e4;color:#8a2c1c;font-size:13px}
+textarea{width:100%;margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg);color:var(--ink);font:inherit;font-size:13px}
+@media (max-width:520px){.grid{grid-template-columns:repeat(2,1fr)}}
+</style></head><body>
+<header><h1>Deal cards</h1><div class="sub">Run of 2026-11-13 · <span id="count"></span></div>
+<div class="bar" id="filters"></div></header>
+<main id="list"></main>
+<script>
+// The rental deal math from the call. Everything is "first year" numbers.
+//
+// Question we answer for every listing:
+//   What is the most an end buyer can pay and still get a 20% cash-on-cash
+//   return in year one, AND still be buying at least $X under list price?
+//   Then: can we get it under contract low enough to keep our assignment fee?
+
+                                   
+                                                      
+                    
+                              
+                                                 
+                                                                                    
+                                
+                                                            
+                                                                             
+ 
+
+                             
+                                                               
+                                         
+                                                                                               
+ 
+
+                                  
+                    
+                                            
+                    
+                                                                       
+                      
+ 
+
+                             
+                    
+                      
+                    
+                          
+                              
+                 
+                                                                           
+                                                                
+                                                             
+                                    
+                                                                                                  
+                                      
+                               
+                            
+                              
+                          
+                     
+                               
+                 
+ 
+
+function monthlyMortgage(price        , a                  )         {
+  const loan = price * (1 - a.downPayment);
+  const r = a.interestRate / 12;
+  const n = a.loanYears * 12;
+  if (loan <= 0) return 0;
+  if (r === 0) return loan / n;
+  return (loan * r) / (1 - Math.pow(1 + r, -n));
+}
+
+function annualCashFlow(price        , p                           , a                  )         {
+  const netRent = p.monthlyRent * (1 - a.managementAndUpkeep);
+  const monthly = netRent - monthlyMortgage(price, a) - p.annualTax / 12 - p.annualInsurance / 12 - p.monthlyHoa;
+  return monthly * 12;
+}
+
+function cashInvested(price        , a                  )         {
+  return price * (a.downPayment + a.closingCosts);
+}
+
+function cashOnCash(price        , p                           , a                  )         {
+  return annualCashFlow(price, p, a) / cashInvested(price, a);
+}
+
+function bufferFor(listPrice        , rules            )         {
+  const sorted = [...rules.buffers].sort((x, y) => x.upTo - y.upTo);
+  for (const b of sorted) if (listPrice < b.upTo) return b.discount;
+  return sorted[sorted.length - 1]?.discount ?? 0;
+}
+
+function estimateInsurance(listPrice        , a                  )         {
+  return Math.max(a.insuranceMinAnnual, listPrice * a.insurancePctOfPrice);
+}
+
+// Cash-on-cash falls as price rises, so bisect for the highest price that still hits the target.
+function maxPriceForCoc(p                           , a                  )         {
+  let lo = 1;
+  let hi = p.listPrice * 2;
+  if (cashOnCash(lo, p, a) < a.minCashOnCash) return 0;
+  if (cashOnCash(hi, p, a) >= a.minCashOnCash) return hi;
+  for (let i = 0; i < 60; i++) {
+    const mid = (lo + hi) / 2;
+    if (cashOnCash(mid, p, a) >= a.minCashOnCash) lo = mid;
+    else hi = mid;
+  }
+  return lo;
+}
+
+const round = (n        , to = 1) => Math.round(n / to) * to;
+
+function analyze(input                 , a                  , rules            )             {
+  const insuranceEstimated = input.annualInsurance == null;
+  const p                            = {
+    listPrice: input.listPrice,
+    monthlyRent: input.monthlyRent,
+    annualTax: input.annualTax,
+    annualInsurance: input.annualInsurance ?? estimateInsurance(input.listPrice, a),
+    monthlyHoa: input.monthlyHoa ?? 0,
+  };
+  const buffer = bufferFor(p.listPrice, rules);
+  const maxPriceFor20pct = round(maxPriceForCoc(p, a), 100);
+  const buyerMaxPrice = Math.max(0, Math.min(maxPriceFor20pct, p.listPrice - buffer));
+  const ceilingOffer = round(buyerMaxPrice - rules.minAssignmentFee, 100);
+  const floorOffer = round(p.listPrice * rules.floorPctOfList, 100);
+  const feeAtFloor = buyerMaxPrice - floorOffer;
+
+  const cf = annualCashFlow(buyerMaxPrice, p, a);
+  const inv = cashInvested(buyerMaxPrice, a);
+
+  let qualifies = ceilingOffer >= floorOffer && buyerMaxPrice > 0;
+  let reason        ;
+  if (maxPriceFor20pct === 0) {
+    qualifies = false;
+    reason = "Rent can't cover expenses for a 20% return at any price";
+  } else if (!qualifies) {
+    reason = `Buyer tops out at $${fmt(buyerMaxPrice)}; minus our $${fmt(rules.minAssignmentFee)} fee that's below the 70% floor of $${fmt(floorOffer)}`;
+  } else if (maxPriceFor20pct < p.listPrice - buffer) {
+    reason = `Cash flow limits the buyer to $${fmt(buyerMaxPrice)}`;
+  } else {
+    reason = `Buyer limited by the $${fmt(buffer)} under-list buffer to $${fmt(buyerMaxPrice)}`;
+  }
+
+  // Tier by how much room there is between our floor and ceiling offers, as a share of list.
+  // A: lots of room (big fee possible). B: decent. C: barely works.
+  let tier                     = null;
+  if (qualifies) {
+    const room = (ceilingOffer - floorOffer) / p.listPrice;
+    tier = room >= 0.1 ? "A" : room >= 0.04 ? "B" : "C";
+  }
+
+  return {
+    listPrice: p.listPrice,
+    monthlyRent: p.monthlyRent,
+    annualTax: round(p.annualTax),
+    annualInsurance: round(p.annualInsurance),
+    insuranceEstimated,
+    buffer,
+    maxPriceFor20pct,
+    buyerMaxPrice: round(buyerMaxPrice, 100),
+    ceilingOffer,
+    floorOffer,
+    feeAtFloor: round(feeAtFloor, 100),
+    buyerMonthlyMortgage: round(monthlyMortgage(buyerMaxPrice, a)),
+    buyerCashInvested: round(inv),
+    buyerAnnualCashFlow: round(cf),
+    buyerCashOnCash: inv > 0 ? Math.round((cf / inv) * 1000) / 1000 : 0,
+    qualifies,
+    tier,
+    reason,
+  };
+}
+
+// ---- Rental vs flip ----
+// From the call: a house that's already fixed up goes to a rental buyer (judged by cash-on-cash);
+// one that needs work goes to a fix-and-flip buyer (judged by flip profit).
+// We can't see condition without photos, so we use price vs. RentCast's value estimate (ARV):
+// listed well under what the house is worth fixed up = probably needs work = flip.
+                                  
+                                                                               
+                                                                                              
+                                                                                   
+ 
+
+function dealType(listPrice        , value                    , f                 )                           {
+  if (!value) return null;
+  return listPrice <= value * f.flipIfListBelowValue ? "Flip" : "Rental";
+}
+
+function flipProfit(arv        , buyerPrice        , sqft                    , f                 ) {
+  const rehab = (sqft ?? 0) * f.rehabPerSqft;
+  const costs = arv * f.costsPctOfArv;
+  return { rehab: Math.round(rehab), profit: Math.round(arv - buyerPrice - rehab - costs) };
+}
+
+function fmt(n        ) {
+  return Math.round(n).toLocaleString("en-US");
+}
+
+const CFG = {"buyer":{"interestRate":0.076,"loanYears":30,"downPayment":0.2,"closingCosts":0.03,"managementAndUpkeep":0.2,"minCashOnCash":0.2,"insuranceMinAnnual":1000,"insurancePctOfPrice":0.006,"taxFallbackPctOfPrice":0.015},"offer":{"floorPctOfList":0.7,"minAssignmentFee":8000,"buffers":[{"upTo":100000,"discount":12000},{"upTo":200000,"discount":20000},{"upTo":250000,"discount":25000},{"upTo":999999999,"discount":30000}]}};
+const DATA = [{"id":"238-Helen-St,-Cincinnati,-OH-45219","tier":"A","isNew":true,"address":"238 Helen St","city":"Cincinnati","state":"OH","zip":"45219","type":"Single Family","beds":5,"baths":2,"sqft":1829,"dom":234,"agent":"Julie Rose","phone":"5139229400","email":"jroserealtor1@gmail.com","url":"https://www.zillow.com/homes/238-Helen-St-Cincinnati-OH-45219_rb/","rentLow":3030,"rentHigh":3570,"hoa":0,"dealType":"Flip","cond":"Light rehab","condConf":"medium","condRehab":22000,"condNotes":"Interior looks recently refreshed: fresh gray paint, new LVP in some rooms, new ceiling lights, smoke detectors, and a stainless fridge and dishwasher in the kitchen. Surface-mounted conduit running along walls and ceilings suggests a cheap rewire, painted worn hardwood and textured ceilings need finishing, and the exterior has dated siding, a worn porch and overgrown landscaping. No bathroom photos and only a glimpse of the kitchen, so plumbing, HVAC, roof and baths are unverified.","listPrice":270000,"monthlyRent":3300,"annualTax":2402,"annualInsurance":1620,"insuranceEstimated":true,"buffer":30000,"maxPriceFor20pct":243100,"buyerMaxPrice":240000,"ceilingOffer":232000,"floorOffer":189000,"feeAtFloor":51000,"buyerMonthlyMortgage":1356,"buyerCashInvested":55200,"buyerAnnualCashFlow":11390,"buyerCashOnCash":0.206,"qualifies":true,"reason":"Buyer limited by the $30,000 under-list buffer to $240,000"},{"id":"3235-Wold-Ave,-Cincinnati,-OH-45207","tier":"A","isNew":true,"address":"3235 Wold Ave","city":"Cincinnati","state":"OH","zip":"45207","type":"Single Family","beds":5,"baths":2.5,"sqft":1637,"dom":294,"agent":"Christi Krieger","phone":"5137520921","email":"reo@alegnarealty.com","url":"https://www.zillow.com/homes/3235-Wold-Ave-Cincinnati-OH-45207_rb/","rentLow":2030,"rentHigh":2730,"hoa":0,"dealType":"Rental","cond":"Rental-ready","condConf":"medium","condRehab":8000,"condNotes":"Living room, kitchen, half bath and one bedroom show new LVP flooring, fresh paint, granite counters, white cabinets and stainless appliances, so the finishes look recently renovated. Only 1 of 5 bedrooms and no full bath were shown, the exterior has worn porch decking and older vinyl siding, and the window AC suggests no central cooling, so the estimate includes a cushion for touch-ups, porch paint, and unseen areas.","listPrice":164900,"monthlyRent":2380,"annualTax":3634,"annualInsurance":1000,"insuranceEstimated":true,"buffer":20000,"maxPriceFor20pct":160100,"buyerMaxPrice":144900,"ceilingOffer":136900,"floorOffer":115400,"feeAtFloor":29500,"buyerMonthlyMortgage":818,"buyerCashInvested":33327,"buyerAnnualCashFlow":8392,"buyerCashOnCash":0.252,"qualifies":true,"reason":"Buyer limited by the $20,000 under-list buffer to $144,900"},{"id":"1839-Hewitt-Ave,-Cincinnati,-OH-45207","tier":"A","isNew":true,"address":"1839 Hewitt Ave","city":"Cincinnati","state":"OH","zip":"45207","type":"Single Family","beds":3,"baths":1.5,"sqft":1488,"dom":241,"agent":"Martin Rutland","phone":"5135790777","email":"beehive@zoomtown.com","url":"https://www.zillow.com/homes/1839-Hewitt-Ave-Cincinnati-OH-45207_rb/","rentLow":1890,"rentHigh":2790,"hoa":0,"dealType":"Flip","cond":"Light rehab","condConf":"low","condRehab":28000,"condNotes":"Interior rooms show dated but fairly intact finishes: dark saturated paint, older carpet, a drop-ceiling in one room and an old kitchen with a basic fridge and gas range. Exterior has a loose porch post, a worn porch roof and steps, and window AC units, and no bathrooms or full kitchen are shown, with several blurry photos, so the estimate could move up or down.","listPrice":160000,"monthlyRent":2340,"annualTax":2150,"annualInsurance":1000,"insuranceEstimated":true,"buffer":20000,"maxPriceFor20pct":169700,"buyerMaxPrice":140000,"ceilingOffer":132000,"floorOffer":112000,"feeAtFloor":28000,"buyerMonthlyMortgage":791,"buyerCashInvested":32200,"buyerAnnualCashFlow":9824,"buyerCashOnCash":0.305,"qualifies":true,"reason":"Buyer limited by the $20,000 under-list buffer to $140,000"},{"id":"3549-Idlewild-Ave,-Cincinnati,-OH-45207","tier":"A","isNew":true,"address":"3549 Idlewild Ave","city":"Cincinnati","state":"OH","zip":"45207","type":"Single Family","beds":3,"baths":1,"sqft":1508,"dom":179,"agent":"Anthony Brown","phone":"5136461385","email":"anthonybrownsold1@gmail.com","url":"https://www.zillow.com/homes/3549-Idlewild-Ave-Cincinnati-OH-45207_rb/","taxEstimated":true,"rentLow":1640,"rentHigh":1940,"hoa":0,"dealType":"Flip","cond":"Medium rehab","condConf":"medium","condRehab":48000,"condNotes":"The kitchen is the main problem: the ceiling is open to the joists, there is fire or smoke-type darkening, and the walls are peeling, so it needs a full rebuild with drywall, cabinets, and electrical. The bedrooms and living areas have dated but usable hardwood and only need paint and refinishing. The single bath is dated and the basement is rough with old brick walls. The boarded-up porch window and the unknown state of the roof, electrical, and HVAC add risk.","listPrice":140000,"monthlyRent":1790,"annualTax":2100,"annualInsurance":1000,"insuranceEstimated":true,"buffer":20000,"maxPriceFor20pct":123800,"buyerMaxPrice":120000,"ceilingOffer":112000,"floorOffer":98000,"feeAtFloor":22000,"buyerMonthlyMortgage":678,"buyerCashInvested":27600,"buyerAnnualCashFlow":5950,"buyerCashOnCash":0.216,"qualifies":true,"reason":"Buyer limited by the $20,000 under-list buffer to $120,000"},{"id":"2120-Pogue-Ave,-Cincinnati,-OH-45208","tier":"B","isNew":true,"address":"2120 Pogue Ave","city":"Cincinnati","state":"OH","zip":"45208","type":"Single Family","beds":3,"baths":2,"sqft":1320,"dom":457,"agent":"Terrence Jett","phone":"5133194444","email":"terrence.jett@gmail.com","url":"https://www.zillow.com/homes/2120-Pogue-Ave-Cincinnati-OH-45208_rb/","rentLow":2040,"rentHigh":2780,"hoa":0,"dealType":null,"cond":null,"condRehab":null,"listPrice":225000,"monthlyRent":2410,"annualTax":1786,"annualInsurance":1350,"insuranceEstimated":true,"buffer":25000,"maxPriceFor20pct":175800,"buyerMaxPrice":175800,"ceilingOffer":167800,"floorOffer":157500,"feeAtFloor":18300,"buyerMonthlyMortgage":993,"buyerCashInvested":40434,"buyerAnnualCashFlow":8084,"buyerCashOnCash":0.2,"qualifies":true,"reason":"Cash flow limits the buyer to $175,800"},{"id":"1637-Waverly-Ave,-Cincinnati,-OH-45214","tier":"B","isNew":true,"address":"1637 Waverly Ave","city":"Cincinnati","state":"OH","zip":"45214","type":"Single Family","beds":3,"baths":1,"sqft":1532,"dom":254,"agent":"Elad Navama","phone":"5138919300","email":"elad.navama@era.com","url":"https://www.zillow.com/homes/1637-Waverly-Ave-Cincinnati-OH-45214_rb/","rentLow":1590,"rentHigh":1770,"hoa":0,"dealType":"Rental","cond":"Rental-ready","condConf":"medium","condRehab":6000,"condNotes":"Interior appears recently renovated with new LVP flooring, new carpet on stairs, fresh paint, new vanities, and painted kitchen cabinets with laminate counters. Remaining items are likely minor: exterior/landscaping cleanup, a possible unseen basement, roof, and mechanical condition, and no photos of bedrooms, the full bath tub/shower, or appliances.","listPrice":98000,"monthlyRent":1680,"annualTax":745,"annualInsurance":1000,"insuranceEstimated":true,"buffer":12000,"maxPriceFor20pct":126400,"buyerMaxPrice":86000,"ceilingOffer":78000,"floorOffer":68600,"feeAtFloor":17400,"buyerMonthlyMortgage":486,"buyerCashInvested":19780,"buyerAnnualCashFlow":8554,"buyerCashOnCash":0.432,"qualifies":true,"reason":"Buyer limited by the $12,000 under-list buffer to $86,000"},{"id":"4719-Highridge-Ave,-Cincinnati,-OH-45238","tier":"B","isNew":true,"address":"4719 Highridge Ave","city":"Cincinnati","state":"OH","zip":"45238","type":"Single Family","beds":4,"baths":2,"sqft":1482,"dom":184,"agent":"Frederick Altieri","phone":"6105509271","email":"faltieri@trelora.com","url":"https://www.zillow.com/homes/4719-Highridge-Ave-Cincinnati-OH-45238_rb/","rentLow":1630,"rentHigh":1930,"hoa":0,"dealType":"Flip","cond":"Light rehab","condConf":"low","condRehab":22000,"condNotes":"Interior rooms shown (living, dining, bedrooms) have fresh gray paint and decent hardwood floors needing only a refinish or touch-up, and the porch steps look newly rebuilt. The kitchen is only glimpsed (dated oak cabinets, black appliances) and no bathrooms or basement are shown, and the rear exterior shows a stained, damp-looking foundation wall. The budget covers a kitchen and bath refresh, floor refinishing, cleaning, and a contingency for moisture, mechanicals and roof age.","listPrice":119900,"monthlyRent":1780,"annualTax":2662,"annualInsurance":1000,"insuranceEstimated":true,"buffer":20000,"maxPriceFor20pct":118000,"buyerMaxPrice":99900,"ceilingOffer":91900,"floorOffer":83900,"feeAtFloor":16000,"buyerMonthlyMortgage":564,"buyerCashInvested":22977,"buyerAnnualCashFlow":6654,"buyerCashOnCash":0.29,"qualifies":true,"reason":"Buyer limited by the $20,000 under-list buffer to $99,900"},{"id":"119-Woolper-Ave,-Cincinnati,-OH-45220","tier":"B","isNew":true,"address":"119 Woolper Ave","city":"Cincinnati","state":"OH","zip":"45220","type":"Single Family","beds":2,"baths":1.5,"sqft":1629,"dom":183,"agent":"Sharon L Jones","phone":"5134890066","email":"sdees@sibcycline.com","url":"https://www.zillow.com/homes/119-Woolper-Ave-Cincinnati-OH-45220_rb/","rentLow":1390,"rentHigh":1710,"hoa":0,"dealType":null,"cond":null,"condRehab":null,"listPrice":110000,"monthlyRent":1550,"annualTax":3452,"annualInsurance":1000,"insuranceEstimated":true,"buffer":20000,"maxPriceFor20pct":91600,"buyerMaxPrice":90000,"ceilingOffer":82000,"floorOffer":77000,"feeAtFloor":13000,"buyerMonthlyMortgage":508,"buyerCashInvested":20700,"buyerAnnualCashFlow":4328,"buyerCashOnCash":0.209,"qualifies":true,"reason":"Buyer limited by the $20,000 under-list buffer to $90,000"},{"id":"835-Lexington-Ave,-Cincinnati,-OH-45229","tier":"C","isNew":true,"address":"835 Lexington Ave","city":"Cincinnati","state":"OH","zip":"45229","type":"Single Family","beds":4,"baths":3.5,"dom":221,"agent":"Nina Yisrael","phone":"5132770996","email":"ninayisrael@gmail.com","url":"https://www.zillow.com/homes/835-Lexington-Ave-Cincinnati-OH-45229_rb/","rentLow":2600,"rentHigh":3060,"hoa":0,"dealType":"Flip","cond":"Medium rehab","condConf":"low","condRehab":65000,"condNotes":"Interior shows dated paneling, peeling wallpaper, worn carpet, bare or refinish-needed hardwood, and heavy paint needs in a large 3-story brick foursquare; the roof looks fairly newer from outside. No kitchen or bathrooms are shown (3.5 baths listed), so the estimate is a rough guess and could go up significantly if those are original or there are system issues.","listPrice":265000,"monthlyRent":2830,"annualTax":2690,"annualInsurance":1590,"insuranceEstimated":true,"buffer":30000,"maxPriceFor20pct":201200,"buyerMaxPrice":201200,"ceilingOffer":193200,"floorOffer":185500,"feeAtFloor":15700,"buyerMonthlyMortgage":1136,"buyerCashInvested":46276,"buyerAnnualCashFlow":9250,"buyerCashOnCash":0.2,"qualifies":true,"reason":"Cash flow limits the buyer to $201,200"},{"id":"2923-Lehman-Rd,-Cincinnati,-OH-45204","tier":"C","isNew":true,"address":"2923 Lehman Rd","city":"Cincinnati","state":"OH","zip":"45204","type":"Multi-Family","beds":4,"baths":2,"sqft":2430,"dom":200,"agent":"Craig Kellogg","phone":"9379018500","email":"kellogg1969@me.com","url":"https://www.zillow.com/homes/2923-Lehman-Rd-Cincinnati-OH-45204_rb/","rentLow":1850,"rentHigh":2290,"hoa":0,"dealType":null,"cond":null,"condRehab":null,"listPrice":190000,"monthlyRent":2070,"annualTax":2554,"annualInsurance":1140,"insuranceEstimated":true,"buffer":20000,"maxPriceFor20pct":142200,"buyerMaxPrice":142200,"ceilingOffer":134200,"floorOffer":133000,"feeAtFloor":9200,"buyerMonthlyMortgage":803,"buyerCashInvested":32706,"buyerAnnualCashFlow":6539,"buyerCashOnCash":0.2,"qualifies":true,"reason":"Cash flow limits the buyer to $142,200"},{"id":"4764-Dale-Ave,-Cincinnati,-OH-45238","tier":"C","isNew":true,"address":"4764 Dale Ave","city":"Cincinnati","state":"OH","zip":"45238","type":"Single Family","beds":4,"baths":1,"sqft":1222,"dom":301,"agent":"Matthew Kalogeras","phone":"4108007006","email":"mattk@lnf.com","url":"https://www.zillow.com/homes/4764-Dale-Ave-Cincinnati-OH-45238_rb/","rentLow":1510,"rentHigh":1690,"hoa":0,"dealType":"Flip","cond":"Light rehab","condConf":"medium","condRehab":22000,"condNotes":"Interior shows newer vinyl plank flooring, fresh gray paint, newer carpet, a white-cabinet kitchen with laminate counters, and a modern breaker panel, but dated drop ceilings, a basic kitchen, and cosmetic wear remain. The exterior has a cracked driveway and walk, and a sagging porch skirt; the roof is not clearly visible. The only bathroom, the upstairs bedrooms, the HVAC, and the water heater were not shown, so the estimate carries some risk, and a basement foundation crack is visible near the panel.","listPrice":134900,"monthlyRent":1600,"annualTax":2712,"annualInsurance":1000,"insuranceEstimated":true,"buffer":20000,"maxPriceFor20pct":102400,"buyerMaxPrice":102400,"ceilingOffer":94400,"floorOffer":94400,"feeAtFloor":8000,"buyerMonthlyMortgage":578,"buyerCashInvested":23552,"buyerAnnualCashFlow":4707,"buyerCashOnCash":0.2,"qualifies":true,"reason":"Cash flow limits the buyer to $102,400"}];
+const ZILLOW_RENT = "https://www.zillow.com/rental-manager/price-my-rental/";
+const $ = (n)=>"$"+Math.round(n||0).toLocaleString();
+const KEY = "deal-status";
+let state = {}; try { state = JSON.parse(localStorage.getItem(KEY)||"{}") } catch {}
+const save = ()=>{ try { localStorage.setItem(KEY, JSON.stringify(state)) } catch {} };
+let filter = "todo";
+const FILTERS = [["todo","To contact"],["A","Tier A"],["B","Tier B"],["C","Tier C"],["new","New today"],["done","Contacted / skipped"],["all","All"]];
+function shown(d){ const s=state[d.id]?.status;
+  if(filter==="todo") return !s; if(filter==="done") return !!s; if(filter==="new") return d.isNew; if(filter==="all") return true; return d.tier===filter; }
+function smsBody(d){ return "Hi"+(d.agent?" "+d.agent.split(" ")[0]:"")+", I'm an investor interested in "+d.address+". Would your seller consider a cash offer around "+$(d.floorOffer)+" with a quick close?"; }
+function render(){
+  const list=document.getElementById("list"); const items=DATA.filter(shown);
+  document.getElementById("count").textContent = DATA.length+" leads, "+DATA.filter(d=>!state[d.id]?.status).length+" not contacted";
+  document.getElementById("filters").innerHTML = FILTERS.map(([k,l])=>'<button data-f="'+k+'" class="'+(k===filter?"on":"")+'">'+l+'</button>').join("");
+  list.innerHTML = items.length ? "" : '<p class="sub">Nothing here.</p>';
+  for(let d of items){
+    const s=state[d.id]||{};
+    const base=d; if(s.rent){ d={...base,...analyze({listPrice:base.listPrice,monthlyRent:s.rent,annualTax:base.annualTax,annualInsurance:base.annualInsurance,monthlyHoa:base.hoa},CFG.buyer,CFG.offer)}; }
+    const el=document.createElement("div"); el.className="card"+(s.status?" done":"");
+    const phone=(d.phone||"").replace(/[^0-9+]/g,"");
+    el.innerHTML = '<div class="top"><div><div class="addr"></div><div class="meta"></div></div><span class="tier t'+(d.tier||"C")+'">'+(d.tier||"Out")+'</span></div>'+
+      '<div class="grid"><div><span>List</span><b>'+$(d.listPrice)+'</b></div><div><span>Offer from</span><b>'+$(d.floorOffer)+'</b></div><div><span>Offer up to</span><b>'+$(d.ceilingOffer)+'</b></div>'+
+      '<div><span>Buyer pays up to</span><b>'+$(d.buyerMaxPrice)+'</b></div><div><span>Your fee at floor</span><b>'+$(d.feeAtFloor)+'</b></div><div><span>Median rent'+(s.rent?' (Zillow)':'')+'</span><b>'+$(d.monthlyRent)+'/mo</b></div>'+
+      '<div><span>Deal type</span><b>'+(d.dealType||"Unknown")+'</b></div>'+
+      (d.dealType==="Flip"?'<div><span>Flip: buyer profit</span><b>'+$(d.flipProfit)+'</b></div><div><span>Value / ARV</span><b>'+$(d.arv)+'</b></div>':'<div><span>Rental: cash-on-cash</span><b>'+(d.buyerCashOnCash*100).toFixed(1)+'%</b></div><div><span>Value / ARV</span><b>'+(d.arv?$(d.arv):"n/a")+'</b></div>')+'</div>'+
+      (s.rent&&!d.qualifies?'<div class="warn">With this rent it no longer works: '+d.reason+'</div>':'')+
+      '<div class="rentrow"><button class="zr">Check rent on Zillow</button><input type="number" inputmode="numeric" placeholder="Zillow median rent" value="'+(s.rent||"")+'"><button class="clr">Reset</button></div>'+
+      (d.cond?'<div class="cond"><b>'+d.cond+'</b>'+(d.condRehab!=null?' · about '+$(d.condRehab)+' rehab':'')+' <span class="sub">('+d.condConf+' confidence, from photos)</span><div class="sub cn"></div></div>':'')+
+      '<details><summary>Buyer numbers at '+$(d.buyerMaxPrice)+'</summary><table>'+
+      '<tr><td>Mortgage (P&amp;I)</td><td>'+$(d.buyerMonthlyMortgage)+'/mo</td></tr>'+
+      '<tr><td>Property tax'+(d.taxEstimated?" (estimated)":"")+'</td><td>'+$(d.annualTax)+'/yr</td></tr>'+
+      '<tr><td>Landlord insurance (estimated)</td><td>'+$(d.annualInsurance)+'/yr</td></tr>'+
+      '<tr><td>Rent range</td><td>'+(d.rentLow?$(d.rentLow)+" to "+$(d.rentHigh):"n/a")+'</td></tr>'+
+      '<tr><td>Cash in (down + closing)</td><td>'+$(d.buyerCashInvested)+'</td></tr>'+
+      '<tr><td>Year one cash flow</td><td>'+$(d.buyerAnnualCashFlow)+'</td></tr>'+
+      '<tr><td>Cash-on-cash</td><td>'+(d.buyerCashOnCash*100).toFixed(1)+'%</td></tr></table></details>'+
+      '<div class="actions">'+(phone?'<a class="call" href="tel:'+phone+'">Call</a><a class="sms" href="sms:'+phone+'&body='+encodeURIComponent(smsBody(d))+'">Text</a>':'')+
+      '<a href="'+d.url+'" target="_blank" rel="noopener">Photos</a><button data-s="contacted">Contacted</button><button data-s="skip">Skip</button></div>'+
+      '<div class="status"></div><textarea rows="2" placeholder="Notes"></textarea>';
+    el.querySelector(".addr").textContent = d.address;
+    if(d.cond) el.querySelector(".cn").textContent = d.condNotes||"";
+    el.querySelector(".meta").innerHTML = '';
+    el.querySelector(".meta").append(d.city+", "+d.state+" "+(d.zip||"")+" · "+[d.type,d.beds&&d.beds+" bd",d.baths&&d.baths+" ba",d.sqft&&d.sqft.toLocaleString()+" sqft",d.dom!=null&&d.dom+" days listed"].filter(Boolean).join(" · ")+(d.agent?" · "+d.agent:""));
+    if(d.isNew){const n=document.createElement("span");n.className="new";n.textContent="NEW";el.querySelector(".addr").append(n)}
+    el.querySelector(".status").textContent = s.status ? (s.status==="skip"?"Skipped":"Contacted")+" "+s.at : "";
+    el.querySelector(".zr").onclick=()=>{ const a=d.address+", "+d.city+", "+d.state+" "+(d.zip||""); try{navigator.clipboard.writeText(a)}catch{} window.open(ZILLOW_RENT,"_blank","noopener"); el.querySelector(".zr").textContent="Address copied, paste it on Zillow"; };
+    const ri=el.querySelector(".rentrow input"); ri.onchange=()=>{ const v=Number(ri.value); state[d.id]={...state[d.id],rent:v>0?v:undefined}; save(); render(); };
+    el.querySelector(".clr").onclick=()=>{ state[d.id]={...state[d.id],rent:undefined}; save(); render(); };
+    const ta=el.querySelector("textarea"); ta.value=s.notes||""; ta.oninput=()=>{state[d.id]={...state[d.id],notes:ta.value};save()};
+    el.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{state[d.id]={...state[d.id],status:b.dataset.s,at:new Date().toLocaleDateString()};save();render()});
+    list.append(el);
+  }
+}
+document.getElementById("filters").onclick=(e)=>{const f=e.target.dataset?.f;if(f){filter=f;render()}};
+render();
+</script></body></html>
