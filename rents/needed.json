@@ -13,7 +13,7 @@
       "sqft": 1320,
       "listPrice": 225000,
       "daysOnMarket": 458,
-      "hasRent": false
+      "hasRent": true
     },
     {
       "key": "1015-Purcell-Ave-Cincinnati-OH-45205",
@@ -28,7 +28,7 @@
       "sqft": 1868,
       "listPrice": 160000,
       "daysOnMarket": 346,
-      "hasRent": false
+      "hasRent": true
     },
     {
       "key": "4764-Dale-Ave-Cincinnati-OH-45238",
@@ -43,7 +43,7 @@
       "sqft": 1222,
       "listPrice": 134900,
       "daysOnMarket": 302,
-      "hasRent": false
+      "hasRent": true
     },
     {
       "key": "3235-Wold-Ave-Cincinnati-OH-45207",
@@ -58,7 +58,7 @@
       "sqft": 1637,
       "listPrice": 164900,
       "daysOnMarket": 295,
-      "hasRent": false
+      "hasRent": true
     },
     {
       "key": "1461-Kinney-Ave-Cincinnati-OH-45231",
@@ -73,7 +73,7 @@
       "sqft": 2473,
       "listPrice": 145900,
       "daysOnMarket": 282,
-      "hasRent": false
+      "hasRent": true
     },
     {
       "key": "3460-Bevis-Ave-Cincinnati-OH-45207",
