@@ -75,8 +75,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      # Off for now: Property Genie shows a Cloudflare bot check to GitHub's servers, so every lookup fails.
+      # Set the repo variable RUN_RENT_LOOKUP=true to turn it back on.
       - name: Look up rents and taxes (tools/rent.py)
         id: rents
+        if: vars.RUN_RENT_LOOKUP == 'true'
         continue-on-error: true
         timeout-minutes: 60
         run: |
