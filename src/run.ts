@@ -18,6 +18,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 interface Config {
   maxApiCallsPerRun: number;
   maxApiCallsPerMonth: number;
+  billingDay: number;
   markets: { city: string; state: string }[];
   search: { minPrice: number; maxPrice: number; propertyTypes: string[]; excludeListingTypes: string[]; skipHoa: boolean };
   buyer: BuyerAssumptions & { taxFallbackPctOfPrice: number };
@@ -135,7 +136,10 @@ export async function main() {
     // this run waits for the next one, longest-listed homes first.
     // Also a monthly cap, tracked in data/usage.json, so a daily schedule can't blow past the plan.
     const usagePath = join(ROOT, "data", "usage.json");
-    const month = today.slice(0, 7);
+    // Count by RentCast billing period (resets on config.billingDay), not calendar month.
+    const d = new Date(today + "T00:00:00Z");
+    if (d.getUTCDate() < cfg.billingDay) d.setUTCMonth(d.getUTCMonth() - 1);
+    const month = `${d.toISOString().slice(0, 7)}-${String(cfg.billingDay).padStart(2, "0")}`;
     const usage: Record<string, number> = existsSync(usagePath) ? JSON.parse(readFileSync(usagePath, "utf8")) : {};
     const leftThisMonth = cfg.maxApiCallsPerMonth - (usage[month] ?? 0);
     const budget = Math.max(0, Math.min(cfg.maxApiCallsPerRun, leftThisMonth));

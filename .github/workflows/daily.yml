@@ -1,8 +1,10 @@
 name: Daily deal scan
 
 on:
-  schedule:
-    - cron: "0 11 * * *" # 6 AM Eastern (7 AM during daylight time)
+  # Daily schedule paused while on RentCast's free plan (50 calls/month).
+  # Turn it back on after upgrading: remove the # on the two lines below.
+  # schedule:
+  #   - cron: "0 11 * * *" # 6 AM Eastern (7 AM during daylight time)
   workflow_dispatch:
     inputs:
       market:
