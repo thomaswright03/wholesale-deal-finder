@@ -1,0 +1,125 @@
+{
+  "houses": [
+    {
+      "address": "238 Helen St, Cincinnati, OH 45219",
+      "street": "238 Helen St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45219",
+      "folder": "photos/238-Helen-St-Cincinnati-OH-45219",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3235 Wold Ave, Cincinnati, OH 45207",
+      "street": "3235 Wold Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/3235-Wold-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "1839 Hewitt Ave, Cincinnati, OH 45207",
+      "street": "1839 Hewitt Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1839-Hewitt-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3549 Idlewild Ave, Cincinnati, OH 45207",
+      "street": "3549 Idlewild Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/3549-Idlewild-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "2120 Pogue Ave, Cincinnati, OH 45208",
+      "street": "2120 Pogue Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45208",
+      "folder": "photos/2120-Pogue-Ave-Cincinnati-OH-45208",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "1637 Waverly Ave, Cincinnati, OH 45214",
+      "street": "1637 Waverly Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45214",
+      "folder": "photos/1637-Waverly-Ave-Cincinnati-OH-45214",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "4719 Highridge Ave, Cincinnati, OH 45238",
+      "street": "4719 Highridge Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/4719-Highridge-Ave-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "119 Woolper Ave, Cincinnati, OH 45220",
+      "street": "119 Woolper Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45220",
+      "folder": "photos/119-Woolper-Ave-Cincinnati-OH-45220",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "835 Lexington Ave, Cincinnati, OH 45229",
+      "street": "835 Lexington Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45229",
+      "folder": "photos/835-Lexington-Ave-Cincinnati-OH-45229",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "2923 Lehman Rd, Cincinnati, OH 45204",
+      "street": "2923 Lehman Rd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45204",
+      "folder": "photos/2923-Lehman-Rd-Cincinnati-OH-45204",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "4764 Dale Ave, Cincinnati, OH 45238",
+      "street": "4764 Dale Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/4764-Dale-Ave-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    }
+  ]
+}
