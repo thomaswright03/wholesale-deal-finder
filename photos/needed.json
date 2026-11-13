@@ -7,8 +7,8 @@
       "state": "OH",
       "zip": "45219",
       "folder": "photos/238-Helen-St-Cincinnati-OH-45219",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "A"
     },
     {
@@ -18,8 +18,8 @@
       "state": "OH",
       "zip": "45207",
       "folder": "photos/3235-Wold-Ave-Cincinnati-OH-45207",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "A"
     },
     {
@@ -29,8 +29,8 @@
       "state": "OH",
       "zip": "45207",
       "folder": "photos/1839-Hewitt-Ave-Cincinnati-OH-45207",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "A"
     },
     {
@@ -40,8 +40,8 @@
       "state": "OH",
       "zip": "45207",
       "folder": "photos/3549-Idlewild-Ave-Cincinnati-OH-45207",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "A"
     },
     {
@@ -51,8 +51,8 @@
       "state": "OH",
       "zip": "45208",
       "folder": "photos/2120-Pogue-Ave-Cincinnati-OH-45208",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -62,8 +62,8 @@
       "state": "OH",
       "zip": "45214",
       "folder": "photos/1637-Waverly-Ave-Cincinnati-OH-45214",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -73,8 +73,8 @@
       "state": "OH",
       "zip": "45238",
       "folder": "photos/4719-Highridge-Ave-Cincinnati-OH-45238",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -84,8 +84,8 @@
       "state": "OH",
       "zip": "45220",
       "folder": "photos/119-Woolper-Ave-Cincinnati-OH-45220",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -95,8 +95,8 @@
       "state": "OH",
       "zip": "45229",
       "folder": "photos/835-Lexington-Ave-Cincinnati-OH-45229",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -106,8 +106,8 @@
       "state": "OH",
       "zip": "45204",
       "folder": "photos/2923-Lehman-Rd-Cincinnati-OH-45204",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -117,8 +117,8 @@
       "state": "OH",
       "zip": "45238",
       "folder": "photos/4764-Dale-Ave-Cincinnati-OH-45238",
-      "hasPhotos": false,
-      "rated": false,
+      "hasPhotos": true,
+      "rated": true,
       "tier": "C"
     }
   ]
