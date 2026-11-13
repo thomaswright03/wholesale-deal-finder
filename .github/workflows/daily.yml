@@ -60,7 +60,8 @@ jobs:
           MARKET: ${{ inputs.market }}
           LIMIT: ${{ github.event_name == 'schedule' && 'all' || inputs.limit || '0' }}
         run: |
-          if [ "$LIMIT" != "0" ] && [ -z "$RENTCAST_API_KEY" ]; then echo "Add the RENTCAST_API_KEY repo secret first"; exit 1; fi
+          # No RentCast key: don't fail, just reuse the last scan's listings (0 calls).
+          if [ "$LIMIT" != "0" ] && [ -z "$RENTCAST_API_KEY" ]; then echo "No RENTCAST_API_KEY secret; reusing the last scan's listings"; LIMIT=0; fi
           if [ -z "$ANTHROPIC_API_KEY" ]; then echo "No ANTHROPIC_API_KEY repo secret; photos won't be rated"; fi
           ARGS=()
           if [ -n "$MARKET" ]; then ARGS+=(--market "$MARKET"); fi

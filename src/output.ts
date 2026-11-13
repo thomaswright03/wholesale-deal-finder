@@ -105,6 +105,7 @@ export async function writeSpreadsheet(
   const b = cfg.buyer, o = cfg.offer;
   const rows: [string, string][] = [
     ["Mortgage rate (30-yr fixed)", `${(b.interestRate * 100).toFixed(2)}%`],
+    ["Mortgage rate source", cfg.rateSource ?? "config.json"],
     ["Buyer down payment", `${b.downPayment * 100}%`],
     ["Buyer closing costs", `${b.closingCosts * 100}% of price`],
     ["Management + upkeep", `${b.managementAndUpkeep * 100}% of rent`],

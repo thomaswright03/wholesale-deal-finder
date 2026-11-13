@@ -30,6 +30,10 @@ Each lead gets a **Deal type**. If RentCast values the house (as-is value, used 
 
 All three numbers are in `config.json` under `flip`. Leads are still picked by the rental rules; the flip number is extra information. The value lookup is 1 more API call per promising home.
 
+## Live mortgage rate
+
+Every run pulls today's 30-year fixed rate from FRED (St. Louis Fed): the Optimal Blue 30-year conforming index (updated every business day), falling back to Freddie Mac's weekly survey, then to `buyer.interestRate` in config.json. The rate and its source are on the spreadsheet's Assumptions sheet. Set `"liveMortgageRate": false` in config.json to use the fixed number instead.
+
 ## Daily schedule and where results land
 
 The workflow runs every day at 11:00 UTC. With rent coming from your script, a day costs about 1 RentCast call for the listing search plus tax/value lookups for the most promising homes, capped at 4 per run and 45 per billing period (`maxApiCallsPerRun`, `maxApiCallsPerMonth`). Once the period's calls are used it makes 0 calls and reuses the last scan.

@@ -11,6 +11,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { analyze, dealType, flipProfit, type BuyerAssumptions, type DealResult, type FlipAssumptions, type OfferRules } from "./deal.ts";
 import { loadCsv } from "./sources/csv.ts";
+import { fetchMortgageRate } from "./sources/rate.ts";
 import { fetchListings, fetchRent, fetchTaxAndHoa, fetchValue } from "./sources/rentcast.ts";
 import type { Listing } from "./sources/types.ts";
 import { writeCards, writeSpreadsheet } from "./output.ts";
@@ -92,6 +93,8 @@ interface Config {
   photos: PhotoConfig;
   // "file" = rent only from rents/rents.json (your own script); "rentcast" = RentCast, with rents.json overriding it
   rentSource?: "rentcast" | "file";
+  liveMortgageRate?: boolean;
+  rateSource?: string;
 }
 
 export interface Lead extends Listing {
@@ -241,6 +244,17 @@ export async function main() {
   mkdirSync(join(ROOT, "data"), { recursive: true });
   mkdirSync(join(ROOT, "out"), { recursive: true });
   const cache: Record<string, CacheEntry> = existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, "utf8")) : {};
+
+  // Live mortgage rate (config.json's interestRate is only the fallback).
+  const live = cfg.liveMortgageRate === false ? null : await fetchMortgageRate();
+  if (live) {
+    cfg.buyer.interestRate = live.rate;
+    cfg.rateSource = `${live.source}, ${live.date}`;
+    console.log(`Mortgage rate: ${(live.rate * 100).toFixed(2)}% (${cfg.rateSource})`);
+  } else {
+    cfg.rateSource = "config.json (live rate unavailable)";
+    console.log(`Mortgage rate: ${(cfg.buyer.interestRate * 100).toFixed(2)}% from config.json (live rate unavailable)`);
+  }
 
   const rentFile = loadRentFile();
   let listings: Listing[] = [];
