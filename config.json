@@ -3,6 +3,9 @@
   "maxApiCallsPerMonth": 50,
   "billingDay": 12,
   "rentcastListingsOnly": true,
+  "rentcastCallsUsed": {
+    "2026-11-12": 46
+  },
   "markets": [
     {
       "city": "Cincinnati",

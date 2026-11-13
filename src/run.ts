@@ -100,6 +100,8 @@ interface Config {
   // true = RentCast is used only for the listing search: 1 call (up to 500 listings) per market per run,
   // no tax / value lookups (your scripts supply rent and tax).
   rentcastListingsOnly?: boolean;
+  // Known RentCast usage per billing period ("YYYY-MM-DD" start), from the RentCast dashboard.
+  rentcastCallsUsed?: Record<string, number>;
   rateSource?: string;
 }
 
@@ -293,6 +295,9 @@ export async function main() {
     // Older runs counted by calendar month ("2026-11"); fold that into the current period.
     const old = today.slice(0, 7);
     if (usage[old] != null && !usage[month]) { usage[month] = usage[old]; delete usage[old]; }
+    // Calls RentCast counted that this bot's counter missed (e.g. a lost cache). Never count lower than that.
+    const floor = cfg.rentcastCallsUsed?.[month] ?? 0;
+    if ((usage[month] ?? 0) < floor) usage[month] = floor;
     const leftThisMonth = cfg.maxApiCallsPerMonth - (usage[month] ?? 0);
     // Listings-only: one call per market per run.
     const perRun = cfg.rentcastListingsOnly ? markets.length : cfg.maxApiCallsPerRun;
