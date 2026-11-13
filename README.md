@@ -40,9 +40,15 @@ Output goes to `out/`: `leads-YYYY-MM-DD.xlsx` (Leads, Skipped with the reason, 
 
 `.github/workflows/daily.yml` runs every morning at 11:00 UTC (6 AM Eastern) and can be started by hand from the Actions tab ("Run workflow", optionally with one market). It needs the repo secret `RENTCAST_API_KEY` (Settings → Secrets and variables → Actions). Each run's spreadsheet and cards are attached to the run as a download called `leads-<number>`, kept 30 days. The rent/tax cache carries over between runs.
 
+## API budget
+
+RentCast charges per call. `config.json` caps it: `maxApiCallsPerRun` and `maxApiCallsPerMonth` (both 45, under the free Developer plan's 50, so it never bills overage). When the cap is hit the run stops looking things up and finishes the rest on later runs, longest-listed homes first. Raise both numbers when you move to a paid plan (Foundation: 1,000/month).
+
+Calls per home: 1 for rent, plus 1 for the county tax record only if the home looks like it could work with an estimated tax bill. Listings cost 1 call per 500.
+
 ## Data source
 
-[RentCast](https://developers.rentcast.io) gives listings (with listing agent name and phone), rent estimates (median + range) and county tax records with one key. Rent and tax are cached in `data/cache.json` for 30 days, so after the first run a market only costs calls for new listings: 1 call per 500 listings, plus 2 calls per new listing.
+[RentCast](https://developers.rentcast.io) gives listings (with listing agent name and phone), rent estimates (median + range) and county tax records with one key. Rent and tax are cached in `data/cache.json` for 30 days, so after the first run a market only costs calls for new listings.
 
 You can also run from any CSV (an MLS export works): `node src/run.ts --csv file.csv`. Needed columns: address, city, state, price. Optional: zip, propertyType, beds, baths, sqft, hoa, rent, tax, insurance, dom, agent, agentPhone, agentEmail, url.
 

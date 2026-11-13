@@ -27,10 +27,11 @@ export async function fetchListings(
   market: { city: string; state: string },
   search: { minPrice: number; maxPrice: number; propertyTypes: string[] },
   key: string,
+  maxPages = 20,
 ): Promise<Listing[]> {
   const out: Listing[] = [];
   const limit = 500;
-  for (let offset = 0; offset < 10000; offset += limit) {
+  for (let offset = 0; offset < limit * maxPages; offset += limit) {
     const page: any[] = await get(
       "/listings/sale",
       {

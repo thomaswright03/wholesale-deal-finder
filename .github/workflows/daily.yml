@@ -27,7 +27,9 @@ jobs:
       # Rent + tax lookups are cached for 30 days so each run only pays for new listings.
       - uses: actions/cache@v4
         with:
-          path: data/cache.json
+          path: |
+            data/cache.json
+            data/usage.json
           key: rentcast-${{ github.run_id }}
           restore-keys: rentcast-
 

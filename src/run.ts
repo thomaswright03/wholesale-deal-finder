@@ -16,6 +16,8 @@ import { writeCards, writeSpreadsheet } from "./output.ts";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 interface Config {
+  maxApiCallsPerRun: number;
+  maxApiCallsPerMonth: number;
   markets: { city: string; state: string }[];
   search: { minPrice: number; maxPrice: number; propertyTypes: string[]; excludeListingTypes: string[]; skipHoa: boolean };
   buyer: BuyerAssumptions & { taxFallbackPctOfPrice: number };
@@ -31,6 +33,7 @@ interface CacheEntry {
   rent?: { rent: number; low: number; high: number } | null;
   tax?: number;
   hoa?: number;
+  taxChecked?: boolean;
   fetchedAt: string;
   firstSeen: string;
 }
@@ -59,6 +62,16 @@ export function passesSearch(l: Listing, s: Config["search"]): string | null {
   return null;
 }
 
+// Would this home qualify (or nearly) if its tax bill were the fallback estimate?
+function looksPromising(l: Listing, cfg: Config): boolean {
+  const d = analyze(
+    { listPrice: l.price, monthlyRent: l.monthlyRent!, annualTax: l.price * cfg.buyer.taxFallbackPctOfPrice, monthlyHoa: l.monthlyHoa },
+    cfg.buyer,
+    cfg.offer,
+  );
+  return d.ceilingOffer >= d.floorOffer - l.price * 0.05;
+}
+
 export function evaluate(listings: Listing[], cfg: Config, today: string, firstSeen: (l: Listing) => string) {
   const leads: Lead[] = [];
   const rejected: { l: Listing; reason: string; deal?: DealResult }[] = [];
@@ -83,7 +96,7 @@ export function evaluate(listings: Listing[], cfg: Config, today: string, firstS
   return { leads, rejected };
 }
 
-async function main() {
+export async function main() {
   loadEnv();
   const cfg: Config = JSON.parse(readFileSync(join(ROOT, "config.json"), "utf8"));
   const today = new Date().toISOString().slice(0, 10);
@@ -105,32 +118,58 @@ async function main() {
     const markets = only
       ? [{ city: only.split(",")[0].trim(), state: only.split(",")[1].trim() }]
       : cfg.markets;
+    // Hard cap on paid API calls per run (config.maxApiCallsPerRun). Anything not looked up
+    // this run waits for the next one, longest-listed homes first.
+    // Also a monthly cap, tracked in data/usage.json, so a daily schedule can't blow past the plan.
+    const usagePath = join(ROOT, "data", "usage.json");
+    const month = today.slice(0, 7);
+    const usage: Record<string, number> = existsSync(usagePath) ? JSON.parse(readFileSync(usagePath, "utf8")) : {};
+    const leftThisMonth = cfg.maxApiCallsPerMonth - (usage[month] ?? 0);
+    const budget = Math.max(0, Math.min(cfg.maxApiCallsPerRun, leftThisMonth));
+    if (budget === 0) console.log(`Monthly API budget (${cfg.maxApiCallsPerMonth}) used up for ${month}; using cached data only`);
     let calls = 0;
+    const canCall = () => calls < budget;
     for (const m of markets) {
-      const found = await fetchListings(m, cfg.search, key);
+      if (!canCall()) { console.log(`Call budget used up, skipping ${m.city}, ${m.state}`); continue; }
+      const found = await fetchListings(m, cfg.search, key, Math.max(1, Math.min(20, budget - calls)));
       calls += Math.max(1, Math.ceil(found.length / 500));
       console.log(`${m.city}, ${m.state}: ${found.length} active listings`);
+      found.sort((a, b) => (b.daysOnMarket ?? 0) - (a.daysOnMarket ?? 0));
+      let waiting = 0;
       for (const l of found) {
-        // Only spend API calls on listings that pass the cheap filters first.
+        // Only spend API calls on listings that pass the free filters first.
         if (passesSearch(l, cfg.search)) { listings.push(l); continue; }
         const c = (cache[l.id] ??= { fetchedAt: "", firstSeen: today });
         const stale = !c.fetchedAt || (Date.parse(today) - Date.parse(c.fetchedAt)) / 864e5 > REFRESH_DAYS;
         if (stale) {
+          if (!canCall()) { waiting++; continue; }
           c.rent = await fetchRent(l, key);
-          const t = await fetchTaxAndHoa(l, key);
-          c.tax = t.tax;
-          c.hoa = t.hoa;
+          calls++;
           c.fetchedAt = today;
-          calls += 2;
+          c.tax = undefined;
+          c.taxChecked = false;
         }
         if (c.rent) { l.monthlyRent = c.rent.rent; l.rentLow = c.rent.low; l.rentHigh = c.rent.high; }
+        // Second call (county tax record) only for homes that look like they could work
+        // with an estimated tax bill. Saves roughly half the calls.
+        if (c.rent && !c.taxChecked && looksPromising(l, cfg)) {
+          if (!canCall()) { waiting++; listings.push(l); continue; }
+          const t = await fetchTaxAndHoa(l, key);
+          calls++;
+          c.tax = t.tax;
+          c.hoa = t.hoa;
+          c.taxChecked = true;
+        }
         if (c.tax != null) l.annualTax = c.tax;
         if (c.hoa && !l.monthlyHoa) l.monthlyHoa = c.hoa;
         listings.push(l);
       }
+      if (waiting) console.log(`  ${waiting} listings still need lookups; they'll be done on the next runs`);
       writeFileSync(cachePath, JSON.stringify(cache, null, 1));
     }
-    console.log(`RentCast calls this run: ~${calls}`);
+    usage[month] = (usage[month] ?? 0) + calls;
+    writeFileSync(usagePath, JSON.stringify(usage, null, 1));
+    console.log(`RentCast calls this run: ${calls} (month so far: ${usage[month]} of ${cfg.maxApiCallsPerMonth})`);
   }
 
   const { leads, rejected } = evaluate(listings, cfg, today, (l) => cache[l.id]?.firstSeen ?? today);

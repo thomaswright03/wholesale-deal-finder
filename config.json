@@ -1,4 +1,6 @@
 {
+  "maxApiCallsPerRun": 45,
+  "maxApiCallsPerMonth": 45,
   "markets": [
     { "city": "Cincinnati", "state": "OH" }
   ],
