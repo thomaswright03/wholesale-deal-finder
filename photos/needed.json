@@ -1031,7 +1031,7 @@
       "zip": "45214",
       "folder": "photos/2082-Harrison-Ave-Cincinnati-OH-45214",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -1053,7 +1053,7 @@
       "zip": "45227",
       "folder": "photos/4530-Whetsel-Ave-Cincinnati-OH-45227",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -1064,7 +1064,7 @@
       "zip": "45251",
       "folder": "photos/9161-Trelawney-Ct-Cincinnati-OH-45251",
       "hasPhotos": true,
-      "rated": false,
+      "rated": true,
       "tier": "C"
     }
   ]
