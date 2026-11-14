@@ -67,28 +67,6 @@
       "tier": "A"
     },
     {
-      "address": "1626 Brewster Ave, Cincinnati, OH 45207",
-      "street": "1626 Brewster Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45207",
-      "folder": "photos/1626-Brewster-Ave-Cincinnati-OH-45207",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "A"
-    },
-    {
-      "address": "1616 Brewster Ave, Cincinnati, OH 45207",
-      "street": "1616 Brewster Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45207",
-      "folder": "photos/1616-Brewster-Ave-Cincinnati-OH-45207",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "A"
-    },
-    {
       "address": "1714 Monterey Ct, Cincinnati, OH 45223",
       "street": "1714 Monterey Ct",
       "city": "Cincinnati",
@@ -128,6 +106,17 @@
       "state": "OH",
       "zip": "45219",
       "folder": "photos/2156-W-Clifton-Ave-Cincinnati-OH-45219",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "222 Klotter Ave, Cincinnati, OH 45219",
+      "street": "222 Klotter Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45219",
+      "folder": "photos/222-Klotter-Ave-Cincinnati-OH-45219",
       "hasPhotos": false,
       "rated": false,
       "tier": "B"
@@ -232,17 +221,6 @@
       "tier": "B"
     },
     {
-      "address": "7510 Cornelia Ave, Cincinnati, OH 45216",
-      "street": "7510 Cornelia Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45216",
-      "folder": "photos/7510-Cornelia-Ave-Cincinnati-OH-45216",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
       "address": "1729 Pulte St, Cincinnati, OH 45225",
       "street": "1729 Pulte St",
       "city": "Cincinnati",
@@ -260,6 +238,17 @@
       "state": "OH",
       "zip": "45205",
       "folder": "photos/3320-Glenway-Ave-Cincinnati-OH-45205",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "7510 Cornelia Ave, Cincinnati, OH 45216",
+      "street": "7510 Cornelia Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45216",
+      "folder": "photos/7510-Cornelia-Ave-Cincinnati-OH-45216",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -702,6 +691,39 @@
       "folder": "photos/3040-Boudinot-Ave-Cincinnati-OH-45238",
       "hasPhotos": true,
       "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "1616 Brewster Ave, Cincinnati, OH 45207",
+      "street": "1616 Brewster Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1616-Brewster-Ave-Cincinnati-OH-45207",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "1626 Brewster Ave, Cincinnati, OH 45207",
+      "street": "1626 Brewster Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1626-Brewster-Ave-Cincinnati-OH-45207",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "1624 Brewster Ave, Cincinnati, OH 45207",
+      "street": "1624 Brewster Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1624-Brewster-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {

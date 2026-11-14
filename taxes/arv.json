@@ -12886,5 +12886,473 @@
   "radiusFt": 2640,
   "checked": "2026-11-14",
   "found": true
+ },
+ "4142-Kirby-Ave-Cincinnati-OH-45223": {
+  "arv": 302000,
+  "comps": 5,
+  "ppsf": 121,
+  "low": 97000,
+  "high": 337500,
+  "top": [
+   {
+    "parcel": "195-0028-0285-00",
+    "address": "1739 CHASE AVE",
+    "sqft": 2091,
+    "built": 1890,
+    "date": "03/19/2026",
+    "price": 337500
+   },
+   {
+    "parcel": "195-0029-0105-00",
+    "address": "1845 HANFIELD ST",
+    "sqft": 2679,
+    "built": 1912,
+    "date": "06/02/2026",
+    "price": 325000
+   },
+   {
+    "parcel": "196-0027-0150-00",
+    "address": "1734 PELL ST",
+    "sqft": 2951,
+    "built": 1915,
+    "date": "01/08/2026",
+    "price": 285000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "11570-Farmington-Rd-Cincinnati-OH-45240": {
+  "arv": 200000,
+  "comps": 19,
+  "ppsf": 200,
+  "low": 138000,
+  "high": 255000,
+  "top": [
+   {
+    "parcel": "591-0008-0320-00",
+    "address": "11639 HANOVER RD",
+    "sqft": 950,
+    "built": 1962,
+    "date": "04/24/2026",
+    "price": 240000
+   },
+   {
+    "parcel": "591-0004-0074-00",
+    "address": "11445 FIESTA CT",
+    "sqft": 962,
+    "built": 1956,
+    "date": "12/12/2025",
+    "price": 236200
+   },
+   {
+    "parcel": "591-0009-0044-00",
+    "address": "864 FAIRBORN RD",
+    "sqft": 999,
+    "built": 1958,
+    "date": "06/18/2026",
+    "price": 235000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "2632-Bremont-Ave-Cincinnati-OH-45237": {
+  "arv": 303000,
+  "comps": 18,
+  "ppsf": 291,
+  "low": 132000,
+  "high": 400000,
+  "top": [
+   {
+    "parcel": "117-0018-0008-00",
+    "address": "2410 LANGDON FARM RD",
+    "sqft": 1000,
+    "built": 1949,
+    "date": "02/18/2026",
+    "price": 341000
+   },
+   {
+    "parcel": "122-0001-0152-00",
+    "address": "6408 GIRARD AVE",
+    "sqft": 819,
+    "built": 1939,
+    "date": "09/14/2026",
+    "price": 272000
+   },
+   {
+    "parcel": "122-0001-0412-00",
+    "address": "6201 GIRARD AVE",
+    "sqft": 1064,
+    "built": 1952,
+    "date": "10/08/2026",
+    "price": 350000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "4225-Chambers-St-Cincinnati-OH-45223": {
+  "arv": 290000,
+  "comps": 26,
+  "ppsf": 216,
+  "low": 75000,
+  "high": 365000,
+  "top": [
+   {
+    "parcel": "221-0021-0030-00",
+    "address": "1454 WEIGOLD AVE",
+    "sqft": 1121,
+    "built": 1927,
+    "date": "03/06/2026",
+    "price": 295000
+   },
+   {
+    "parcel": "221-0020-0260-00",
+    "address": "4261 DANE AVE",
+    "sqft": 1008,
+    "built": 1932,
+    "date": "06/22/2026",
+    "price": 251000
+   },
+   {
+    "parcel": "197-0037-0044-00",
+    "address": "1541 DONALDSON PL",
+    "sqft": 1486,
+    "built": 1919,
+    "date": "05/19/2026",
+    "price": 351971
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "2673-Cornwall-Dr-Cincinnati-OH-45231": {
+  "arv": 276000,
+  "comps": 26,
+  "ppsf": 167,
+  "low": 40755,
+  "high": 320000,
+  "top": [
+   {
+    "parcel": "510-0064-0104-00",
+    "address": "8932 RENETTA DR",
+    "sqft": 1200,
+    "built": 1972,
+    "date": "10/28/2026",
+    "price": 245000
+   },
+   {
+    "parcel": "510-0052-0555-00",
+    "address": "2909 GLENAIRE DR",
+    "sqft": 1332,
+    "built": 1972,
+    "date": "05/15/2026",
+    "price": 266900
+   },
+   {
+    "parcel": "510-0053-0194-00",
+    "address": "9287 COOGAN DR",
+    "sqft": 1359,
+    "built": 1959,
+    "date": "11/06/2026",
+    "price": 257500
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "222-Klotter-Ave-Cincinnati-OH-45219": {
+  "arv": 339000,
+  "comps": 19,
+  "ppsf": 187,
+  "low": 30000,
+  "high": 385000,
+  "top": [
+   {
+    "parcel": "097-0002-0212-00",
+    "address": "457 LLOYD PL",
+    "sqft": 1748,
+    "built": 1926,
+    "date": "03/19/2026",
+    "price": 360000
+   },
+   {
+    "parcel": "100-0001-0244-00",
+    "address": "2382 RAVINE ST",
+    "sqft": 1754,
+    "built": 1912,
+    "date": "04/02/2026",
+    "price": 355000
+   },
+   {
+    "parcel": "096-0003-0068-00",
+    "address": "441 KLOTTER AVE",
+    "sqft": 1910,
+    "built": 1894,
+    "date": "02/27/2026",
+    "price": 385000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "1331-Avon-Dr-Cincinnati-OH-45229": {
+  "arv": 242000,
+  "comps": 13,
+  "ppsf": 154,
+  "low": 130000,
+  "high": 471000,
+  "top": [
+   {
+    "parcel": "116-0002-0081-00",
+    "address": "1308 AVON DR",
+    "sqft": 1870,
+    "built": 1929,
+    "date": "12/11/2025",
+    "price": 471000
+   },
+   {
+    "parcel": "116-0002-0172-00",
+    "address": "1331 WESTMINSTER DR",
+    "sqft": 1932,
+    "built": 1931,
+    "date": "05/19/2026",
+    "price": 398000
+   },
+   {
+    "parcel": "651-0049-0222-00",
+    "address": "1731 CLEVELAND AVE",
+    "sqft": 1295,
+    "built": 1925,
+    "date": "06/11/2026",
+    "price": 225000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "3318-Queen-City-Ave-Cincinnati-OH-45238": {
+  "arv": 214000,
+  "comps": 28,
+  "ppsf": 209,
+  "low": 70000,
+  "high": 325000,
+  "top": [
+   {
+    "parcel": "212-0061-0086-00",
+    "address": "5925 GLENWAY AVE",
+    "sqft": 1125,
+    "built": 1951,
+    "date": "07/14/2026",
+    "price": 315000
+   },
+   {
+    "parcel": "208-0060-0146-00",
+    "address": "3160 QUEEN CITY AVE",
+    "sqft": 1164,
+    "built": 1938,
+    "date": "09/14/2026",
+    "price": 325000
+   },
+   {
+    "parcel": "208-0064-0003-00",
+    "address": "3291 TULSA CT",
+    "sqft": 950,
+    "built": 1949,
+    "date": "10/02/2026",
+    "price": 228600
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "6056-Red-Bank-Rd-Cincinnati-OH-45213": {
+  "arv": 306000,
+  "comps": 52,
+  "ppsf": 225,
+  "low": 38310,
+  "high": 415000,
+  "top": [
+   {
+    "parcel": "130-0002-0030-00",
+    "address": "3947 ODIN AVE",
+    "sqft": 984,
+    "built": 1928,
+    "date": "06/03/2026",
+    "price": 300000
+   },
+   {
+    "parcel": "127-0004-0094-00",
+    "address": "5723 KINOLL AVE",
+    "sqft": 1007,
+    "built": 1950,
+    "date": "10/06/2026",
+    "price": 300000
+   },
+   {
+    "parcel": "602-0002-0446-00",
+    "address": "3947 HOLMAN CR",
+    "sqft": 1468,
+    "built": 1938,
+    "date": "06/02/2026",
+    "price": 410000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "1624-Brewster-Ave-Cincinnati-OH-45207": {
+  "arv": 341000,
+  "comps": 43,
+  "ppsf": 181,
+  "low": 83735,
+  "high": 565000,
+  "top": [
+   {
+    "parcel": "058-0005-0010-00",
+    "address": "1627 JONATHAN AVE",
+    "sqft": 1373,
+    "built": 1920,
+    "date": "03/25/2026",
+    "price": 365000
+   },
+   {
+    "parcel": "054-0006-0011-00",
+    "address": "1521 BLAIR AVE",
+    "sqft": 1479,
+    "built": 2021,
+    "date": "04/27/2026",
+    "price": 370000
+   },
+   {
+    "parcel": "054-0006-0059-00",
+    "address": "1545 RUTH AVE",
+    "sqft": 1478,
+    "built": 2022,
+    "date": "03/04/2026",
+    "price": 365000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "1620-Brewster-Ave-Cincinnati-OH-45207": {
+  "arv": 354000,
+  "comps": 42,
+  "ppsf": 181,
+  "low": 83735,
+  "high": 565000,
+  "top": [
+   {
+    "parcel": "058-0005-0010-00",
+    "address": "1627 JONATHAN AVE",
+    "sqft": 1373,
+    "built": 1920,
+    "date": "03/25/2026",
+    "price": 365000
+   },
+   {
+    "parcel": "054-0006-0011-00",
+    "address": "1521 BLAIR AVE",
+    "sqft": 1479,
+    "built": 2021,
+    "date": "04/27/2026",
+    "price": 370000
+   },
+   {
+    "parcel": "054-0006-0059-00",
+    "address": "1545 RUTH AVE",
+    "sqft": 1478,
+    "built": 2022,
+    "date": "03/04/2026",
+    "price": 365000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "3322-Queen-City-Ave-Cincinnati-OH-45238": {
+  "arv": 182000,
+  "comps": 16,
+  "ppsf": 214,
+  "low": 70000,
+  "high": 228600,
+  "top": [
+   {
+    "parcel": "208-0064-0003-00",
+    "address": "3291 TULSA CT",
+    "sqft": 950,
+    "built": 1949,
+    "date": "10/02/2026",
+    "price": 228600
+   },
+   {
+    "parcel": "212-0067-0093-00",
+    "address": "3373 KATHY LN",
+    "sqft": 925,
+    "built": 1951,
+    "date": "04/09/2026",
+    "price": 218000
+   },
+   {
+    "parcel": "212-0062-0098-00",
+    "address": "3226 BUELL ST",
+    "sqft": 851,
+    "built": 1953,
+    "date": "06/04/2026",
+    "price": 200000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
+ },
+ "3314-Queen-City-Ave-Cincinnati-OH-45238": {
+  "arv": 235000,
+  "comps": 35,
+  "ppsf": 193,
+  "low": 70000,
+  "high": 325000,
+  "top": [
+   {
+    "parcel": "212-0061-0086-00",
+    "address": "5925 GLENWAY AVE",
+    "sqft": 1125,
+    "built": 1951,
+    "date": "07/14/2026",
+    "price": 315000
+   },
+   {
+    "parcel": "208-0060-0146-00",
+    "address": "3160 QUEEN CITY AVE",
+    "sqft": 1164,
+    "built": 1938,
+    "date": "09/14/2026",
+    "price": 325000
+   },
+   {
+    "parcel": "208-0064-0003-00",
+    "address": "3291 TULSA CT",
+    "sqft": 950,
+    "built": 1949,
+    "date": "10/02/2026",
+    "price": 228600
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-14",
+  "found": true
  }
 }
