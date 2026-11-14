@@ -80,7 +80,7 @@ export async function writeSpreadsheet(
   ];
   for (const l of leads) {
     const d = l.deal;
-    const notes = [l.rentSource?.includes("duplex") ? `Rent assumes a duplex (2 x HUD 2-bed for ${l.zip}); confirm the unit count before calling. Capped at tier B` : l.rentSource?.startsWith("HUD") ? `Rent is ${l.rentSource} for ${l.zip} (conservative; check comps)` : "", l.taxEstimated ? "Tax estimated (no county record)" : l.taxSource ? `Tax from ${l.taxSource}` : "", d.reason].filter(Boolean).join(". ");
+    const notes = [l.rentSource?.includes("duplex") ? `Rent assumes a duplex (2 x HUD 2-bed for ${l.zip}); confirm the unit count before calling. Capped at tier B` : l.rentSource?.startsWith("HUD") ? `Rent is ${l.rentSource} for ${l.zip} (conservative; check comps)` : "", l.taxEstimated ? "Tax estimated (no county record)" : l.taxSource ? `Tax from ${l.taxSource}` : "", l.arvSource ?? "", d.reason].filter(Boolean).join(". ");
     const row = ws.addRow({
       tier: d.tier, isNew: l.isNew ? "Yes" : "", address: l.address, city: l.city, state: l.state, zip: l.zip,
       propertyType: l.propertyType, beds: l.beds, baths: l.baths, sqft: l.sqft, dom: l.daysOnMarket,

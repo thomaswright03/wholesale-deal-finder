@@ -112,7 +112,7 @@ let suffixWanted = "";
 function pickFromResults(html: string, number: string, name: string, suffix: string): string | null {
   const rows = [...html.matchAll(/<tr[\s\S]*?<\/tr>/gi)].map((m) =>
     [...m[0].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map((c) => c[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()),
-  ).filter((c) => /^\d{3}-\d{4}-\d{4}-\d{2}$/.test(c[0] ?? ""));
+  ).filter((c) => /^\d{3}-[\dA-Z]{4}-\d{4}-\d{2}$/.test(c[0] ?? ""));
   const words = name.toUpperCase().replace(/-/g, " ").split(/\s+/);
   const hits = rows.filter(([, , addr = ""]) => {
     const a = addr.toUpperCase().replace(/-/g, " ").split(/\s+/);

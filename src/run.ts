@@ -13,6 +13,7 @@ import { analyze, dealType, flipProfit, type BuyerAssumptions, type DealResult, 
 import { loadCsv } from "./sources/csv.ts";
 import { fetchMortgageRate } from "./sources/rate.ts";
 import { fetchCountyTax, inHamiltonCounty, type CountyTax } from "./sources/auditor.ts";
+import { fetchCountyArv, type CountyArv } from "./sources/comps.ts";
 import { fetchListings, fetchRent, fetchTaxAndHoa, fetchValue } from "./sources/rentcast.ts";
 import type { Listing } from "./sources/types.ts";
 import { writeCards, writeSpreadsheet } from "./output.ts";
@@ -131,6 +132,42 @@ async function applyCountyTaxes(listings: Listing[], cfg: Config) {
   writeFileSync(p, JSON.stringify(saved, null, 1) + "\n");
   const have = Object.values(saved).filter((t) => t.found).length;
   console.log(`County taxes: looked up ${looked} (${found} found), ${have} saved in ${COUNTY_FILE}${failed >= 5 ? " (stopped: site not answering)" : ""}`);
+}
+
+// ARV (column "Value / ARV") from recent county sales near each house. Needs the parcel from the
+// county tax lookup. Saved to taxes/arv.json and refreshed every 30 days.
+const ARV_FILE = join("taxes", "arv.json");
+async function applyCountyArv(listings: Listing[], cfg: Config) {
+  const p = join(ROOT, ARV_FILE);
+  const taxes: Record<string, CountyTax> = existsSync(join(ROOT, COUNTY_FILE)) ? JSON.parse(readFileSync(join(ROOT, COUNTY_FILE), "utf8")) : {};
+  const saved: Record<string, CountyArv> = existsSync(p) ? JSON.parse(readFileSync(p, "utf8")) : {};
+  const refreshBefore = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  const max = cfg.maxCountyLookupsPerRun ?? 600;
+  let looked = 0, found = 0, failed = 0;
+  for (const l of listings) {
+    if (passesSearch(l, cfg.search) || !inHamiltonCounty(l)) continue;
+    const key = rentKey(l);
+    const parcel = taxes[key]?.parcel;
+    if (!parcel || !l.sqft) continue;
+    let a = saved[key];
+    if ((!a || a.checked < refreshBefore) && looked < max && failed < 5) {
+      try {
+        a = await fetchCountyArv(l, parcel, isMulti(l));
+        saved[key] = a; looked++; failed = 0;
+        if (a.found) found++;
+      } catch (e) {
+        failed++;
+        console.log(`County sales lookup failed for ${l.address}: ${(e as Error).message}`);
+      }
+    }
+    if (a?.found && a.arv) {
+      l.value = a.arv;
+      l.arvSource = `ARV from ${a.comps} county sales within ${a.radiusFt === 2640 ? "1/2 mile" : "1 mile"} in the last year (top quarter $${a.ppsf}/sqft; sales $${a.low!.toLocaleString("en-US")}-$${a.high!.toLocaleString("en-US")})`;
+    }
+  }
+  writeFileSync(p, JSON.stringify(saved, null, 1) + "\n");
+  const have = Object.values(saved).filter((a) => a.found).length;
+  console.log(`County ARV: looked up ${looked} (${found} found), ${have} saved in ${ARV_FILE}${failed >= 5 ? " (stopped: site not answering)" : ""}`);
 }
 
 function writeRentsNeeded(listings: Listing[], rents: Record<string, RentEntry>, cfg: Config) {
@@ -453,6 +490,7 @@ export async function main() {
 
   for (const l of listings) applyFileRent(l, rentFile);
   await applyCountyTaxes(listings, cfg);
+  await applyCountyArv(listings, cfg);
   writeRentsNeeded(listings, rentFile, cfg);
 
   const { leads, rejected } = evaluate(listings, cfg, today, (l) => cache[l.id]?.firstSeen ?? today, Number(arg("limit") ?? 0) > 0);
