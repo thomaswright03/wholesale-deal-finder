@@ -15,6 +15,22 @@ export function zillowUrl(l: Listing) {
 const money = '"$"#,##0';
 const pct = "0.0%";
 
+// Text message to the listing agent, from the "agentText" template in config.json.
+// Placeholders: {agentFirst} {agent} {address} {city} {listPrice} {offer}
+export function agentText(template: string | undefined, l: Lead): string {
+  if (!template) return "";
+  const money = (n?: number) => (n ? "$" + Math.round(n).toLocaleString("en-US") : "");
+  const vals: Record<string, string> = {
+    agentFirst: (l.agentName ?? "").trim().split(/\s+/)[0] || "there",
+    agent: l.agentName ?? "",
+    address: l.address,
+    city: l.city,
+    listPrice: money(l.deal?.listPrice),
+    offer: money(l.deal?.floorOffer),
+  };
+  return template.replace(/\{(\w+)\}/g, (m, k) => vals[k] ?? m);
+}
+
 export async function writeSpreadsheet(
   path: string,
   leads: Lead[],
@@ -23,46 +39,44 @@ export async function writeSpreadsheet(
 ) {
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet("Leads", { views: [{ state: "frozen", ySplit: 1 }] });
+  // Column order chosen by the client (2026-11-13). Dropped: buyer mortgage, buyer cash in,
+  // buyer cash flow, condition label, single rehab estimate. Tier wasn't numbered, so it sits last.
   ws.columns = [
-    { header: "Tier", key: "tier", width: 6 },
-    { header: "New today", key: "isNew", width: 9 },
+    { header: "Rental: buyer cash-on-cash", key: "coc", width: 12, style: { numFmt: pct } },
+    { header: "Flip: buyer profit", key: "flip", width: 12, style: { numFmt: money } },
+    { header: "Photo confidence", key: "conf", width: 10 },
+    { header: "Text to agent", key: "agentText", width: 60 },
+    { header: "Agent", key: "agent", width: 20 },
+    { header: "Agent phone", key: "phone", width: 14 },
     { header: "Address", key: "address", width: 28 },
-    { header: "Beds", key: "beds", width: 6 },
-    { header: "Baths", key: "baths", width: 6 },
-    { header: "Sqft", key: "sqft", width: 7 },
-    { header: "Days on market", key: "dom", width: 9 },
     { header: "List price", key: "list", width: 11, style: { numFmt: money } },
     { header: "Floor offer (70%)", key: "floor", width: 12, style: { numFmt: money } },
     { header: "Ceiling offer", key: "ceiling", width: 12, style: { numFmt: money } },
     { header: "Buyer max price", key: "buyerMax", width: 12, style: { numFmt: money } },
+    { header: "Days on market", key: "dom", width: 9 },
     { header: "Your fee at floor", key: "fee", width: 12, style: { numFmt: money } },
+    { header: "Value / ARV", key: "arv", width: 11, style: { numFmt: money } },
+    { header: "Flip rehab (est.)", key: "rehab", width: 11, style: { numFmt: money } },
+    { header: "Rehab range", key: "rrange", width: 18 },
+    { header: "Rehab breakdown (Home Restoration AI)", key: "rlines", width: 60 },
+    { header: "Photo notes", key: "pnotes", width: 50 },
+    { header: "Photo folder", key: "pfolder", width: 40 },
+    { header: "Beds", key: "beds", width: 6 },
+    { header: "Baths", key: "baths", width: 6 },
+    { header: "Sqft", key: "sqft", width: 7 },
+    { header: "New today", key: "isNew", width: 9 },
     { header: "Median rent /mo", key: "rent", width: 11, style: { numFmt: money } },
     { header: "Property tax /yr", key: "tax", width: 11, style: { numFmt: money } },
     { header: "Insurance /yr (est.)", key: "ins", width: 11, style: { numFmt: money } },
-    { header: "Buyer mortgage /mo", key: "pi", width: 11, style: { numFmt: money } },
-    { header: "Buyer cash in", key: "inv", width: 11, style: { numFmt: money } },
-    { header: "Buyer cash flow /yr", key: "cf", width: 11, style: { numFmt: money } },
-    { header: "Deal type", key: "type", width: 9 },
-    { header: "Rental: buyer cash-on-cash", key: "coc", width: 12, style: { numFmt: pct } },
-    { header: "Flip: buyer profit", key: "flip", width: 12, style: { numFmt: money } },
-    { header: "Value / ARV", key: "arv", width: 11, style: { numFmt: money } },
-    { header: "Flip rehab (est.)", key: "rehab", width: 11, style: { numFmt: money } },
-    { header: "Condition (from photos)", key: "cond", width: 14 },
-    { header: "Rehab estimate (photos)", key: "prehab", width: 12, style: { numFmt: '"$"#,##0' } },
-    { header: "Rehab range", key: "rrange", width: 18 },
-    { header: "Rehab breakdown (Home Restoration AI)", key: "rlines", width: 60 },
-    { header: "Photo confidence", key: "conf", width: 10 },
-    { header: "Photo notes", key: "pnotes", width: 50 },
-    { header: "Photo folder", key: "pfolder", width: 40 },
-    { header: "Agent", key: "agent", width: 20 },
-    { header: "Agent phone", key: "phone", width: 14 },
     { header: "Agent email", key: "email", width: 24 },
     { header: "Listing", key: "link", width: 10 },
-    { header: "Notes", key: "notes", width: 30 },
     { header: "City", key: "city", width: 14 },
     { header: "State", key: "state", width: 6 },
     { header: "Zip", key: "zip", width: 8 },
     { header: "Type", key: "propertyType", width: 13 },
+    { header: "Deal type", key: "type", width: 9 },
+    { header: "Notes", key: "notes", width: 30 },
+    { header: "Tier", key: "tier", width: 6 },
   ];
   for (const l of leads) {
     const d = l.deal;
@@ -84,6 +98,7 @@ export async function writeSpreadsheet(
       conf: l.condition?.confidence, pnotes: l.condition?.notes, pfolder: l.photoFolder ? `photos/${l.photoFolder}/` : "",
       agent: l.agentName, phone: l.agentPhone, email: l.agentEmail,
       link: { text: "Open", hyperlink: zillowUrl(l) }, notes,
+      agentText: agentText(cfg.agentText, l),
     });
     const fill = d.tier === "A" ? "FFD9F2D0" : d.tier === "B" ? "FFFFF2CC" : "FFF2F2F2";
     row.getCell("tier").fill = { type: "pattern", pattern: "solid", fgColor: { argb: fill } };

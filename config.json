@@ -67,5 +67,6 @@
         "discount": 30000
       }
     ]
-  }
+  },
+  "agentText": "Hey {agentFirst}, saw your listing on {address}. Is the seller open to an offer around {offer}? I can close quickly."
 }
