@@ -143,7 +143,7 @@ async function applyCountyArv(listings: Listing[], cfg: Config) {
   const saved: Record<string, CountyArv> = existsSync(p) ? JSON.parse(readFileSync(p, "utf8")) : {};
   const refreshBefore = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
   const max = cfg.maxCountyLookupsPerRun ?? 600;
-  let looked = 0, found = 0, failed = 0;
+  let looked = 0, found = 0, failed = 0, refused = 0, refusedRow = 0;
   for (const l of listings) {
     if (passesSearch(l, cfg.search) || !inHamiltonCounty(l)) continue;
     const key = rentKey(l);
@@ -152,9 +152,17 @@ async function applyCountyArv(listings: Listing[], cfg: Config) {
     let a = saved[key];
     if ((!a || a.checked < refreshBefore) && looked < max && failed < 5) {
       try {
-        a = await fetchCountyArv(l, parcel, isMulti(l));
-        saved[key] = a; looked++; failed = 0;
-        if (a.found) found++;
+        const got = await fetchCountyArv(l, parcel, isMulti(l));
+        looked++; failed = 0;
+        if (got.error) {
+          // County refused the search for this parcel; try again next run. Many in a row = site trouble.
+          refused++;
+          if (refused === 1 || refused % 25 === 0) console.log(`County sales search refused ${l.address} (${got.error}); ${refused} so far`);
+        } else {
+          saved[key] = a = got; refusedRow = 0;
+          if (got.found) found++;
+        }
+        if (got.error && ++refusedRow >= 15) { console.log("County sales search refused 15 in a row; stopping for this run"); failed = 5; }
       } catch (e) {
         failed++;
         console.log(`County sales lookup failed for ${l.address}: ${(e as Error).message}`);
@@ -167,7 +175,7 @@ async function applyCountyArv(listings: Listing[], cfg: Config) {
   }
   writeFileSync(p, JSON.stringify(saved, null, 1) + "\n");
   const have = Object.values(saved).filter((a) => a.found).length;
-  console.log(`County ARV: looked up ${looked} (${found} found), ${have} saved in ${ARV_FILE}${failed >= 5 ? " (stopped: site not answering)" : ""}`);
+  console.log(`County ARV: looked up ${looked} (${found} found, ${refused} refused by the county), ${have} saved in ${ARV_FILE}${failed >= 5 ? " (stopped: site not answering)" : ""}`);
 }
 
 function writeRentsNeeded(listings: Listing[], rents: Record<string, RentEntry>, cfg: Config) {

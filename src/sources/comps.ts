@@ -25,6 +25,7 @@ export type CountyArv = {
   top?: Comp[]; // the three best sales, for checking by hand
   checked: string;
   found: boolean;
+  error?: string; // why the county search gave nothing for this house
 };
 
 let cookie = "";
@@ -54,11 +55,30 @@ export function parseSales(html: string): Comp[] {
   return out;
 }
 
-// One sales search around a parcel; returns every sale (all result pages).
+// The county site runs on Cincinnati time; a "today" in UTC can be tomorrow there.
+const easternNow = () => new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+
+// Thrown when the county search refuses this one parcel (some parcels have no map location,
+// so the radius search errors). Not a sign the site is down.
+export class NoRadiusSearch extends Error {}
+
+// One sales search around a parcel; returns every sale (all result pages). Tries twice.
 export async function salesNear(parcel: string, feet: number, use: string): Promise<Comp[]> {
+  try {
+    return await salesNearOnce(parcel, feet, use);
+  } catch (e) {
+    if (!(e instanceof NoRadiusSearch)) throw e;
+    await sleep(1500);
+    return salesNearOnce(parcel, feet, use);
+  }
+}
+
+async function salesNearOnce(parcel: string, feet: number, use: string): Promise<Comp[]> {
   cookie = "";
-  keepCookies(await fetch(BASE + "/", { headers: { "User-Agent": UA } }));
-  const now = new Date();
+  const home = await fetch(BASE + "/", { headers: { "User-Agent": UA } });
+  keepCookies(home);
+  await home.text();
+  const now = easternNow();
   const yearAgo = new Date(now.getTime() - 365 * 86400000);
   const body = new URLSearchParams({
     search_type: "Sales",
@@ -73,10 +93,12 @@ export async function salesNear(parcel: string, feet: number, use: string): Prom
   });
   keepCookies(r);
   await r.text();
+  if (r.status !== 302) throw new NoRadiusSearch(`sales search HTTP ${r.status}`);
   const all: Comp[] = [];
   for (let page = 1; page <= 5; page++) {
     await sleep(300);
     r = await get(`/results?page=${page}&perPage=100&sortCol=Parcel%20Number&sortDir=ascending`);
+    if (r.status === 302) throw new NoRadiusSearch(`sales results sent back to ${r.headers.get("location")}`);
     if (!r.ok) throw new Error(`sales results HTTP ${r.status}`);
     const html = await r.text();
     const got = parseSales(html);
@@ -111,7 +133,13 @@ export async function fetchCountyArv(l: Listing, parcel: string, multi: boolean)
   if (!l.sqft) return { checked, found: false };
   const use = multi ? "520" : "510"; // 510 = single family, 520 = two-family
   for (const feet of [2640, 5280]) {
-    const sales = await salesNear(parcel, feet, use);
+    let sales: Comp[];
+    try {
+      sales = await salesNear(parcel, feet, use);
+    } catch (e) {
+      if (e instanceof NoRadiusSearch) return { checked, found: false, error: e.message };
+      throw e;
+    }
     const got = arvFromComps(sales, parcel, l.sqft);
     if (got) return { ...got, radiusFt: feet, checked, found: true };
   }
