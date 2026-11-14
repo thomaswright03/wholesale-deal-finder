@@ -1,6 +1,523 @@
 {
   "houses": [
     {
+      "address": "3719 Guam Ct, Cincinnati, OH 45236",
+      "street": "3719 Guam Ct",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45236",
+      "folder": "photos/3719-Guam-Ct-Cincinnati-OH-45236",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3445 Cardiff Ave, Cincinnati, OH 45209",
+      "street": "3445 Cardiff Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45209",
+      "folder": "photos/3445-Cardiff-Ave-Cincinnati-OH-45209",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "112 Valencia St, Cincinnati, OH 45219",
+      "street": "112 Valencia St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45219",
+      "folder": "photos/112-Valencia-St-Cincinnati-OH-45219",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "6934 Britton Ave, Cincinnati, OH 45227",
+      "street": "6934 Britton Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6934-Britton-Ave-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "6605 Windward St, Cincinnati, OH 45227",
+      "street": "6605 Windward St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6605-Windward-St-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "2539 Ingleside Ave, Cincinnati, OH 45206",
+      "street": "2539 Ingleside Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45206",
+      "folder": "photos/2539-Ingleside-Ave-Cincinnati-OH-45206",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "6125 Clephane Ave, Cincinnati, OH 45227",
+      "street": "6125 Clephane Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6125-Clephane-Ave-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "5866 Kennedy Ave, Cincinnati, OH 45213",
+      "street": "5866 Kennedy Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45213",
+      "folder": "photos/5866-Kennedy-Ave-Cincinnati-OH-45213",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "2507 Addison St, Cincinnati, OH 45214",
+      "street": "2507 Addison St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45214",
+      "folder": "photos/2507-Addison-St-Cincinnati-OH-45214",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "6905 Palmetto St, Cincinnati, OH 45227",
+      "street": "6905 Palmetto St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6905-Palmetto-St-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "238 Helen St, Cincinnati, OH 45219",
+      "street": "238 Helen St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45219",
+      "folder": "photos/238-Helen-St-Cincinnati-OH-45219",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "A"
+    },
+    {
+      "address": "3753 Washington Ave, Cincinnati, OH 45229",
+      "street": "3753 Washington Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45229",
+      "folder": "photos/3753-Washington-Ave-Cincinnati-OH-45229",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "990 Burton Ave, Cincinnati, OH 45229",
+      "street": "990 Burton Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45229",
+      "folder": "photos/990-Burton-Ave-Cincinnati-OH-45229",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "6718 E Ledge St, Cincinnati, OH 45227",
+      "street": "6718 E Ledge St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6718-E-Ledge-St-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "6724 Hampton Dr, Cincinnati, OH 45236",
+      "street": "6724 Hampton Dr",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45236",
+      "folder": "photos/6724-Hampton-Dr-Cincinnati-OH-45236",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "6507 Britton Ave, Cincinnati, OH 45227",
+      "street": "6507 Britton Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6507-Britton-Ave-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "1510 Merrimac St, Cincinnati, OH 45207",
+      "street": "1510 Merrimac St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1510-Merrimac-St-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "6921 Windward St, Cincinnati, OH 45227",
+      "street": "6921 Windward St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6921-Windward-St-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3135 Durrell Ave, Cincinnati, OH 45207",
+      "street": "3135 Durrell Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/3135-Durrell-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "6021 Bramble Ave, Cincinnati, OH 45227",
+      "street": "6021 Bramble Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6021-Bramble-Ave-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "279 Helen St, Cincinnati, OH 45219",
+      "street": "279 Helen St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45219",
+      "folder": "photos/279-Helen-St-Cincinnati-OH-45219",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3418 Evanston Ave, Cincinnati, OH 45207",
+      "street": "3418 Evanston Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/3418-Evanston-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "7222 Catalpa Rd, Cincinnati, OH 45233",
+      "street": "7222 Catalpa Rd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45233",
+      "folder": "photos/7222-Catalpa-Rd-Cincinnati-OH-45233",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "2784 Losantiville Ave, Cincinnati, OH 45213",
+      "street": "2784 Losantiville Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45213",
+      "folder": "photos/2784-Losantiville-Ave-Cincinnati-OH-45213",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3003 W Eighth St, Cincinnati, OH 45205",
+      "street": "3003 W Eighth St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/3003-W-Eighth-St-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "785 Delta Ave, Cincinnati, OH 45226",
+      "street": "785 Delta Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45226",
+      "folder": "photos/785-Delta-Ave-Cincinnati-OH-45226",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "752 Considine Ave, Cincinnati, OH 45205",
+      "street": "752 Considine Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/752-Considine-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3417 Glenway Ave, Cincinnati, OH 45205",
+      "street": "3417 Glenway Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/3417-Glenway-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "118 Winkler St, Cincinnati, OH 45219",
+      "street": "118 Winkler St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45219",
+      "folder": "photos/118-Winkler-St-Cincinnati-OH-45219",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "1620 Brewster Ave, Cincinnati, OH 45207",
+      "street": "1620 Brewster Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1620-Brewster-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "1619 Powers St, Cincinnati, OH 45223",
+      "street": "1619 Powers St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45223",
+      "folder": "photos/1619-Powers-St-Cincinnati-OH-45223",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3337 Hewitt Crescent St, Cincinnati, OH 45207",
+      "street": "3337 Hewitt Crescent St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/3337-Hewitt-Crescent-St-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "1846 First Ave, Cincinnati, OH 45205",
+      "street": "1846 First Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/1846-First-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "4719 Ward St, Cincinnati, OH 45227",
+      "street": "4719 Ward St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/4719-Ward-St-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "329 Stanley Ave, Cincinnati, OH 45226",
+      "street": "329 Stanley Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45226",
+      "folder": "photos/329-Stanley-Ave-Cincinnati-OH-45226",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "1274 Beech Ave, Cincinnati, OH 45205",
+      "street": "1274 Beech Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/1274-Beech-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "2214 W North Bend Rd, Cincinnati, OH 45239",
+      "street": "2214 W North Bend Rd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45239",
+      "folder": "photos/2214-W-North-Bend-Rd-Cincinnati-OH-45239",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3144 Durrell Ave, Cincinnati, OH 45207",
+      "street": "3144 Durrell Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/3144-Durrell-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3311 Augusta Ave, Cincinnati, OH 45211",
+      "street": "3311 Augusta Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45211",
+      "folder": "photos/3311-Augusta-Ave-Cincinnati-OH-45211",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3519 Wabash Ave, Cincinnati, OH 45207",
+      "street": "3519 Wabash Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/3519-Wabash-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "319 Stites Ave, Cincinnati, OH 45226",
+      "street": "319 Stites Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45226",
+      "folder": "photos/319-Stites-Ave-Cincinnati-OH-45226",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "876 Hutchins Ave, Cincinnati, OH 45229",
+      "street": "876 Hutchins Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45229",
+      "folder": "photos/876-Hutchins-Ave-Cincinnati-OH-45229",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3726 Brotherton Rd, Cincinnati, OH 45209",
+      "street": "3726 Brotherton Rd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45209",
+      "folder": "photos/3726-Brotherton-Rd-Cincinnati-OH-45209",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "966 Oakland Ave, Cincinnati, OH 45205",
+      "street": "966 Oakland Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/966-Oakland-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "1091 Elda Ln, Cincinnati, OH 45224",
+      "street": "1091 Elda Ln",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45224",
+      "folder": "photos/1091-Elda-Ln-Cincinnati-OH-45224",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "1011 Mcpherson Ave, Cincinnati, OH 45205",
+      "street": "1011 Mcpherson Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/1011-Mcpherson-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "5608 Abbottsford St, Cincinnati, OH 45212",
+      "street": "5608 Abbottsford St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45212",
+      "folder": "photos/5608-Abbottsford-St-Cincinnati-OH-45212",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
       "address": "2268 Rice St, Cincinnati, OH 45219",
       "street": "2268 Rice St",
       "city": "Cincinnati",
@@ -9,6 +526,127 @@
       "folder": "photos/2268-Rice-St-Cincinnati-OH-45219",
       "hasPhotos": true,
       "rated": true,
+      "tier": "A"
+    },
+    {
+      "address": "819 Summit Ave, Cincinnati, OH 45204",
+      "street": "819 Summit Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45204",
+      "folder": "photos/819-Summit-Ave-Cincinnati-OH-45204",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3337 Glenway Ave, Cincinnati, OH 45205",
+      "street": "3337 Glenway Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/3337-Glenway-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "229 Dorchester Ave, Cincinnati, OH 45219",
+      "street": "229 Dorchester Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45219",
+      "folder": "photos/229-Dorchester-Ave-Cincinnati-OH-45219",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "409 Whiteman St, Cincinnati, OH 45214",
+      "street": "409 Whiteman St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45214",
+      "folder": "photos/409-Whiteman-St-Cincinnati-OH-45214",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "2949 Mignon Ave, Cincinnati, OH 45211",
+      "street": "2949 Mignon Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45211",
+      "folder": "photos/2949-Mignon-Ave-Cincinnati-OH-45211",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "503 Mcalpin Ave, Cincinnati, OH 45220",
+      "street": "503 Mcalpin Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45220",
+      "folder": "photos/503-Mcalpin-Ave-Cincinnati-OH-45220",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "4307 Delridge Dr, Cincinnati, OH 45205",
+      "street": "4307 Delridge Dr",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/4307-Delridge-Dr-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "1839 Hewitt Ave, Cincinnati, OH 45207",
+      "street": "1839 Hewitt Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1839-Hewitt-Ave-Cincinnati-OH-45207",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "738 Enright Ave, Cincinnati, OH 45205",
+      "street": "738 Enright Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/738-Enright-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "737 Hawthorne Ave, Cincinnati, OH 45205",
+      "street": "737 Hawthorne Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/737-Hawthorne-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "2040 Hewitt Ave, Cincinnati, OH 45207",
+      "street": "2040 Hewitt Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/2040-Hewitt-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "A"
     },
     {
@@ -23,6 +661,28 @@
       "tier": "A"
     },
     {
+      "address": "7284 Eastlawn Dr, Cincinnati, OH 45237",
+      "street": "7284 Eastlawn Dr",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45237",
+      "folder": "photos/7284-Eastlawn-Dr-Cincinnati-OH-45237",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "5406 Bluebird Ln, Cincinnati, OH 45239",
+      "street": "5406 Bluebird Ln",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45239",
+      "folder": "photos/5406-Bluebird-Ln-Cincinnati-OH-45239",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
       "address": "3828 Llewellyn Ave, Cincinnati, OH 45223",
       "street": "3828 Llewellyn Ave",
       "city": "Cincinnati",
@@ -31,6 +691,17 @@
       "folder": "photos/3828-Llewellyn-Ave-Cincinnati-OH-45223",
       "hasPhotos": true,
       "rated": true,
+      "tier": "A"
+    },
+    {
+      "address": "1873 Kinney Ave, Cincinnati, OH 45207",
+      "street": "1873 Kinney Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1873-Kinney-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "A"
     },
     {
@@ -56,6 +727,17 @@
       "tier": "A"
     },
     {
+      "address": "2916 Harrison Ave, Cincinnati, OH 45211",
+      "street": "2916 Harrison Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45211",
+      "folder": "photos/2916-Harrison-Ave-Cincinnati-OH-45211",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
       "address": "3549 Idlewild Ave, Cincinnati, OH 45207",
       "street": "3549 Idlewild Ave",
       "city": "Cincinnati",
@@ -64,6 +746,17 @@
       "folder": "photos/3549-Idlewild-Ave-Cincinnati-OH-45207",
       "hasPhotos": true,
       "rated": true,
+      "tier": "A"
+    },
+    {
+      "address": "3940 Trevor Ave, Cincinnati, OH 45211",
+      "street": "3940 Trevor Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45211",
+      "folder": "photos/3940-Trevor-Ave-Cincinnati-OH-45211",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "A"
     },
     {
@@ -76,6 +769,28 @@
       "hasPhotos": true,
       "rated": true,
       "tier": "A"
+    },
+    {
+      "address": "2829 Marshall Ave, Cincinnati, OH 45225",
+      "street": "2829 Marshall Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45225",
+      "folder": "photos/2829-Marshall-Ave-Cincinnati-OH-45225",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "2137 Colerain Ave, Cincinnati, OH 45214",
+      "street": "2137 Colerain Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45214",
+      "folder": "photos/2137-Colerain-Ave-Cincinnati-OH-45214",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
     },
     {
       "address": "4368 Eastern Ave, Cincinnati, OH 45226",
@@ -199,6 +914,17 @@
       "tier": "B"
     },
     {
+      "address": "240 Strader Ave, Cincinnati, OH 45226",
+      "street": "240 Strader Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45226",
+      "folder": "photos/240-Strader-Ave-Cincinnati-OH-45226",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "2957 Massachusetts Ave, Cincinnati, OH 45225",
       "street": "2957 Massachusetts Ave",
       "city": "Cincinnati",
@@ -218,6 +944,28 @@
       "folder": "photos/3531-Hudson-Ave-Cincinnati-OH-45207",
       "hasPhotos": true,
       "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "1635 Hoffner St, Cincinnati, OH 45223",
+      "street": "1635 Hoffner St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45223",
+      "folder": "photos/1635-Hoffner-St-Cincinnati-OH-45223",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "3955 Ardmore Ave, Cincinnati, OH 45229",
+      "street": "3955 Ardmore Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45229",
+      "folder": "photos/3955-Ardmore-Ave-Cincinnati-OH-45229",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -364,12 +1112,45 @@
       "tier": "B"
     },
     {
+      "address": "6221 Bona Vista Pl, Cincinnati, OH 45213",
+      "street": "6221 Bona Vista Pl",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45213",
+      "folder": "photos/6221-Bona-Vista-Pl-Cincinnati-OH-45213",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "2923 Lehman Rd, Cincinnati, OH 45204",
       "street": "2923 Lehman Rd",
       "city": "Cincinnati",
       "state": "OH",
       "zip": "45204",
       "folder": "photos/2923-Lehman-Rd-Cincinnati-OH-45204",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "3864 Odin Ave, Cincinnati, OH 45213",
+      "street": "3864 Odin Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45213",
+      "folder": "photos/3864-Odin-Ave-Cincinnati-OH-45213",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "1779 Elmore St, Cincinnati, OH 45223",
+      "street": "1779 Elmore St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45223",
+      "folder": "photos/1779-Elmore-St-Cincinnati-OH-45223",
       "hasPhotos": false,
       "rated": false,
       "tier": "B"
@@ -408,6 +1189,28 @@
       "tier": "B"
     },
     {
+      "address": "3736 High Point Ave, Cincinnati, OH 45211",
+      "street": "3736 High Point Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45211",
+      "folder": "photos/3736-High-Point-Ave-Cincinnati-OH-45211",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "2631 Grover Hill Ave, Cincinnati, OH 45212",
+      "street": "2631 Grover Hill Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45212",
+      "folder": "photos/2631-Grover-Hill-Ave-Cincinnati-OH-45212",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "2550 Riverside Dr, Cincinnati, OH 45202",
       "street": "2550 Riverside Dr",
       "city": "Cincinnati",
@@ -436,6 +1239,28 @@
       "state": "OH",
       "zip": "45202",
       "folder": "photos/38-E-Clifton-Ave-Cincinnati-OH-45202",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "3206 Gilbert Ave, Cincinnati, OH 45207",
+      "street": "3206 Gilbert Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/3206-Gilbert-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "2731 Lawndale Ave, Cincinnati, OH 45212",
+      "street": "2731 Lawndale Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45212",
+      "folder": "photos/2731-Lawndale-Ave-Cincinnati-OH-45212",
       "hasPhotos": false,
       "rated": false,
       "tier": "B"
@@ -474,12 +1299,89 @@
       "tier": "B"
     },
     {
+      "address": "909 Purcell Ave, Cincinnati, OH 45205",
+      "street": "909 Purcell Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/909-Purcell-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "2826 Werk Rd, Cincinnati, OH 45211",
+      "street": "2826 Werk Rd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45211",
+      "folder": "photos/2826-Werk-Rd-Cincinnati-OH-45211",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "1828 Freeman Ave, Cincinnati, OH 45214",
+      "street": "1828 Freeman Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45214",
+      "folder": "photos/1828-Freeman-Ave-Cincinnati-OH-45214",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "1946 Hewitt Ave, Cincinnati, OH 45207",
+      "street": "1946 Hewitt Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1946-Hewitt-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "4211 Kirby Ave, Cincinnati, OH 45223",
+      "street": "4211 Kirby Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45223",
+      "folder": "photos/4211-Kirby-Ave-Cincinnati-OH-45223",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "1803 Lawn Ave, Cincinnati, OH 45237",
+      "street": "1803 Lawn Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45237",
+      "folder": "photos/1803-Lawn-Ave-Cincinnati-OH-45237",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "3270 Van Zandt Dr, Cincinnati, OH 45211",
       "street": "3270 Van Zandt Dr",
       "city": "Cincinnati",
       "state": "OH",
       "zip": "45211",
       "folder": "photos/3270-Van-Zandt-Dr-Cincinnati-OH-45211",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "1105 Regent Ave, Cincinnati, OH 45237",
+      "street": "1105 Regent Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45237",
+      "folder": "photos/1105-Regent-Ave-Cincinnati-OH-45237",
       "hasPhotos": false,
       "rated": false,
       "tier": "B"
@@ -524,6 +1426,17 @@
       "state": "OH",
       "zip": "45238",
       "folder": "photos/1108-Morado-Dr-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "4767 Highridge Ave, Cincinnati, OH 45238",
+      "street": "4767 Highridge Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/4767-Highridge-Ave-Cincinnati-OH-45238",
       "hasPhotos": false,
       "rated": false,
       "tier": "B"
@@ -606,6 +1519,39 @@
       "tier": "B"
     },
     {
+      "address": "4229 Langland St, Cincinnati, OH 45223",
+      "street": "4229 Langland St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45223",
+      "folder": "photos/4229-Langland-St-Cincinnati-OH-45223",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "1222 Sunset Ave, Cincinnati, OH 45205",
+      "street": "1222 Sunset Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/1222-Sunset-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "3533 Gamble Ave, Cincinnati, OH 45211",
+      "street": "3533 Gamble Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45211",
+      "folder": "photos/3533-Gamble-Ave-Cincinnati-OH-45211",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "845 Charlotte St, Cincinnati, OH 45214",
       "street": "845 Charlotte St",
       "city": "Cincinnati",
@@ -669,6 +1615,17 @@
       "folder": "photos/4311-Delridge-Dr-Cincinnati-OH-45205",
       "hasPhotos": true,
       "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "1634 Quebec Rd, Cincinnati, OH 45205",
+      "street": "1634 Quebec Rd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/1634-Quebec-Rd-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -782,6 +1739,17 @@
       "tier": "B"
     },
     {
+      "address": "3318 Queen City Ave, Cincinnati, OH 45238",
+      "street": "3318 Queen City Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/3318-Queen-City-Ave-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "2717 W North Bend Rd, Cincinnati, OH 45239",
       "street": "2717 W North Bend Rd",
       "city": "Cincinnati",
@@ -823,6 +1791,28 @@
       "folder": "photos/1300-Rutledge-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
       "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "119 Woolper Ave, Cincinnati, OH 45220",
+      "street": "119 Woolper Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45220",
+      "folder": "photos/119-Woolper-Ave-Cincinnati-OH-45220",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "1633 First Ave, Cincinnati, OH 45205",
+      "street": "1633 First Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/1633-First-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -903,6 +1893,61 @@
       "tier": "B"
     },
     {
+      "address": "3565 Harvey Ave, Cincinnati, OH 45229",
+      "street": "3565 Harvey Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45229",
+      "folder": "photos/3565-Harvey-Ave-Cincinnati-OH-45229",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "3459 Cardiff Ave, Cincinnati, OH 45209",
+      "street": "3459 Cardiff Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45209",
+      "folder": "photos/3459-Cardiff-Ave-Cincinnati-OH-45209",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "2536 Bracebridge Dr, Cincinnati, OH 45231",
+      "street": "2536 Bracebridge Dr",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45231",
+      "folder": "photos/2536-Bracebridge-Dr-Cincinnati-OH-45231",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "7844 Monterey Ave, Cincinnati, OH 45236",
+      "street": "7844 Monterey Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45236",
+      "folder": "photos/7844-Monterey-Ave-Cincinnati-OH-45236",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "3000 Mapleleaf Ave, Cincinnati, OH 45213",
+      "street": "3000 Mapleleaf Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45213",
+      "folder": "photos/3000-Mapleleaf-Ave-Cincinnati-OH-45213",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
       "address": "5128 Blaesi St, Cincinnati, OH 45227",
       "street": "5128 Blaesi St",
       "city": "Cincinnati",
@@ -911,6 +1956,28 @@
       "folder": "photos/5128-Blaesi-St-Cincinnati-OH-45227",
       "hasPhotos": true,
       "rated": true,
+      "tier": "C"
+    },
+    {
+      "address": "5300 Ponderosa Dr, Cincinnati, OH 45239",
+      "street": "5300 Ponderosa Dr",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45239",
+      "folder": "photos/5300-Ponderosa-Dr-Cincinnati-OH-45239",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "2560 Hackberry St, Cincinnati, OH 45206",
+      "street": "2560 Hackberry St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45206",
+      "folder": "photos/2560-Hackberry-St-Cincinnati-OH-45206",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "C"
     },
     {
@@ -947,6 +2014,17 @@
       "tier": "C"
     },
     {
+      "address": "778 Hiddenlake Ln, Cincinnati, OH 45233",
+      "street": "778 Hiddenlake Ln",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45233",
+      "folder": "photos/778-Hiddenlake-Ln-Cincinnati-OH-45233",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
       "address": "3116 Mchenry Ave, Cincinnati, OH 45211",
       "street": "3116 Mchenry Ave",
       "city": "Cincinnati",
@@ -955,6 +2033,28 @@
       "folder": "photos/3116-Mchenry-Ave-Cincinnati-OH-45211",
       "hasPhotos": true,
       "rated": true,
+      "tier": "C"
+    },
+    {
+      "address": "2627 Gehrum Ln, Cincinnati, OH 45238",
+      "street": "2627 Gehrum Ln",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/2627-Gehrum-Ln-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "2647 Foran Dr, Cincinnati, OH 45238",
+      "street": "2647 Foran Dr",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/2647-Foran-Dr-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "C"
     },
     {
@@ -969,6 +2069,28 @@
       "tier": "C"
     },
     {
+      "address": "1635 Tuxworth Ave, Cincinnati, OH 45238",
+      "street": "1635 Tuxworth Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/1635-Tuxworth-Ave-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "573 Flatt Ter, Cincinnati, OH 45232",
+      "street": "573 Flatt Ter",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45232",
+      "folder": "photos/573-Flatt-Ter-Cincinnati-OH-45232",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
       "address": "3622 Laclede Ave, Cincinnati, OH 45205",
       "street": "3622 Laclede Ave",
       "city": "Cincinnati",
@@ -977,6 +2099,39 @@
       "folder": "photos/3622-Laclede-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
       "rated": true,
+      "tier": "C"
+    },
+    {
+      "address": "3765 Iona Ave, Cincinnati, OH 45213",
+      "street": "3765 Iona Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45213",
+      "folder": "photos/3765-Iona-Ave-Cincinnati-OH-45213",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "603 Hawthorne Ave, Cincinnati, OH 45205",
+      "street": "603 Hawthorne Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/603-Hawthorne-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "1223 Mckeone Ave, Cincinnati, OH 45205",
+      "street": "1223 Mckeone Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/1223-Mckeone-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "C"
     },
     {
@@ -1024,6 +2179,39 @@
       "tier": "C"
     },
     {
+      "address": "3318 Gamble Ave, Cincinnati, OH 45211",
+      "street": "3318 Gamble Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45211",
+      "folder": "photos/3318-Gamble-Ave-Cincinnati-OH-45211",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "4727 Wilmer Ct, Cincinnati, OH 45226",
+      "street": "4727 Wilmer Ct",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45226",
+      "folder": "photos/4727-Wilmer-Ct-Cincinnati-OH-45226",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "2734 Lawndale Ave, Cincinnati, OH 45212",
+      "street": "2734 Lawndale Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45212",
+      "folder": "photos/2734-Lawndale-Ave-Cincinnati-OH-45212",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
       "address": "87 Grove Rd, Cincinnati, OH 45215",
       "street": "87 Grove Rd",
       "city": "Cincinnati",
@@ -1046,6 +2234,28 @@
       "tier": "C"
     },
     {
+      "address": "3444 Locust Ln, Cincinnati, OH 45238",
+      "street": "3444 Locust Ln",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/3444-Locust-Ln-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "6368 Meis Ave, Cincinnati, OH 45224",
+      "street": "6368 Meis Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45224",
+      "folder": "photos/6368-Meis-Ave-Cincinnati-OH-45224",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
       "address": "2082 Harrison Ave, Cincinnati, OH 45214",
       "street": "2082 Harrison Ave",
       "city": "Cincinnati",
@@ -1065,6 +2275,28 @@
       "folder": "photos/3235-Wold-Ave-Cincinnati-OH-45207",
       "hasPhotos": true,
       "rated": true,
+      "tier": "C"
+    },
+    {
+      "address": "6522 Palmetto St, Cincinnati, OH 45227",
+      "street": "6522 Palmetto St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6522-Palmetto-St-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "5015 Casa Loma Blvd, Cincinnati, OH 45238",
+      "street": "5015 Casa Loma Blvd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/5015-Casa-Loma-Blvd-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "C"
     },
     {
