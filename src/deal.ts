@@ -172,6 +172,30 @@ export interface FlipAssumptions {
   flipIfListBelowValue: number; // 0.80 -> list price under 80% of value = flip
   rehabPerSqft: number; // repair budget, $/sqft (no photos, so one middle-of-the-road number)
   costsPctOfArv: number; // buyer's closing + holding + selling costs, share of ARV
+  maxPctOfArv?: number; // flip buyer's "70% rule": pays at most this share of ARV minus repairs
+}
+
+// A house that fails the rental-buyer math can still sell to a fix-and-flip buyer, who pays up to
+// 70% of ARV minus repairs (the standard rule), and never more than list minus the buffer.
+// Returns the rental result rewritten with the flip buyer's numbers, or null if it still doesn't work.
+export function flipDeal(rental: DealResult, arv: number, rehab: number, f: FlipAssumptions, rules: OfferRules): DealResult | null {
+  const pct = f.maxPctOfArv ?? 0.7;
+  const byRule = Math.round((arv * pct - rehab) / 100) * 100;
+  const buyerMaxPrice = Math.max(0, Math.min(byRule, rental.listPrice - rental.buffer));
+  const ceilingOffer = Math.round((buyerMaxPrice - rules.minAssignmentFee) / 100) * 100;
+  if (buyerMaxPrice <= 0 || ceilingOffer < rental.floorOffer) return null;
+  const room = (ceilingOffer - rental.floorOffer) / rental.listPrice;
+  return {
+    ...rental,
+    buyerMaxPrice,
+    ceilingOffer,
+    feeAtFloor: Math.round((buyerMaxPrice - rental.floorOffer) / 100) * 100,
+    qualifies: true,
+    tier: room >= 0.1 ? "A" : room >= 0.04 ? "B" : "C",
+    reason: `Flip buyer: ${Math.round(pct * 100)}% of $${fmt(arv)} ARV minus $${fmt(rehab)} repairs = $${fmt(byRule)}`
+      + (byRule > buyerMaxPrice ? `, capped at list minus $${fmt(rental.buffer)}` : "")
+      + ". Rental math doesn't work at this price",
+  };
 }
 
 export function dealType(listPrice: number, value: number | undefined, f: FlipAssumptions): "Rental" | "Flip" | null {

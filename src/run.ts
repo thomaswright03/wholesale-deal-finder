@@ -9,7 +9,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { analyze, dealType, flipProfit, type BuyerAssumptions, type DealResult, type FlipAssumptions, type OfferRules } from "./deal.ts";
+import { analyze, dealType, flipDeal, flipProfit, type BuyerAssumptions, type DealResult, type FlipAssumptions, type OfferRules } from "./deal.ts";
 import { loadCsv } from "./sources/csv.ts";
 import { fetchMortgageRate } from "./sources/rate.ts";
 import { fetchCountyTax, inHamiltonCounty, type CountyTax } from "./sources/auditor.ts";
@@ -233,6 +233,7 @@ export interface Lead extends Listing {
   dealType: "Rental" | "Flip" | null;
   flipRehab?: number;
   flipProfit?: number;
+  flipBuyer?: boolean; // qualifies only for a fix-and-flip buyer (70% of ARV minus repairs)
   photoFolder?: string;
   condition?: ConditionRating;
 }
@@ -287,6 +288,17 @@ function looksPromising(l: Listing, cfg: Config): boolean {
 export function applyRating(lead: Lead, r: ConditionRating, cfg: Config) {
   lead.condition = r;
   lead.dealType = r.condition === "rental_ready" ? "Rental" : "Flip";
+  if (lead.flipBuyer && lead.value) {
+    // Price for a flip buyer depends on repairs: redo it with the photo estimate.
+    lead.dealType = "Flip";
+    const f = flipDeal(lead.deal, lead.value, r.rehab_estimate, cfg.flip, cfg.offer);
+    if (f) lead.deal = f;
+    else {
+      const cut = Math.round((lead.value * (cfg.flip.maxPctOfArv ?? 0.7) - r.rehab_estimate) / 100) * 100;
+      lead.deal = { ...lead.deal, buyerMaxPrice: Math.max(0, cut), ceilingOffer: Math.max(0, cut - cfg.offer.minAssignmentFee), feeAtFloor: cut - lead.deal.floorOffer, tier: "C",
+        reason: `Photos show more work ($${Math.round(r.rehab_estimate).toLocaleString("en-US")}); a flip buyer would pay about $${Math.max(0, cut).toLocaleString("en-US")}, below our floor. Weak lead` };
+    }
+  }
   if (lead.dealType === "Flip" && lead.value) {
     lead.flipRehab = Math.round(r.rehab_estimate);
     lead.flipProfit = Math.round(lead.value - lead.deal.buyerMaxPrice - r.rehab_estimate - lead.value * cfg.flip.costsPctOfArv);
@@ -350,17 +362,23 @@ export function evaluate(listings: Listing[], cfg: Config, today: string, firstS
       l.annualTax = l.price * cfg.buyer.taxFallbackPctOfPrice;
       l.taxEstimated = true;
     }
-    const deal = analyze(
+    let deal = analyze(
       { listPrice: l.price, monthlyRent: l.monthlyRent, annualTax: l.annualTax, annualInsurance: l.annualInsurance, monthlyHoa: l.monthlyHoa },
       cfg.buyer,
       cfg.offer,
     );
+    // Rental math fails: try a fix-and-flip buyer (needs an ARV).
+    let flipBuyer = false;
+    if (!deal.qualifies && l.value && l.sqft) {
+      const f = flipDeal(deal, l.value, l.sqft * cfg.flip.rehabPerSqft, cfg.flip, cfg.offer);
+      if (f) { deal = f; flipBuyer = true; }
+    }
     // Multi-family rent is a duplex guess until someone confirms the units: never tier A.
     if (DUPLEX_GUESS(l) && deal.tier === "A") deal.tier = "B";
     if (deal.qualifies || showAll) {
-      const type = dealType(l.price, l.value, cfg.flip);
+      const type = flipBuyer ? "Flip" : dealType(l.price, l.value, cfg.flip);
       const flip = type === "Flip" && l.value ? flipProfit(l.value, deal.buyerMaxPrice, l.sqft, cfg.flip) : undefined;
-      leads.push({ ...l, deal, isNew: firstSeen(l) === today, dealType: type, flipRehab: flip?.rehab, flipProfit: flip?.profit });
+      leads.push({ ...l, deal, isNew: firstSeen(l) === today, dealType: type, flipBuyer, flipRehab: flip?.rehab, flipProfit: flip?.profit });
     }
     else rejected.push({ l, reason: deal.reason, deal });
   }

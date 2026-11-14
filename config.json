@@ -38,7 +38,8 @@
   "flip": {
     "flipIfListBelowValue": 0.8,
     "rehabPerSqft": 30,
-    "costsPctOfArv": 0.1
+    "costsPctOfArv": 0.1,
+    "maxPctOfArv": 0.7
   },
   "photos": {
     "model": "claude-sonnet-5-5",
