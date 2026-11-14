@@ -88,8 +88,9 @@ export async function writeSpreadsheet(
       rent: d.monthlyRent, tax: d.annualTax, ins: d.annualInsurance, pi: d.buyerMonthlyMortgage,
       inv: d.buyerCashInvested, cf: d.buyerAnnualCashFlow,
       type: l.dealType ?? "Unknown",
-      coc: l.dealType === "Flip" ? null : d.buyerCashOnCash,
-      flip: l.dealType === "Flip" ? l.flipProfit : null,
+      // Rental return is always shown (it's the client's first column); flip profit only when there's an ARV.
+      coc: d.buyerCashOnCash,
+      flip: l.flipProfit ?? null,
       arv: l.value, rehab: l.dealType === "Flip" ? l.flipRehab : null,
       cond: l.condition ? conditionLabel(l.condition.condition) : "Not rated",
       prehab: l.condition ? Math.round(l.condition.rehab_estimate) : undefined,
