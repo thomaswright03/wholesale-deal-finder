@@ -91,7 +91,9 @@ export async function writeSpreadsheet(
       // Rental return is always shown (it's the client's first column); flip profit only when there's an ARV.
       coc: d.buyerCashOnCash,
       flip: l.flipProfit ?? null,
-      arv: l.value, rehab: l.dealType === "Flip" ? l.flipRehab : null,
+      arv: l.value,
+      // Flip rehab: the photo-based estimate when photos were rated, else the per-sqft flip estimate.
+      rehab: l.condition ? Math.round(l.condition.rehab_estimate) : l.flipRehab ?? null,
       cond: l.condition ? conditionLabel(l.condition.condition) : "Not rated",
       prehab: l.condition ? Math.round(l.condition.rehab_estimate) : undefined,
       rrange: l.condition?.rehab_low ? `$${l.condition.rehab_low.toLocaleString("en-US")} - $${l.condition.rehab_high!.toLocaleString("en-US")}` : undefined,
