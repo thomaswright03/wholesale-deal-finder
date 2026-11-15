@@ -331,17 +331,6 @@
       "tier": "A"
     },
     {
-      "address": "1619 Powers St, Cincinnati, OH 45223",
-      "street": "1619 Powers St",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45223",
-      "folder": "photos/1619-Powers-St-Cincinnati-OH-45223",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "A"
-    },
-    {
       "address": "3337 Hewitt Crescent St, Cincinnati, OH 45207",
       "street": "3337 Hewitt Crescent St",
       "city": "Cincinnati",
@@ -1101,17 +1090,6 @@
       "tier": "B"
     },
     {
-      "address": "312 Warner St, Cincinnati, OH 45219",
-      "street": "312 Warner St",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45219",
-      "folder": "photos/312-Warner-St-Cincinnati-OH-45219",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "6221 Bona Vista Pl, Cincinnati, OH 45213",
       "street": "6221 Bona Vista Pl",
       "city": "Cincinnati",
@@ -1310,6 +1288,17 @@
       "tier": "B"
     },
     {
+      "address": "4270 Colerain Ave, Cincinnati, OH 45223",
+      "street": "4270 Colerain Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45223",
+      "folder": "photos/4270-Colerain-Ave-Cincinnati-OH-45223",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "2826 Werk Rd, Cincinnati, OH 45211",
       "street": "2826 Werk Rd",
       "city": "Cincinnati",
@@ -1409,6 +1398,17 @@
       "tier": "B"
     },
     {
+      "address": "6522 Palmetto St, Cincinnati, OH 45227",
+      "street": "6522 Palmetto St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6522-Palmetto-St-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "1694 Ashbrook Dr, Cincinnati, OH 45238",
       "street": "1694 Ashbrook Dr",
       "city": "Cincinnati",
@@ -1453,6 +1453,28 @@
       "tier": "B"
     },
     {
+      "address": "4938 Plainville Rd, Cincinnati, OH 45227",
+      "street": "4938 Plainville Rd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/4938-Plainville-Rd-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "1398 Adams Rd, Cincinnati, OH 45231",
+      "street": "1398 Adams Rd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45231",
+      "folder": "photos/1398-Adams-Rd-Cincinnati-OH-45231",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "8243 Daly Rd, Cincinnati, OH 45231",
       "street": "8243 Daly Rd",
       "city": "Cincinnati",
@@ -1492,6 +1514,39 @@
       "state": "OH",
       "zip": "45205",
       "folder": "photos/4034-Fawnhill-Ln-Cincinnati-OH-45205",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "1616 Brewster Ave, Cincinnati, OH 45207",
+      "street": "1616 Brewster Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1616-Brewster-Ave-Cincinnati-OH-45207",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "1624 Brewster Ave, Cincinnati, OH 45207",
+      "street": "1624 Brewster Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1624-Brewster-Ave-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "1626 Brewster Ave, Cincinnati, OH 45207",
+      "street": "1626 Brewster Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1626-Brewster-Ave-Cincinnati-OH-45207",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -1651,39 +1706,6 @@
       "tier": "B"
     },
     {
-      "address": "1616 Brewster Ave, Cincinnati, OH 45207",
-      "street": "1616 Brewster Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45207",
-      "folder": "photos/1616-Brewster-Ave-Cincinnati-OH-45207",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
-      "address": "1626 Brewster Ave, Cincinnati, OH 45207",
-      "street": "1626 Brewster Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45207",
-      "folder": "photos/1626-Brewster-Ave-Cincinnati-OH-45207",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
-      "address": "1624 Brewster Ave, Cincinnati, OH 45207",
-      "street": "1624 Brewster Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45207",
-      "folder": "photos/1624-Brewster-Ave-Cincinnati-OH-45207",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "969 Mansion Ave, Cincinnati, OH 45205",
       "street": "969 Mansion Ave",
       "city": "Cincinnati",
@@ -1794,17 +1816,6 @@
       "tier": "B"
     },
     {
-      "address": "119 Woolper Ave, Cincinnati, OH 45220",
-      "street": "119 Woolper Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45220",
-      "folder": "photos/119-Woolper-Ave-Cincinnati-OH-45220",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "1633 First Ave, Cincinnati, OH 45205",
       "street": "1633 First Ave",
       "city": "Cincinnati",
@@ -1835,6 +1846,17 @@
       "folder": "photos/1017-Underwood-Pl-Cincinnati-OH-45204",
       "hasPhotos": true,
       "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "119 Woolper Ave, Cincinnati, OH 45220",
+      "street": "119 Woolper Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45220",
+      "folder": "photos/119-Woolper-Ave-Cincinnati-OH-45220",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -2190,17 +2212,6 @@
       "tier": "C"
     },
     {
-      "address": "4727 Wilmer Ct, Cincinnati, OH 45226",
-      "street": "4727 Wilmer Ct",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45226",
-      "folder": "photos/4727-Wilmer-Ct-Cincinnati-OH-45226",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "C"
-    },
-    {
       "address": "2734 Lawndale Ave, Cincinnati, OH 45212",
       "street": "2734 Lawndale Ave",
       "city": "Cincinnati",
@@ -2275,17 +2286,6 @@
       "folder": "photos/3235-Wold-Ave-Cincinnati-OH-45207",
       "hasPhotos": true,
       "rated": true,
-      "tier": "C"
-    },
-    {
-      "address": "6522 Palmetto St, Cincinnati, OH 45227",
-      "street": "6522 Palmetto St",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45227",
-      "folder": "photos/6522-Palmetto-St-Cincinnati-OH-45227",
-      "hasPhotos": false,
-      "rated": false,
       "tier": "C"
     },
     {

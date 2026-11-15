@@ -13354,5 +13354,77 @@
   "radiusFt": 2640,
   "checked": "2026-11-14",
   "found": true
+ },
+ "4938-Plainville-Rd-Cincinnati-OH-45227": {
+  "arv": 361000,
+  "comps": 55,
+  "ppsf": 263,
+  "low": 80000,
+  "high": 469000,
+  "top": [
+   {
+    "parcel": "037-0002-0176-00",
+    "address": "6620 BRITTON AVE",
+    "sqft": 962,
+    "built": 1939,
+    "date": "05/08/2026",
+    "price": 333500
+   },
+   {
+    "parcel": "520-0172-0068-00",
+    "address": "6836 WINDWARD ST",
+    "sqft": 1120,
+    "built": 1925,
+    "date": "02/05/2026",
+    "price": 379900
+   },
+   {
+    "parcel": "037-0002-0150-00",
+    "address": "6615 MERWIN AVE",
+    "sqft": 1220,
+    "built": 1938,
+    "date": "05/26/2026",
+    "price": 368000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-15",
+  "found": true
+ },
+ "1398-Adams-Rd-Cincinnati-OH-45231": {
+  "arv": 226000,
+  "comps": 26,
+  "ppsf": 180,
+  "low": 50507,
+  "high": 385000,
+  "top": [
+   {
+    "parcel": "593-0008-0130-00",
+    "address": "1451 COMPTON RD",
+    "sqft": 1438,
+    "built": 1900,
+    "date": "05/07/2026",
+    "price": 385000
+   },
+   {
+    "parcel": "590-0321-0139-00",
+    "address": "1283 BELLUNE DR",
+    "sqft": 1064,
+    "built": 1965,
+    "date": "03/30/2026",
+    "price": 220000
+   },
+   {
+    "parcel": "593-0008-0053-00",
+    "address": "7425 MARTIN ST",
+    "sqft": 978,
+    "built": 1950,
+    "date": "10/09/2026",
+    "price": 198000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-15",
+  "found": true
  }
 }

@@ -5393,5 +5393,44 @@
   "marketValue": 114670,
   "checked": "2026-11-14",
   "found": true
+ },
+ "4938-Plainville-Rd-Cincinnati-OH-45227": {
+  "tax": 3674,
+  "billed": 3258,
+  "rate": 69.23536,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "037-0003-0429-00",
+  "assessed": 53060,
+  "marketValue": 151580,
+  "checked": "2026-11-15",
+  "found": true
+ },
+ "1398-Adams-Rd-Cincinnati-OH-45231": {
+  "tax": 2578,
+  "billed": 2368,
+  "rate": 58.34339,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "593-0011-0027-00",
+  "assessed": 44190,
+  "marketValue": 126270,
+  "checked": "2026-11-15",
+  "found": true
+ },
+ "5212-Winton-Ridge-Ln-Cincinnati-OH-45232": {
+  "tax": 3066,
+  "billed": 2736,
+  "rate": 69.23536,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "238-0001-0087-00",
+  "assessed": 44280,
+  "marketValue": 126520,
+  "checked": "2026-11-15",
+  "found": true
  }
 }
