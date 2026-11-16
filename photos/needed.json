@@ -1,17 +1,6 @@
 {
   "houses": [
     {
-      "address": "3719 Guam Ct, Cincinnati, OH 45236",
-      "street": "3719 Guam Ct",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45236",
-      "folder": "photos/3719-Guam-Ct-Cincinnati-OH-45236",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "A"
-    },
-    {
       "address": "3445 Cardiff Ave, Cincinnati, OH 45209",
       "street": "3445 Cardiff Ave",
       "city": "Cincinnati",
@@ -183,6 +172,17 @@
       "state": "OH",
       "zip": "45207",
       "folder": "photos/1510-Merrimac-St-Cincinnati-OH-45207",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "839 Ridgeway Ave, Cincinnati, OH 45229",
+      "street": "839 Ridgeway Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45229",
+      "folder": "photos/839-Ridgeway-Ave-Cincinnati-OH-45229",
       "hasPhotos": false,
       "rated": false,
       "tier": "A"
@@ -991,6 +991,17 @@
       "tier": "B"
     },
     {
+      "address": "6221 Bona Vista Pl, Cincinnati, OH 45213",
+      "street": "6221 Bona Vista Pl",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45213",
+      "folder": "photos/6221-Bona-Vista-Pl-Cincinnati-OH-45213",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "4526 Clearview Ave, Cincinnati, OH 45205",
       "street": "4526 Clearview Ave",
       "city": "Cincinnati",
@@ -1090,17 +1101,6 @@
       "tier": "B"
     },
     {
-      "address": "6221 Bona Vista Pl, Cincinnati, OH 45213",
-      "street": "6221 Bona Vista Pl",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45213",
-      "folder": "photos/6221-Bona-Vista-Pl-Cincinnati-OH-45213",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "2923 Lehman Rd, Cincinnati, OH 45204",
       "street": "2923 Lehman Rd",
       "city": "Cincinnati",
@@ -1129,17 +1129,6 @@
       "state": "OH",
       "zip": "45223",
       "folder": "photos/1779-Elmore-St-Cincinnati-OH-45223",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
-      "address": "1461 Kinney Ave, Cincinnati, OH 45231",
-      "street": "1461 Kinney Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45231",
-      "folder": "photos/1461-Kinney-Ave-Cincinnati-OH-45231",
       "hasPhotos": false,
       "rated": false,
       "tier": "B"
@@ -1519,17 +1508,6 @@
       "tier": "B"
     },
     {
-      "address": "1616 Brewster Ave, Cincinnati, OH 45207",
-      "street": "1616 Brewster Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45207",
-      "folder": "photos/1616-Brewster-Ave-Cincinnati-OH-45207",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
       "address": "1624 Brewster Ave, Cincinnati, OH 45207",
       "street": "1624 Brewster Ave",
       "city": "Cincinnati",
@@ -1547,6 +1525,17 @@
       "state": "OH",
       "zip": "45207",
       "folder": "photos/1626-Brewster-Ave-Cincinnati-OH-45207",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "1616 Brewster Ave, Cincinnati, OH 45207",
+      "street": "1616 Brewster Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1616-Brewster-Ave-Cincinnati-OH-45207",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -1629,23 +1618,23 @@
       "tier": "B"
     },
     {
-      "address": "964 Seibel Ln, Cincinnati, OH 45238",
-      "street": "964 Seibel Ln",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45238",
-      "folder": "photos/964-Seibel-Ln-Cincinnati-OH-45238",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
       "address": "4355 St Lawrence Ave, Cincinnati, OH 45205",
       "street": "4355 St Lawrence Ave",
       "city": "Cincinnati",
       "state": "OH",
       "zip": "45205",
       "folder": "photos/4355-St-Lawrence-Ave-Cincinnati-OH-45205",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "964 Seibel Ln, Cincinnati, OH 45238",
+      "street": "964 Seibel Ln",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/964-Seibel-Ln-Cincinnati-OH-45238",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -2033,17 +2022,6 @@
       "folder": "photos/2120-Pogue-Ave-Cincinnati-OH-45208",
       "hasPhotos": true,
       "rated": true,
-      "tier": "C"
-    },
-    {
-      "address": "778 Hiddenlake Ln, Cincinnati, OH 45233",
-      "street": "778 Hiddenlake Ln",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45233",
-      "folder": "photos/778-Hiddenlake-Ln-Cincinnati-OH-45233",
-      "hasPhotos": false,
-      "rated": false,
       "tier": "C"
     },
     {

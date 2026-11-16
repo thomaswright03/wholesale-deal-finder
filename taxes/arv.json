@@ -13426,5 +13426,41 @@
   "radiusFt": 2640,
   "checked": "2026-11-15",
   "found": true
+ },
+ "839-Ridgeway-Ave-Cincinnati-OH-45229": {
+  "arv": 471000,
+  "comps": 9,
+  "ppsf": 178,
+  "low": 50000,
+  "high": 10500000,
+  "top": [
+   {
+    "parcel": "060-0006-0026-00",
+    "address": "3028 GILBERT AVE",
+    "sqft": 1972,
+    "built": 1900,
+    "date": "09/04/2026",
+    "price": 10500000
+   },
+   {
+    "parcel": "108-0003-0039-00",
+    "address": "925 GLENWOOD AVE",
+    "sqft": 2838,
+    "built": 1938,
+    "date": "12/15/2025",
+    "price": 530000
+   },
+   {
+    "parcel": "065-0001-0126-00",
+    "address": "860 BUENA VISTA PL",
+    "sqft": 3123,
+    "built": 1916,
+    "date": "05/21/2026",
+    "price": 555000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-16",
+  "found": true
  }
 }

@@ -5432,5 +5432,31 @@
   "marketValue": 126520,
   "checked": "2026-11-15",
   "found": true
+ },
+ "839-Ridgeway-Ave-Cincinnati-OH-45229": {
+  "tax": 7281,
+  "billed": 6634,
+  "rate": 69.23536,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "060-0003-0046-00",
+  "assessed": 105170,
+  "marketValue": 300470,
+  "checked": "2026-11-16",
+  "found": true
+ },
+ "6731-Hurd-Ave-Cincinnati-OH-45227": {
+  "tax": 3432,
+  "billed": 2955,
+  "rate": 69.23536,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "037-0003-0130-00",
+  "assessed": 49570,
+  "marketValue": 141630,
+  "checked": "2026-11-16",
+  "found": true
  }
 }
