@@ -13462,5 +13462,293 @@
   "radiusFt": 2640,
   "checked": "2026-11-16",
   "found": true
+ },
+ "4024-Marburg-Ave-Cincinnati-OH-45209": {
+  "arv": 398000,
+  "comps": 53,
+  "ppsf": 349,
+  "low": 180000,
+  "high": 480000,
+  "top": [
+   {
+    "parcel": "050-0007-0155-00",
+    "address": "4118 PILLARS DR",
+    "sqft": 1084,
+    "built": 1937,
+    "date": "10/30/2026",
+    "price": 459000
+   },
+   {
+    "parcel": "039-0002-0019-00",
+    "address": "3961 MARBURG AVE",
+    "sqft": 1229,
+    "built": 1919,
+    "date": "10/23/2026",
+    "price": 480000
+   },
+   {
+    "parcel": "039-0002-0278-00",
+    "address": "3334 DE FOREST DR",
+    "sqft": 982,
+    "built": 1931,
+    "date": "04/23/2026",
+    "price": 379000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "1263-Manss-Ave-Cincinnati-OH-45205": {
+  "arv": 179000,
+  "comps": 22,
+  "ppsf": 100,
+  "low": 41495,
+  "high": 10500000,
+  "top": [
+   {
+    "parcel": "174-0008-0146-00",
+    "address": "3646 LACLEDE AVE",
+    "sqft": 1440,
+    "built": 1895,
+    "date": "09/04/2026",
+    "price": 10500000
+   },
+   {
+    "parcel": "179-0075-0557-00",
+    "address": "1009 ROSEMONT AVE",
+    "sqft": 1530,
+    "built": 1956,
+    "date": "09/04/2026",
+    "price": 10500000
+   },
+   {
+    "parcel": "181-0001-0118-00",
+    "address": "1617 ILIFF AVE",
+    "sqft": 1706,
+    "built": 1910,
+    "date": "09/04/2026",
+    "price": 10500000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "4228-Red-Bud-Pl-Cincinnati-OH-45229": {
+  "arv": 385000,
+  "comps": 13,
+  "ppsf": 185,
+  "low": 105000,
+  "high": 660000,
+  "top": [
+   {
+    "parcel": "115-0005-0137-00",
+    "address": "745 AVON FIELDS LN",
+    "sqft": 2562,
+    "built": 1925,
+    "date": "12/15/2025",
+    "price": 660000
+   },
+   {
+    "parcel": "115-0005-0084-00",
+    "address": "741 RED BUD AVE",
+    "sqft": 2228,
+    "built": 1924,
+    "date": "04/09/2026",
+    "price": 475000
+   },
+   {
+    "parcel": "582-0014-0366-00",
+    "address": "4240 DARTMOUTH DR",
+    "sqft": 1510,
+    "built": 1948,
+    "date": "05/07/2026",
+    "price": 320000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "5816-Kennedy-Ave-Cincinnati-OH-45213": {
+  "arv": 257000,
+  "comps": 5,
+  "ppsf": 298,
+  "low": 70000,
+  "high": 300000,
+  "top": [
+   {
+    "parcel": "127-0006-0190-00",
+    "address": "5781 KENNEDY AVE",
+    "sqft": 925,
+    "built": 1965,
+    "date": "06/26/2026",
+    "price": 299900
+   },
+   {
+    "parcel": "127-0004-0094-00",
+    "address": "5723 KINOLL AVE",
+    "sqft": 1007,
+    "built": 1950,
+    "date": "10/06/2026",
+    "price": 300000
+   },
+   {
+    "parcel": "127-0001-0131-00",
+    "address": "3762 AIKENSIDE AVE",
+    "sqft": 1053,
+    "built": 1950,
+    "date": "08/12/2026",
+    "price": 260000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "43-Parkway-Ave-Cincinnati-OH-45216": {
+  "arv": 167000,
+  "comps": 11,
+  "ppsf": 205,
+  "low": 70000,
+  "high": 240000,
+  "top": [
+   {
+    "parcel": "590-0081-0367-00",
+    "address": "8319 BANBURY ST",
+    "sqft": 875,
+    "built": 1946,
+    "date": "08/24/2026",
+    "price": 240000
+   },
+   {
+    "parcel": "590-0071-0255-00",
+    "address": "39 LAUREL AVE",
+    "sqft": 748,
+    "built": 1947,
+    "date": "05/18/2026",
+    "price": 168000
+   },
+   {
+    "parcel": "244-0001-0013-00",
+    "address": "7 DE CAMP AVE",
+    "sqft": 720,
+    "built": 1924,
+    "date": "08/17/2026",
+    "price": 153500
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "6262-Stover-Ave-Cincinnati-OH-45237": {
+  "arv": 258000,
+  "comps": 25,
+  "ppsf": 197,
+  "low": 90000,
+  "high": 341000,
+  "top": [
+   {
+    "parcel": "117-0018-0008-00",
+    "address": "2410 LANGDON FARM RD",
+    "sqft": 1000,
+    "built": 1949,
+    "date": "02/18/2026",
+    "price": 341000
+   },
+   {
+    "parcel": "528-0003-0650-00",
+    "address": "6414 HAMMEL AVE",
+    "sqft": 1007,
+    "built": 1941,
+    "date": "03/06/2026",
+    "price": 295000
+   },
+   {
+    "parcel": "528-0001-0023-00",
+    "address": "6226 GRACELAND AVE",
+    "sqft": 950,
+    "built": 1947,
+    "date": "08/13/2026",
+    "price": 240000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "1170-Bruce-Ave-Cincinnati-OH-45230": {
+  "arv": 279000,
+  "comps": 30,
+  "ppsf": 237,
+  "low": 72000,
+  "high": 419000,
+  "top": [
+   {
+    "parcel": "500-0412-0047-00",
+    "address": "1075 NIMITZ LN",
+    "sqft": 1364,
+    "built": 1955,
+    "date": "05/14/2026",
+    "price": 419000
+   },
+   {
+    "parcel": "500-0342-0370-00",
+    "address": "1368 COOLIDGE AVE",
+    "sqft": 868,
+    "built": 1941,
+    "date": "10/27/2026",
+    "price": 242370
+   },
+   {
+    "parcel": "500-0342-0387-00",
+    "address": "1419 BEACON RD",
+    "sqft": 1064,
+    "built": 1915,
+    "date": "11/26/2025",
+    "price": 291000
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "1946-Garden-Ln-Cincinnati-OH-45237": {
+  "arv": 226000,
+  "comps": 60,
+  "ppsf": 216,
+  "low": 42962,
+  "high": 520000,
+  "top": [
+   {
+    "parcel": "651-0007-0161-00",
+    "address": "5123 GLOBE AVE",
+    "sqft": 1080,
+    "built": 1910,
+    "date": "07/22/2026",
+    "price": 520000
+   },
+   {
+    "parcel": "651-0002-0250-00",
+    "address": "5405 CARTHAGE AVE",
+    "sqft": 1159,
+    "built": 1921,
+    "date": "07/22/2026",
+    "price": 520000
+   },
+   {
+    "parcel": "651-0009-0101-00",
+    "address": "2130 FELDMAN AVE",
+    "sqft": 756,
+    "built": 1952,
+    "date": "07/29/2026",
+    "price": 324900
+   }
+  ],
+  "radiusFt": 2640,
+  "checked": "2026-11-17",
+  "found": true
  }
 }

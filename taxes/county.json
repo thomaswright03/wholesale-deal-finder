@@ -5458,5 +5458,113 @@
   "marketValue": 141630,
   "checked": "2026-11-16",
   "found": true
+ },
+ "4024-Marburg-Ave-Cincinnati-OH-45209": {
+  "tax": 5621,
+  "billed": 4835,
+  "rate": 69.23536,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "050-0007-0045-00",
+  "assessed": 81180,
+  "marketValue": 231940,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "1263-Manss-Ave-Cincinnati-OH-45205": {
+  "tax": 2351,
+  "billed": 2052,
+  "rate": 69.23536,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "174-0005-0009-00",
+  "assessed": 33950,
+  "marketValue": 97000,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "4228-Red-Bud-Pl-Cincinnati-OH-45229": {
+  "tax": 7948,
+  "billed": 6300,
+  "rate": 69.23536,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "115-0005-0100-00",
+  "assessed": 114790,
+  "marketValue": 327960,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "5816-Kennedy-Ave-Cincinnati-OH-45213": {
+  "tax": 2441,
+  "billed": 2173,
+  "rate": 69.23536,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "127-0004-0008-00",
+  "assessed": 35260,
+  "marketValue": 100760,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "43-Parkway-Ave-Cincinnati-OH-45216": {
+  "tax": 1887,
+  "billed": 1681,
+  "rate": 69.23536,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "244-0004-0015-00",
+  "assessed": 27260,
+  "marketValue": 77900,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "6262-Stover-Ave-Cincinnati-OH-45237": {
+  "tax": 3154,
+  "billed": 2745,
+  "rate": 79.909874,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "528-0002-0282-00",
+  "assessed": 39470,
+  "marketValue": 112770,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "1170-Bruce-Ave-Cincinnati-OH-45230": {
+  "tax": 3729,
+  "billed": 3417,
+  "rate": 68.157599,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "500-0341-0018-00",
+  "assessed": 54710,
+  "marketValue": 156310,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "1946-Garden-Ln-Cincinnati-OH-45237": {
+  "tax": 2362,
+  "billed": 3397,
+  "rate": 69.23536,
+  "foreclosure": false,
+  "delinquent": false,
+  "taxYear": "2025 Payable 2026",
+  "parcel": "119-0002-0280-00",
+  "assessed": 34120,
+  "marketValue": 97470,
+  "checked": "2026-11-17",
+  "found": true
+ },
+ "6752-Saint-Jonathan-Ct-Cincinnati-OH-45230": {
+  "checked": "2026-11-17",
+  "found": false
  }
 }

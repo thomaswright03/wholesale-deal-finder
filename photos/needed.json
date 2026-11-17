@@ -45,6 +45,17 @@
       "tier": "A"
     },
     {
+      "address": "4024 Marburg Ave, Cincinnati, OH 45209",
+      "street": "4024 Marburg Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45209",
+      "folder": "photos/4024-Marburg-Ave-Cincinnati-OH-45209",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
       "address": "2539 Ingleside Ave, Cincinnati, OH 45206",
       "street": "2539 Ingleside Ave",
       "city": "Cincinnati",
@@ -84,17 +95,6 @@
       "state": "OH",
       "zip": "45214",
       "folder": "photos/2507-Addison-St-Cincinnati-OH-45214",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "A"
-    },
-    {
-      "address": "6905 Palmetto St, Cincinnati, OH 45227",
-      "street": "6905 Palmetto St",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45227",
-      "folder": "photos/6905-Palmetto-St-Cincinnati-OH-45227",
       "hasPhotos": false,
       "rated": false,
       "tier": "A"
@@ -194,17 +194,6 @@
       "state": "OH",
       "zip": "45227",
       "folder": "photos/6921-Windward-St-Cincinnati-OH-45227",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "A"
-    },
-    {
-      "address": "3135 Durrell Ave, Cincinnati, OH 45207",
-      "street": "3135 Durrell Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45207",
-      "folder": "photos/3135-Durrell-Ave-Cincinnati-OH-45207",
       "hasPhotos": false,
       "rated": false,
       "tier": "A"
@@ -370,6 +359,17 @@
       "state": "OH",
       "zip": "45226",
       "folder": "photos/329-Stanley-Ave-Cincinnati-OH-45226",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "A"
+    },
+    {
+      "address": "3135 Durrell Ave, Cincinnati, OH 45207",
+      "street": "3135 Durrell Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/3135-Durrell-Ave-Cincinnati-OH-45207",
       "hasPhotos": false,
       "rated": false,
       "tier": "A"
@@ -760,17 +760,6 @@
       "tier": "A"
     },
     {
-      "address": "2829 Marshall Ave, Cincinnati, OH 45225",
-      "street": "2829 Marshall Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45225",
-      "folder": "photos/2829-Marshall-Ave-Cincinnati-OH-45225",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "2137 Colerain Ave, Cincinnati, OH 45214",
       "street": "2137 Colerain Ave",
       "city": "Cincinnati",
@@ -790,6 +779,17 @@
       "folder": "photos/4368-Eastern-Ave-Cincinnati-OH-45226",
       "hasPhotos": true,
       "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "2829 Marshall Ave, Cincinnati, OH 45225",
+      "street": "2829 Marshall Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45225",
+      "folder": "photos/2829-Marshall-Ave-Cincinnati-OH-45225",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -1145,17 +1145,6 @@
       "tier": "B"
     },
     {
-      "address": "487 Pedretti Ave, Cincinnati, OH 45238",
-      "street": "487 Pedretti Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45238",
-      "folder": "photos/487-Pedretti-Ave-Cincinnati-OH-45238",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "3736 High Point Ave, Cincinnati, OH 45211",
       "street": "3736 High Point Ave",
       "city": "Cincinnati",
@@ -1431,17 +1420,6 @@
       "tier": "B"
     },
     {
-      "address": "2326 Gladstone Ave, Cincinnati, OH 45202",
-      "street": "2326 Gladstone Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45202",
-      "folder": "photos/2326-Gladstone-Ave-Cincinnati-OH-45202",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
       "address": "4938 Plainville Rd, Cincinnati, OH 45227",
       "street": "4938 Plainville Rd",
       "city": "Cincinnati",
@@ -1486,6 +1464,17 @@
       "tier": "B"
     },
     {
+      "address": "1263 Manss Ave, Cincinnati, OH 45205",
+      "street": "1263 Manss Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/1263-Manss-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
       "address": "1242 Quebec Rd, Cincinnati, OH 45205",
       "street": "1242 Quebec Rd",
       "city": "Cincinnati",
@@ -1503,6 +1492,17 @@
       "state": "OH",
       "zip": "45205",
       "folder": "photos/4034-Fawnhill-Ln-Cincinnati-OH-45205",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "1616 Brewster Ave, Cincinnati, OH 45207",
+      "street": "1616 Brewster Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45207",
+      "folder": "photos/1616-Brewster-Ave-Cincinnati-OH-45207",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -1530,14 +1530,14 @@
       "tier": "B"
     },
     {
-      "address": "1616 Brewster Ave, Cincinnati, OH 45207",
-      "street": "1616 Brewster Ave",
+      "address": "1946 Garden Ln, Cincinnati, OH 45237",
+      "street": "1946 Garden Ln",
       "city": "Cincinnati",
       "state": "OH",
-      "zip": "45207",
-      "folder": "photos/1616-Brewster-Ave-Cincinnati-OH-45207",
-      "hasPhotos": true,
-      "rated": true,
+      "zip": "45237",
+      "folder": "photos/1946-Garden-Ln-Cincinnati-OH-45237",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -1547,17 +1547,6 @@
       "state": "OH",
       "zip": "45214",
       "folder": "photos/1637-Waverly-Ave-Cincinnati-OH-45214",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
-      "address": "817 Pedretti Ave, Cincinnati, OH 45238",
-      "street": "817 Pedretti Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45238",
-      "folder": "photos/817-Pedretti-Ave-Cincinnati-OH-45238",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -1596,17 +1585,6 @@
       "tier": "B"
     },
     {
-      "address": "845 Charlotte St, Cincinnati, OH 45214",
-      "street": "845 Charlotte St",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45214",
-      "folder": "photos/845-Charlotte-St-Cincinnati-OH-45214",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "532 York St, Cincinnati, OH 45214",
       "street": "532 York St",
       "city": "Cincinnati",
@@ -1624,17 +1602,6 @@
       "state": "OH",
       "zip": "45205",
       "folder": "photos/4355-St-Lawrence-Ave-Cincinnati-OH-45205",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
-      "address": "964 Seibel Ln, Cincinnati, OH 45238",
-      "street": "964 Seibel Ln",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45238",
-      "folder": "photos/964-Seibel-Ln-Cincinnati-OH-45238",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -1761,6 +1728,17 @@
       "tier": "B"
     },
     {
+      "address": "2326 Gladstone Ave, Cincinnati, OH 45202",
+      "street": "2326 Gladstone Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45202",
+      "folder": "photos/2326-Gladstone-Ave-Cincinnati-OH-45202",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
       "address": "2717 W North Bend Rd, Cincinnati, OH 45239",
       "street": "2717 W North Bend Rd",
       "city": "Cincinnati",
@@ -1802,17 +1780,6 @@
       "folder": "photos/1300-Rutledge-Ave-Cincinnati-OH-45205",
       "hasPhotos": true,
       "rated": true,
-      "tier": "B"
-    },
-    {
-      "address": "1633 First Ave, Cincinnati, OH 45205",
-      "street": "1633 First Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45205",
-      "folder": "photos/1633-First-Ave-Cincinnati-OH-45205",
-      "hasPhotos": false,
-      "rated": false,
       "tier": "B"
     },
     {
@@ -1967,6 +1934,17 @@
       "folder": "photos/5128-Blaesi-St-Cincinnati-OH-45227",
       "hasPhotos": true,
       "rated": true,
+      "tier": "C"
+    },
+    {
+      "address": "4228 Red Bud Pl, Cincinnati, OH 45229",
+      "street": "4228 Red Bud Pl",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45229",
+      "folder": "photos/4228-Red-Bud-Pl-Cincinnati-OH-45229",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "C"
     },
     {
@@ -2190,6 +2168,17 @@
       "tier": "C"
     },
     {
+      "address": "1633 First Ave, Cincinnati, OH 45205",
+      "street": "1633 First Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/1633-First-Ave-Cincinnati-OH-45205",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "C"
+    },
+    {
       "address": "2734 Lawndale Ave, Cincinnati, OH 45212",
       "street": "2734 Lawndale Ave",
       "city": "Cincinnati",
@@ -2256,17 +2245,6 @@
       "tier": "C"
     },
     {
-      "address": "3235 Wold Ave, Cincinnati, OH 45207",
-      "street": "3235 Wold Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45207",
-      "folder": "photos/3235-Wold-Ave-Cincinnati-OH-45207",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "C"
-    },
-    {
       "address": "5015 Casa Loma Blvd, Cincinnati, OH 45238",
       "street": "5015 Casa Loma Blvd",
       "city": "Cincinnati",
@@ -2278,14 +2256,14 @@
       "tier": "C"
     },
     {
-      "address": "4530 Whetsel Ave, Cincinnati, OH 45227",
-      "street": "4530 Whetsel Ave",
+      "address": "43 Parkway Ave, Cincinnati, OH 45216",
+      "street": "43 Parkway Ave",
       "city": "Cincinnati",
       "state": "OH",
-      "zip": "45227",
-      "folder": "photos/4530-Whetsel-Ave-Cincinnati-OH-45227",
-      "hasPhotos": true,
-      "rated": true,
+      "zip": "45216",
+      "folder": "photos/43-Parkway-Ave-Cincinnati-OH-45216",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "C"
     },
     {
