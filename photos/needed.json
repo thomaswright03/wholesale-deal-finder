@@ -815,23 +815,23 @@
       "tier": "B"
     },
     {
-      "address": "222 Klotter Ave, Cincinnati, OH 45219",
-      "street": "222 Klotter Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45219",
-      "folder": "photos/222-Klotter-Ave-Cincinnati-OH-45219",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "5423 Stewart Ave, Cincinnati, OH 45227",
       "street": "5423 Stewart Ave",
       "city": "Cincinnati",
       "state": "OH",
       "zip": "45227",
       "folder": "photos/5423-Stewart-Ave-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "222 Klotter Ave, Cincinnati, OH 45219",
+      "street": "222 Klotter Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45219",
+      "folder": "photos/222-Klotter-Ave-Cincinnati-OH-45219",
       "hasPhotos": false,
       "rated": false,
       "tier": "B"
@@ -2069,17 +2069,6 @@
       "tier": "C"
     },
     {
-      "address": "3622 Laclede Ave, Cincinnati, OH 45205",
-      "street": "3622 Laclede Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45205",
-      "folder": "photos/3622-Laclede-Ave-Cincinnati-OH-45205",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "C"
-    },
-    {
       "address": "3765 Iona Ave, Cincinnati, OH 45213",
       "street": "3765 Iona Ave",
       "city": "Cincinnati",
@@ -2099,6 +2088,17 @@
       "folder": "photos/603-Hawthorne-Ave-Cincinnati-OH-45205",
       "hasPhotos": false,
       "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "3622 Laclede Ave, Cincinnati, OH 45205",
+      "street": "3622 Laclede Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/3622-Laclede-Ave-Cincinnati-OH-45205",
+      "hasPhotos": true,
+      "rated": true,
       "tier": "C"
     },
     {
@@ -2234,6 +2234,17 @@
       "tier": "C"
     },
     {
+      "address": "9161 Trelawney Ct, Cincinnati, OH 45251",
+      "street": "9161 Trelawney Ct",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45251",
+      "folder": "photos/9161-Trelawney-Ct-Cincinnati-OH-45251",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "A"
+    },
+    {
       "address": "2082 Harrison Ave, Cincinnati, OH 45214",
       "street": "2082 Harrison Ave",
       "city": "Cincinnati",
@@ -2264,17 +2275,6 @@
       "folder": "photos/43-Parkway-Ave-Cincinnati-OH-45216",
       "hasPhotos": false,
       "rated": false,
-      "tier": "C"
-    },
-    {
-      "address": "9161 Trelawney Ct, Cincinnati, OH 45251",
-      "street": "9161 Trelawney Ct",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45251",
-      "folder": "photos/9161-Trelawney-Ct-Cincinnati-OH-45251",
-      "hasPhotos": true,
-      "rated": true,
       "tier": "C"
     }
   ]
