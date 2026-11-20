@@ -1101,23 +1101,23 @@
       "tier": "B"
     },
     {
-      "address": "3864 Odin Ave, Cincinnati, OH 45213",
-      "street": "3864 Odin Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45213",
-      "folder": "photos/3864-Odin-Ave-Cincinnati-OH-45213",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "2923 Lehman Rd, Cincinnati, OH 45204",
       "street": "2923 Lehman Rd",
       "city": "Cincinnati",
       "state": "OH",
       "zip": "45204",
       "folder": "photos/2923-Lehman-Rd-Cincinnati-OH-45204",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "3864 Odin Ave, Cincinnati, OH 45213",
+      "street": "3864 Odin Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45213",
+      "folder": "photos/3864-Odin-Ave-Cincinnati-OH-45213",
       "hasPhotos": false,
       "rated": false,
       "tier": "B"
@@ -1387,17 +1387,6 @@
       "tier": "B"
     },
     {
-      "address": "4767 Highridge Ave, Cincinnati, OH 45238",
-      "street": "4767 Highridge Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45238",
-      "folder": "photos/4767-Highridge-Ave-Cincinnati-OH-45238",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "1694 Ashbrook Dr, Cincinnati, OH 45238",
       "street": "1694 Ashbrook Dr",
       "city": "Cincinnati",
@@ -1415,6 +1404,17 @@
       "state": "OH",
       "zip": "45238",
       "folder": "photos/1108-Morado-Dr-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "4767 Highridge Ave, Cincinnati, OH 45238",
+      "street": "4767 Highridge Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/4767-Highridge-Ave-Cincinnati-OH-45238",
       "hasPhotos": false,
       "rated": false,
       "tier": "B"
@@ -2003,6 +2003,17 @@
       "tier": "C"
     },
     {
+      "address": "3116 Mchenry Ave, Cincinnati, OH 45211",
+      "street": "3116 Mchenry Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45211",
+      "folder": "photos/3116-Mchenry-Ave-Cincinnati-OH-45211",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "C"
+    },
+    {
       "address": "2627 Gehrum Ln, Cincinnati, OH 45238",
       "street": "2627 Gehrum Ln",
       "city": "Cincinnati",
@@ -2022,17 +2033,6 @@
       "folder": "photos/2647-Foran-Dr-Cincinnati-OH-45238",
       "hasPhotos": false,
       "rated": false,
-      "tier": "C"
-    },
-    {
-      "address": "3116 Mchenry Ave, Cincinnati, OH 45211",
-      "street": "3116 Mchenry Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45211",
-      "folder": "photos/3116-Mchenry-Ave-Cincinnati-OH-45211",
-      "hasPhotos": true,
-      "rated": true,
       "tier": "C"
     },
     {
@@ -2146,6 +2146,17 @@
       "tier": "C"
     },
     {
+      "address": "2129 Colerain Ave, Cincinnati, OH 45214",
+      "street": "2129 Colerain Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45214",
+      "folder": "photos/2129-Colerain-Ave-Cincinnati-OH-45214",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "C"
+    },
+    {
       "address": "3318 Gamble Ave, Cincinnati, OH 45211",
       "street": "3318 Gamble Ave",
       "city": "Cincinnati",
@@ -2212,17 +2223,6 @@
       "tier": "C"
     },
     {
-      "address": "2129 Colerain Ave, Cincinnati, OH 45214",
-      "street": "2129 Colerain Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45214",
-      "folder": "photos/2129-Colerain-Ave-Cincinnati-OH-45214",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "C"
-    },
-    {
       "address": "6368 Meis Ave, Cincinnati, OH 45224",
       "street": "6368 Meis Ave",
       "city": "Cincinnati",
@@ -2232,17 +2232,6 @@
       "hasPhotos": false,
       "rated": false,
       "tier": "C"
-    },
-    {
-      "address": "9161 Trelawney Ct, Cincinnati, OH 45251",
-      "street": "9161 Trelawney Ct",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45251",
-      "folder": "photos/9161-Trelawney-Ct-Cincinnati-OH-45251",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "A"
     },
     {
       "address": "2082 Harrison Ave, Cincinnati, OH 45214",
@@ -2275,6 +2264,17 @@
       "folder": "photos/43-Parkway-Ave-Cincinnati-OH-45216",
       "hasPhotos": false,
       "rated": false,
+      "tier": "C"
+    },
+    {
+      "address": "9161 Trelawney Ct, Cincinnati, OH 45251",
+      "street": "9161 Trelawney Ct",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45251",
+      "folder": "photos/9161-Trelawney-Ct-Cincinnati-OH-45251",
+      "hasPhotos": true,
+      "rated": true,
       "tier": "C"
     }
   ]
