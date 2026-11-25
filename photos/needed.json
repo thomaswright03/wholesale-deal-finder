@@ -485,6 +485,17 @@
       "tier": "A"
     },
     {
+      "address": "2268 Rice St, Cincinnati, OH 45219",
+      "street": "2268 Rice St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45219",
+      "folder": "photos/2268-Rice-St-Cincinnati-OH-45219",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "A"
+    },
+    {
       "address": "1011 Mcpherson Ave, Cincinnati, OH 45205",
       "street": "1011 Mcpherson Ave",
       "city": "Cincinnati",
@@ -504,17 +515,6 @@
       "folder": "photos/5608-Abbottsford-St-Cincinnati-OH-45212",
       "hasPhotos": false,
       "rated": false,
-      "tier": "A"
-    },
-    {
-      "address": "2268 Rice St, Cincinnati, OH 45219",
-      "street": "2268 Rice St",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45219",
-      "folder": "photos/2268-Rice-St-Cincinnati-OH-45219",
-      "hasPhotos": true,
-      "rated": true,
       "tier": "A"
     },
     {
@@ -705,6 +705,17 @@
       "tier": "A"
     },
     {
+      "address": "6014 Bramble Ave, Cincinnati, OH 45227",
+      "street": "6014 Bramble Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6014-Bramble-Ave-Cincinnati-OH-45227",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "A"
+    },
+    {
       "address": "1263 W Galbraith Rd, Cincinnati, OH 45231",
       "street": "1263 W Galbraith Rd",
       "city": "Cincinnati",
@@ -793,17 +804,6 @@
       "tier": "B"
     },
     {
-      "address": "620 Riddle Rd, Cincinnati, OH 45220",
-      "street": "620 Riddle Rd",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45220",
-      "folder": "photos/620-Riddle-Rd-Cincinnati-OH-45220",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
       "address": "2156 W Clifton Ave, Cincinnati, OH 45219",
       "street": "2156 W Clifton Ave",
       "city": "Cincinnati",
@@ -812,6 +812,17 @@
       "folder": "photos/2156-W-Clifton-Ave-Cincinnati-OH-45219",
       "hasPhotos": false,
       "rated": false,
+      "tier": "B"
+    },
+    {
+      "address": "620 Riddle Rd, Cincinnati, OH 45220",
+      "street": "620 Riddle Rd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45220",
+      "folder": "photos/620-Riddle-Rd-Cincinnati-OH-45220",
+      "hasPhotos": true,
+      "rated": true,
       "tier": "B"
     },
     {
@@ -859,23 +870,23 @@
       "tier": "B"
     },
     {
-      "address": "2307 Vine St, Cincinnati, OH 45219",
-      "street": "2307 Vine St",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45219",
-      "folder": "photos/2307-Vine-St-Cincinnati-OH-45219",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
       "address": "1027 Winfield Ave, Cincinnati, OH 45205",
       "street": "1027 Winfield Ave",
       "city": "Cincinnati",
       "state": "OH",
       "zip": "45205",
       "folder": "photos/1027-Winfield-Ave-Cincinnati-OH-45205",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "2307 Vine St, Cincinnati, OH 45219",
+      "street": "2307 Vine St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45219",
+      "folder": "photos/2307-Vine-St-Cincinnati-OH-45219",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -1123,17 +1134,6 @@
       "tier": "B"
     },
     {
-      "address": "6014 Bramble Ave, Cincinnati, OH 45227",
-      "street": "6014 Bramble Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45227",
-      "folder": "photos/6014-Bramble-Ave-Cincinnati-OH-45227",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
       "address": "1779 Elmore St, Cincinnati, OH 45223",
       "street": "1779 Elmore St",
       "city": "Cincinnati",
@@ -1376,17 +1376,6 @@
       "tier": "B"
     },
     {
-      "address": "6522 Palmetto St, Cincinnati, OH 45227",
-      "street": "6522 Palmetto St",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45227",
-      "folder": "photos/6522-Palmetto-St-Cincinnati-OH-45227",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "B"
-    },
-    {
       "address": "1694 Ashbrook Dr, Cincinnati, OH 45238",
       "street": "1694 Ashbrook Dr",
       "city": "Cincinnati",
@@ -1395,6 +1384,17 @@
       "folder": "photos/1694-Ashbrook-Dr-Cincinnati-OH-45238",
       "hasPhotos": true,
       "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "6522 Palmetto St, Cincinnati, OH 45227",
+      "street": "6522 Palmetto St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/6522-Palmetto-St-Cincinnati-OH-45227",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "B"
     },
     {
@@ -1585,23 +1585,23 @@
       "tier": "B"
     },
     {
-      "address": "532 York St, Cincinnati, OH 45214",
-      "street": "532 York St",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45214",
-      "folder": "photos/532-York-St-Cincinnati-OH-45214",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
       "address": "969 Mansion Ave, Cincinnati, OH 45205",
       "street": "969 Mansion Ave",
       "city": "Cincinnati",
       "state": "OH",
       "zip": "45205",
       "folder": "photos/969-Mansion-Ave-Cincinnati-OH-45205",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "532 York St, Cincinnati, OH 45214",
+      "street": "532 York St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45214",
+      "folder": "photos/532-York-St-Cincinnati-OH-45214",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -1635,6 +1635,17 @@
       "state": "OH",
       "zip": "45205",
       "folder": "photos/4311-Delridge-Dr-Cincinnati-OH-45205",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "5128 Blaesi St, Cincinnati, OH 45227",
+      "street": "5128 Blaesi St",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45227",
+      "folder": "photos/5128-Blaesi-St-Cincinnati-OH-45227",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -1761,23 +1772,23 @@
       "tier": "B"
     },
     {
-      "address": "4719 Highridge Ave, Cincinnati, OH 45238",
-      "street": "4719 Highridge Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45238",
-      "folder": "photos/4719-Highridge-Ave-Cincinnati-OH-45238",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "B"
-    },
-    {
       "address": "922 Fairbanks Ave, Cincinnati, OH 45205",
       "street": "922 Fairbanks Ave",
       "city": "Cincinnati",
       "state": "OH",
       "zip": "45205",
       "folder": "photos/922-Fairbanks-Ave-Cincinnati-OH-45205",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "B"
+    },
+    {
+      "address": "4719 Highridge Ave, Cincinnati, OH 45238",
+      "street": "4719 Highridge Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/4719-Highridge-Ave-Cincinnati-OH-45238",
       "hasPhotos": true,
       "rated": true,
       "tier": "B"
@@ -1937,17 +1948,6 @@
       "tier": "C"
     },
     {
-      "address": "5128 Blaesi St, Cincinnati, OH 45227",
-      "street": "5128 Blaesi St",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45227",
-      "folder": "photos/5128-Blaesi-St-Cincinnati-OH-45227",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "C"
-    },
-    {
       "address": "4228 Red Bud Pl, Cincinnati, OH 45229",
       "street": "4228 Red Bud Pl",
       "city": "Cincinnati",
@@ -2014,6 +2014,17 @@
       "tier": "C"
     },
     {
+      "address": "3622 Laclede Ave, Cincinnati, OH 45205",
+      "street": "3622 Laclede Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45205",
+      "folder": "photos/3622-Laclede-Ave-Cincinnati-OH-45205",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "C"
+    },
+    {
       "address": "2627 Gehrum Ln, Cincinnati, OH 45238",
       "street": "2627 Gehrum Ln",
       "city": "Cincinnati",
@@ -2033,17 +2044,6 @@
       "folder": "photos/2647-Foran-Dr-Cincinnati-OH-45238",
       "hasPhotos": false,
       "rated": false,
-      "tier": "C"
-    },
-    {
-      "address": "3622 Laclede Ave, Cincinnati, OH 45205",
-      "street": "3622 Laclede Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45205",
-      "folder": "photos/3622-Laclede-Ave-Cincinnati-OH-45205",
-      "hasPhotos": true,
-      "rated": true,
       "tier": "C"
     },
     {
@@ -2157,6 +2157,17 @@
       "tier": "C"
     },
     {
+      "address": "2082 Harrison Ave, Cincinnati, OH 45214",
+      "street": "2082 Harrison Ave",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45214",
+      "folder": "photos/2082-Harrison-Ave-Cincinnati-OH-45214",
+      "hasPhotos": true,
+      "rated": true,
+      "tier": "C"
+    },
+    {
       "address": "3318 Gamble Ave, Cincinnati, OH 45211",
       "street": "3318 Gamble Ave",
       "city": "Cincinnati",
@@ -2223,34 +2234,12 @@
       "tier": "C"
     },
     {
-      "address": "2082 Harrison Ave, Cincinnati, OH 45214",
-      "street": "2082 Harrison Ave",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45214",
-      "folder": "photos/2082-Harrison-Ave-Cincinnati-OH-45214",
-      "hasPhotos": true,
-      "rated": true,
-      "tier": "C"
-    },
-    {
       "address": "6368 Meis Ave, Cincinnati, OH 45224",
       "street": "6368 Meis Ave",
       "city": "Cincinnati",
       "state": "OH",
       "zip": "45224",
       "folder": "photos/6368-Meis-Ave-Cincinnati-OH-45224",
-      "hasPhotos": false,
-      "rated": false,
-      "tier": "C"
-    },
-    {
-      "address": "5015 Casa Loma Blvd, Cincinnati, OH 45238",
-      "street": "5015 Casa Loma Blvd",
-      "city": "Cincinnati",
-      "state": "OH",
-      "zip": "45238",
-      "folder": "photos/5015-Casa-Loma-Blvd-Cincinnati-OH-45238",
       "hasPhotos": false,
       "rated": false,
       "tier": "C"
@@ -2264,6 +2253,17 @@
       "folder": "photos/9161-Trelawney-Ct-Cincinnati-OH-45251",
       "hasPhotos": true,
       "rated": true,
+      "tier": "C"
+    },
+    {
+      "address": "5015 Casa Loma Blvd, Cincinnati, OH 45238",
+      "street": "5015 Casa Loma Blvd",
+      "city": "Cincinnati",
+      "state": "OH",
+      "zip": "45238",
+      "folder": "photos/5015-Casa-Loma-Blvd-Cincinnati-OH-45238",
+      "hasPhotos": false,
+      "rated": false,
       "tier": "C"
     },
     {
